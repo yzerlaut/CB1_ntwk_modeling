@@ -1,1 +1,3 @@
-# CB1_ntwk_modeling
+# Modeling network dynamics with CB1-mediated inhibition
+
+[...]
