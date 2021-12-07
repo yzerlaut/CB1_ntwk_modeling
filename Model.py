@@ -5,7 +5,7 @@ import matplotlib.pylab as plt
 import sys, pathlib
 sys.path.append(os.path.join(os.path.expanduser('~'), 'work', 'neural_network_dynamics'))
 
-import main as ntwk
+import ntwk
 
 Model = {
     ## -----------------------------------------------------------------------
@@ -14,7 +14,7 @@ Model = {
     ## -----------------------------------------------------------------------
 
     # numbers of neurons in population
-    'N_Exc':4000, 'N_PvInh':1000, 'N_CB1Inh':1000, 'N_AffExc':100,
+    'N_Exc':4000, 'N_PvInh':1000, 'N_CB1Inh':1000, 'N_AffExc':200,
     # synaptic weights
     'Q_Exc_Exc':2., 'Q_Exc_PvInh':2.,  'Q_Exc_CB1Inh':2.,
     'Q_PvInh_Exc':10., 'Q_PvInh_PvInh':10., 'Q_PvInh_CB1Inh':10., 
@@ -28,7 +28,7 @@ Model = {
     'p_Exc_Exc':0.05, 'p_Exc_PvInh':0.05, 'p_Exc_CB1Inh':0.05, 
     'p_PvInh_Exc':0.05, 'p_PvInh_PvInh':0.05, 'p_PvInh_CB1Inh':0.05, 
     'p_CB1Inh_Exc':0.05, 'p_CB1Inh_PvInh':0.05, 'p_CB1Inh_CB1Inh':0.05,
-    'psyn_CB1Inh_Exc':0.2, 'psyn_AffExc_Exc':0.01, 'psyn_Exc_Exc':0.1,
+    'psyn_CB1Inh_Exc':0.2, #'psyn_AffExc_Exc':0.01, 'psyn_Exc_Exc':0.1,
     'p_AffExc_Exc':0.1, 'p_AffExc_PvInh':0.1, 'p_AffExc_CB1Inh':0.1,
     # afferent stimulation (0 by default)
     'F_AffExc':0.,
@@ -57,14 +57,15 @@ if sys.argv[-1]=='plot':
     # ######################
     
     ## load file
-    data = ntwk.load_dict_from_hdf5('CB1_ntwk_model_data.h5')
+    data = ntwk.recording.load_dict_from_hdf5('CB1_ntwk_model_data.h5')
 
     # ## plot
-    fig, _ = ntwk.activity_plots(data, smooth_population_activity=10.)
-    
+    fig, _ = ntwk.plots.activity_plots(data, smooth_population_activity=10.)
+
+    print(' synchrony=%.2f' % ntwk.analysis.get_synchrony_of_spiking(data))
     plt.show()
 else:
-    NTWK = ntwk.build_populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
+    NTWK = ntwk.build.populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
                                   AFFERENT_POPULATIONS=['AffExc'],
                                   with_raster=True,
                                   with_Vm=4,
@@ -72,17 +73,17 @@ else:
                                   # with_synaptic_conductances=True,
                                   verbose=True)
 
-    ntwk.build_up_recurrent_connections(NTWK, SEED=5, verbose=True)
+    ntwk.build.recurrent_connections(NTWK, SEED=5, verbose=True)
 
     #######################################
     ########### AFFERENT INPUTS ###########
     #######################################
 
-    faff = 5.
+    faff = 4.
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
     # # # afferent excitation onto cortical excitation and inhibition
     for i, tpop in enumerate(['Exc', 'PvInh', 'CB1Inh']): # both on excitation and inhibition
-        ntwk.construct_feedforward_input(NTWK, tpop, 'AffExc',
+        ntwk.stim.construct_feedforward_input(NTWK, tpop, 'AffExc',
                                          t_array, faff+0.*t_array,
                                          verbose=True,
                                          SEED=int(37*faff+i)%37)
@@ -90,14 +91,14 @@ else:
     ################################################################
     ## --------------- Initial Condition ------------------------ ##
     ################################################################
-    ntwk.initialize_to_rest(NTWK)
+    ntwk.build.initialize_to_rest(NTWK)
 
     #####################
     ## ----- Run ----- ##
     #####################
     network_sim = ntwk.collect_and_run(NTWK, verbose=True)
 
-    ntwk.write_as_hdf5(NTWK, filename='CB1_ntwk_model_data.h5')
+    ntwk.recording.write_as_hdf5(NTWK, filename='CB1_ntwk_model_data.h5')
     print('Results of the simulation are stored as:', 'CB1_ntwk_model_data.h5')
     print('--> Run \"python CB1_ntwk_model.py plot\" to plot the results')
 
