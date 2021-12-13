@@ -12,48 +12,44 @@ if __name__=='__main__':
         # ## ----- Plot ----- ##
         # ######################
 
+        print('loading data [...]')
         Model = {'data_folder': 'data/', 'zip_filename':'data/exc-inh-CB1-PV-scan.zip'}
-        Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
+        Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model, verbose=False)
 
+        print('analyzing data [...]')
         synch, meanFR, stdFR = [np.zeros(len(DATA)) for i in range(3)]
         for i, data in enumerate(DATA):
             meanFR[i] = ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)
             stdFR[i] = ntwk.analysis.get_std_pop_act(data, pop='Exc', tdiscard=200)
             synch[i] = ntwk.analysis.get_synchrony_of_spiking(data, pop='Exc',
                                                               Tbin=100, Nmax_pairs=2000)
+        print('plotting data [...]')
 
-        Naff = len(np.unique(PARAMS_SCAN['F_AffExc'])]
+        Naff = len(np.unique(PARAMS_SCAN['F_AffExc']))
         
-        fig, AX = ge.figure(axes=(3, Naff), top=3)
-        
-        
-        ge.twoD_plot(PARAMS_SCAN['CB1_PV_ratio'], PARAMS_SCAN['inh_exc_ratio'], meanFR,
-                     ax=AX[0], vmin=meanFR.min(), vmax=meanFR.max())
-        ticks = [meanFR.min(), .5*(meanFR.min()+meanFR.max()), meanFR.max()]
-        ge.bar_legend(AX[0], continuous=True, colorbar_inset=dict(rect=[.1,1.3,.8,.12], facecolor=None), colormap=ge.viridis,
-                      ticks = ticks, ticks_labels = ['%.2f' % t for t in ticks], orientation='horizontal', labelpad=4.,
-                      bounds=[meanFR.min(), meanFR.max()],
-                      label='exc. rate (Hz)')
+        fig, AX = ge.figure(axes=(3, Naff), top=1, hspace=3.)
 
-        ge.twoD_plot(PARAMS_SCAN['CB1_PV_ratio'], PARAMS_SCAN['inh_exc_ratio'], stdFR,
-                     ax=AX[1], vmin=stdFR.min(), vmax=stdFR.max())
-        ticks = [stdFR.min(), .5*(stdFR.min()+stdFR.max()), stdFR.max()]
-        ge.bar_legend(AX[1], continuous=True, colorbar_inset=dict(rect=[.1,1.3,.8,.12], facecolor=None), colormap=ge.viridis,
-                      ticks = ticks, ticks_labels = ['%.2f' % t for t in ticks], orientation='horizontal', labelpad=4.,
-                      bounds=[stdFR.min(), stdFR.max()],
-                      label='exc. rate std (Hz)')
+        for ia, faff in enumerate(np.unique(PARAMS_SCAN['F_AffExc'])):
+            ge.annotate(AX[ia][0], '$\\nu_{aff}$=%.1fHz' % faff, (-.65,0), rotation=90)
+            
+            aff_cond = (PARAMS_SCAN['F_AffExc']==faff)
+
+            for x, label, ax in zip([meanFR, stdFR, synch],
+                                    ['exc. rate (Hz)', 'exc. rate std (Hz)', 'synch.'],
+                                    AX[ia]):
+                
+                ge.twoD_plot(PARAMS_SCAN['CB1_PV_ratio'][aff_cond], PARAMS_SCAN['inh_exc_ratio'][aff_cond], x[aff_cond],
+                             ax=ax, vmin=x[aff_cond].min(), vmax=x[aff_cond].max())
+                ticks = [x[aff_cond].min(), .5*(x[aff_cond].min()+x[aff_cond].max()), x[aff_cond].max()]
+                ge.bar_legend(ax, continuous=True, colorbar_inset=dict(rect=[.1,1.3,.8,.12], facecolor=None), colormap=ge.viridis,
+                              ticks = ticks, ticks_labels = ['%.2f' % t for t in ticks], orientation='horizontal', labelpad=4.,
+                              bounds=[x[aff_cond].min(), x[aff_cond].max()],
+                              label=label)
+            
+            for ax in AX[ia][:]:
+                ge.set_plot(ax, xlabel='CB1/PV ratio', ylabel='Inh/Exc ratio')
+
         
-        ge.twoD_plot(PARAMS_SCAN['CB1_PV_ratio'], PARAMS_SCAN['inh_exc_ratio'], synch,
-                     ax=AX[2], vmin=synch.min(), vmax=synch.max())
-        ticks = 100*np.array([synch.min(), .5*(synch.min()+synch.max()), synch.max()])
-
-        ge.bar_legend(AX[2], continuous=True, colorbar_inset=dict(rect=[.1,1.3,.8,.12], facecolor=None), colormap=ge.viridis,
-                      ticks = ticks, ticks_labels = ['%.2f' % t for t in ticks], orientation='horizontal', labelpad=4.,
-                      bounds=[synch.min(), synch.max()],
-                      label='synch (proba x100)')
-
-        for ax in AX:
-            ge.set_plot(ax, xlabel='CB1/PV ratio', ylabel='Inh/Exc ratio')
         ge.show()
         
     else:
