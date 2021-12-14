@@ -68,7 +68,7 @@ def run_single_sim(Model,
         # adjust proba
         for target in ['Exc', 'PvInh', 'CB1Inh']:
             Model['p_CB1Inh_%s' % target] = Model['p_PvInh_%s' % target]/Model['psyn_CB1Inh_%s' % target]
-            print(Model['p_CB1Inh_%s' % target], Model['p_PvInh_%s' % target])
+            # print(Model['p_CB1Inh_%s' % target], Model['p_PvInh_%s' % target])
         
     NTWK = ntwk.build.populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
                                   AFFERENT_POPULATIONS=['AffExc'],
