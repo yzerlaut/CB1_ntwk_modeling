@@ -10,15 +10,13 @@ def data_analysis(zip_filename, data_folder):
 
     Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model, verbose=False)
 
-    print('analyzing data [...]')
-
     synch, meanFR, stdFR = [np.zeros(len(DATA)) for i in range(3)]
     for i, data in enumerate(DATA):
         meanFR[i] = ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)
         stdFR[i] = ntwk.analysis.get_std_pop_act(data, pop='Exc', tdiscard=200)
         synch[i] = ntwk.analysis.get_synchrony_of_spiking(data, pop='Exc',
-                                                          Tbin=100, Nmax_pairs=2000,
-                                                          method='STTC')
+                                                          method='STTC',
+                                                          Tbin=300, Nmax_pairs=2000)
 
     data = dict(PARAMS_SCAN=PARAMS_SCAN, synch=synch, meanFR=meanFR, stdFR=stdFR)
 
@@ -79,7 +77,7 @@ if __name__=='__main__':
         
         ntwk.scan.run(Model,
                       ['F_AffExc', 'inh_exc_ratio', 'CB1_PV_ratio'],
-                      [np.linspace(4., 15., 5), np.linspace(0.1,0.5,10), np.linspace(0.05,0.95,10)],
+                      [np.linspace(4., 15., 3), np.linspace(0.1,0.5,3), np.linspace(0.05,0.95,3)],
                       running_sim_func,
                       parallelize=True)
         
