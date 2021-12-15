@@ -41,11 +41,11 @@ Model = {
     'Exc_a':0., 'Exc_b': 0., 'Exc_tauw':1e9,
     # --> PV-Inhibitory population (Inh, recurrent inhibition)
     'PvInh_Gl':10., 'PvInh_Cm':200.,'PvInh_Trefrac':5.,
-    'PvInh_El':-70., 'PvInh_Vthre':-53., 'PvInh_Vreset':-70., 'PvInh_deltaV':0.,
+    'PvInh_El':-70., 'PvInh_Vthre':-40., 'PvInh_Vreset':-70., 'PvInh_deltaV':0.,
     'PvInh_a':0., 'PvInh_b': 0., 'PvInh_tauw':1e9,
     # --> Inhibitory population (Inh, recurrent inhibition)
     'CB1Inh_Gl':10., 'CB1Inh_Cm':200.,'CB1Inh_Trefrac':5.,
-    'CB1Inh_El':-70., 'CB1Inh_Vthre':-53., 'CB1Inh_Vreset':-70., 'CB1Inh_deltaV':0.,
+    'CB1Inh_El':-70., 'CB1Inh_Vthre':-40., 'CB1Inh_Vreset':-70., 'CB1Inh_deltaV':0.,
     'CB1Inh_a':0., 'CB1Inh_b': 0., 'CB1Inh_tauw':1e9
 }
 
