@@ -63,22 +63,16 @@ if __name__=='__main__':
 
         ge.show()
         
-<<<<<<< HEAD
-    elif ('aff' in sys.argv[-1]) or ('Aff' in sys.argv[-1]):
 
-        Model['data_folder'] = './data/'
-        Model['zip_filename'] = 'data/exc-inh-CB1-PV-Aff-scan.zip'
-=======
     elif sys.argv[-1]=='analysis':
 
         print('analyzing data [...]')
         data_analysis('exc-inh-CB1-PV-scan.zip', 'data')
         
-    elif sys.argv[-1]=='simulation':
+    elif ('aff' in sys.argv[-1]) or ('Aff' in sys.argv[-1]):
 
-        Model['data_folder'] = 'data/'
-        Model['zip_filename'] = 'exc-inh-CB1-PV-scan.zip'
->>>>>>> 292d3170b1f43999f98ccb8b713b4073f1f4bf0c
+        Model['data_folder'] = './data/'
+        Model['zip_filename'] = 'data/exc-inh-CB1-PV-Aff-scan.zip'
 
         print('running simulation [...]')
         
@@ -86,7 +80,6 @@ if __name__=='__main__':
                       ['F_AffExc', 'inh_exc_ratio', 'CB1_PV_ratio'],
                       [np.linspace(4., 15., 3), np.linspace(0.1,0.5,3), np.linspace(0.05,0.95,3)],
                       running_sim_func,
-<<<<<<< HEAD
                       parallelize=False)
 
     elif ('vthre' in sys.argv[-1]) or ('VthreInh' in sys.argv[-1]):
