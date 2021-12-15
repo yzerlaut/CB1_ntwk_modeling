@@ -52,10 +52,10 @@ if __name__=='__main__':
         
         ge.show()
         
-    else:
+    elif ('aff' in sys.argv[-1]) or ('Aff' in sys.argv[-1]):
 
         Model['data_folder'] = './data/'
-        Model['zip_filename'] = 'data/exc-inh-CB1-PV-scan.zip'
+        Model['zip_filename'] = 'data/exc-inh-CB1-PV-Aff-scan.zip'
 
         ntwk.scan.run(Model,
                       # ['inh_exc_ratio', 'CB1_PV_ratio'],
@@ -63,5 +63,19 @@ if __name__=='__main__':
                       [np.linspace(4., 7., 3), np.linspace(0.2,0.4,3), np.linspace(0.05,0.95,3)],
                       running_sim_func,
                       parallelize=False)
+
+    elif ('vthre' in sys.argv[-1]) or ('VthreInh' in sys.argv[-1]):
+
+        Model['data_folder'] = './data/'
+        Model['zip_filename'] = 'data/exc-inh-CB1-PV-VthreInh-scan.zip'
+
+        ntwk.scan.run(Model,
+                      # ['inh_exc_ratio', 'CB1_PV_ratio'],
+                      ['common_Vthre_Inh', 'inh_exc_ratio', 'CB1_PV_ratio'],
+                      [np.linspace(-53, -40, 3), np.linspace(0.2,0.4,3), np.linspace(0.05,0.95,3)],
+                      running_sim_func,
+                      parallelize=False)
         
 
+    else:
+        print('need to add args')

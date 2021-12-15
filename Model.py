@@ -24,7 +24,7 @@ Model = {
     # synaptic reversal potentials
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
-    'p_Exc_Exc':0.02, 'p_Exc_PvInh':0.05, 'p_Exc_CB1Inh':0.05, 
+    'p_Exc_Exc':0.05, 'p_Exc_PvInh':0.05, 'p_Exc_CB1Inh':0.05, 
     'p_PvInh_Exc':0.05, 'p_PvInh_PvInh':0.05, 'p_PvInh_CB1Inh':0.05, 
     'p_CB1Inh_Exc':0.25, 'p_CB1Inh_PvInh':0.25, 'p_CB1Inh_CB1Inh':0.25,
     'psyn_CB1Inh_Exc':0.2, 'psyn_CB1Inh_PvInh':0.2, 'psyn_CB1Inh_CB1Inh':0.2,  # probabilities of syn. transmission for CB1 synapses
@@ -41,11 +41,11 @@ Model = {
     'Exc_a':0., 'Exc_b': 0., 'Exc_tauw':1e9,
     # --> PV-Inhibitory population (Inh, recurrent inhibition)
     'PvInh_Gl':10., 'PvInh_Cm':200.,'PvInh_Trefrac':5.,
-    'PvInh_El':-70., 'PvInh_Vthre':-40., 'PvInh_Vreset':-70., 'PvInh_deltaV':0.,
+    'PvInh_El':-70., 'PvInh_Vthre':-53., 'PvInh_Vreset':-70., 'PvInh_deltaV':0.,
     'PvInh_a':0., 'PvInh_b': 0., 'PvInh_tauw':1e9,
     # --> Inhibitory population (Inh, recurrent inhibition)
     'CB1Inh_Gl':10., 'CB1Inh_Cm':200.,'CB1Inh_Trefrac':5.,
-    'CB1Inh_El':-70., 'CB1Inh_Vthre':-40., 'CB1Inh_Vreset':-70., 'CB1Inh_deltaV':0.,
+    'CB1Inh_El':-70., 'CB1Inh_Vthre':-53., 'CB1Inh_Vreset':-70., 'CB1Inh_deltaV':0.,
     'CB1Inh_a':0., 'CB1Inh_b': 0., 'CB1Inh_tauw':1e9
 }
 
@@ -68,8 +68,11 @@ def run_single_sim(Model,
         # adjust proba
         for target in ['Exc', 'PvInh', 'CB1Inh']:
             Model['p_CB1Inh_%s' % target] = Model['p_PvInh_%s' % target]/Model['psyn_CB1Inh_%s' % target]
-            print(Model['p_CB1Inh_%s' % target], Model['p_PvInh_%s' % target])
-        
+
+    if ('common_Vthre_Inh' in Model):
+        Model['CB1Inh_Vthre'] = Model['common_Vthre_Inh']
+        Model['PvInh_Vthre'] = Model['common_Vthre_Inh']
+            
     NTWK = ntwk.build.populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
                                   AFFERENT_POPULATIONS=['AffExc'],
                                   **build_pops_args)
