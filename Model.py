@@ -13,12 +13,13 @@ Model = {
     ## -----------------------------------------------------------------------
 
     # numbers of neurons in population
-    'N_Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_AffExc':200,
+    'N_Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_AffExcBG':200, 'N_AffExcTV':200,
     # synaptic weights
     'Q_Exc_Exc':2., 'Q_Exc_PvInh':2.,  'Q_Exc_CB1Inh':2.,
     'Q_PvInh_Exc':10., 'Q_PvInh_PvInh':10., 'Q_PvInh_CB1Inh':10., 
     'Q_CB1Inh_Exc':10., 'Q_CB1Inh_PvInh':10., 'Q_CB1Inh_CB1Inh':10., 
-    'Q_AffExc_Exc':4., 'Q_AffExc_PvInh':4., 'Q_AffExc_CB1Inh':4., 
+    'Q_AffExcBG_Exc':4., 'Q_AffExcBG_PvInh':4., 'Q_AffExcBG_CB1Inh':4., 
+    'Q_AffExcTV_Exc':4., 'Q_AffExcTV_PvInh':4., 'Q_AffExcTV_CB1Inh':4., 
     # synaptic time constants
     'Tse':5., 'Tsi':5.,
     # synaptic reversal potentials
@@ -28,9 +29,10 @@ Model = {
     'p_PvInh_Exc':0.05, 'p_PvInh_PvInh':0.05, 'p_PvInh_CB1Inh':0.05, 
     'p_CB1Inh_Exc':0.25, 'p_CB1Inh_PvInh':0.25, 'p_CB1Inh_CB1Inh':0.25,
     'psyn_CB1Inh_Exc':0.2, 'psyn_CB1Inh_PvInh':0.2, 'psyn_CB1Inh_CB1Inh':0.2,  # probabilities of syn. transmission for CB1 synapses
-    'p_AffExc_Exc':0.1, 'p_AffExc_PvInh':0.1, 'p_AffExc_CB1Inh':0.1,
+    'p_AffExcBG_Exc':0.1, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
+    'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0.1, 'p_AffExcTV_CB1Inh':0.1,
     # afferent stimulation (0 by default)
-    'F_AffExc':5.,
+    'F_AffExcBG':5.,
     # simulation parameters
     'dt':0.1, 'tstop': 1000., 'SEED':3, # low by default, see later
     ## ---------------------------------------------------------------------------------
@@ -74,7 +76,7 @@ def run_single_sim(Model,
         Model['PvInh_Vthre'] = Model['common_Vthre_Inh']
             
     NTWK = ntwk.build.populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
-                                  AFFERENT_POPULATIONS=['AffExc'],
+                                  AFFERENT_POPULATIONS=(['AffExcBG', 'AffExcTV'] if (Faff_array is not None) else ['AffExcBG']),
                                   **build_pops_args)
 
     ntwk.build.recurrent_connections(NTWK, SEED=Model['SEED']*(Model['SEED']+1),
@@ -89,17 +91,22 @@ def run_single_sim(Model,
     ########### AFFERENT INPUTS ###########
     #######################################
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
-    if Faff_array is None:
-        Faff_array = Model['F_AffExc']+0.*t_array
-    elif len(Faff_array)!=len(t_array):
+    if (Faff_array is not None) and (len(Faff_array)!=len(t_array)):
         print('/!\ len(Faff_array)!=len(t_array), size are %i vs %i /!\  ' % (len(Faff_array), len(t_array)))
 
     # afferent excitation onto cortical excitation and inhibition
     for i, tpop in enumerate(['Exc', 'PvInh', 'CB1Inh']): # both on excitation and inhibition
-        ntwk.stim.construct_feedforward_input(NTWK, tpop, 'AffExc',
-                                              t_array, Faff_array,
+        # constant background input
+        ntwk.stim.construct_feedforward_input(NTWK, tpop, 'AffExcBG',
+                                              t_array, Model['F_AffExcBG']+0.*t_array,
                                               verbose=build_pops_args['verbose'],
                                               SEED=1+2*Model['SEED']*(Model['SEED']+1))
+        # time-varying input
+        if (Model['N_AffExcTV']>0) and (Faff_array is not None):
+            ntwk.stim.construct_feedforward_input(NTWK, tpop, 'AffExcTV',
+                                                  t_array, Faff_array,
+                                                  verbose=build_pops_args['verbose'],
+                                                  SEED=1+2*Model['SEED']*(Model['SEED']+1))
 
     ################################################################
     ## --------------- Initial Condition ------------------------ ##
