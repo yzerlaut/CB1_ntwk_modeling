@@ -11,8 +11,9 @@ def build_Faff_array(Model, mean=-2, std=8, seed=2):
 
     
 Model['tstop'] = 6e3
+# Model['common_Vthre_Inh'] = -50.
 
-Faff0 = 2.5
+Faff0 = 3.
 
 if __name__=='__main__':
     
@@ -21,27 +22,36 @@ if __name__=='__main__':
         # ## ----- Plot ----- ##
         # ######################
 
-        # ge.plot(*build_Faff_array(Model))
-
-        fig, AX = ge.figure(axes=(2,1), figsize=(.8,1.))
+        fig, AX = ge.figure(axes=(2,1), figsize=(.8,1.), hspace=2.)
 
         data = ntwk.recording.load_dict_from_hdf5('data/time-varying-Input-V1.h5')
+    
+        
         # # ## plot
-        fig1, _ = ntwk.plots.activity_plots(data, smooth_population_activity=10., COLORS=[plt.cm.tab10(i) for i in [2,3,1]])
+        fig1, _ = ntwk.plots.activity_plots(data,
+                                            smooth_population_activity=10.,
+                                            COLORS=[plt.cm.tab10(i) for i in [2,3,1]],
+                                            Vm_plot_args={'subsampling':2, 'clip_spikes':True})
         fig1.suptitle('V1')
-        AX[0].bar([0], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)])
+        AX[0].bar([0], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)], color='lightgray')
         AX[1].bar([0], [ntwk.analysis.get_synchrony_of_spiking(data, pop='Exc',
                                                                method='STTC',
-                                                               Tbin=100, Nmax_pairs=2000)])
+                                                               Tbin=100, Nmax_pairs=2000)], color='lightgray')
                         
+        """
         
-        # data = ntwk.recording.load_dict_from_hdf5('data/time-varying-Input-V2.h5')
-        # # # ## plot
-        # fig2, _ = ntwk.plots.activity_plots(data, smooth_population_activity=10., COLORS=[plt.cm.tab10(i) for i in [2,3,1]])
-        # fig2.suptitle('V2')
+        data = ntwk.recording.load_dict_from_hdf5('data/time-varying-Input-V2.h5')
+        # # ## plot
+        fig2, _ = ntwk.plots.activity_plots(data, smooth_population_activity=10., COLORS=[plt.cm.tab10(i) for i in [2,3,1]])
+        fig2.suptitle('V2')
+        AX[0].bar([1], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)], color='gray')
+        AX[1].bar([1], [ntwk.analysis.get_synchrony_of_spiking(data, pop='Exc',
+                                                               method='STTC',
+                                                               Tbin=100, Nmax_pairs=2000)], color='gray')
         
         ge.set_plot(AX[0], xticks=[0,1], xticks_labels=['V1', 'V2'], ylabel='exc. rate (Hz)')
         ge.set_plot(AX[1], xticks=[0,1], xticks_labels=['V1', 'V2'], ylabel='exc. STTC')
+        """
         
         plt.show()
         
