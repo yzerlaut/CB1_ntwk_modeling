@@ -68,11 +68,16 @@ def run_single_sim(Model,
         # adjust proba
         for target in ['Exc', 'PvInh', 'CB1Inh']:
             Model['p_CB1Inh_%s' % target] = Model['p_PvInh_%s' % target]/Model['psyn_CB1Inh_%s' % target]
+<<<<<<< HEAD
 
     if ('common_Vthre_Inh' in Model):
         Model['CB1Inh_Vthre'] = Model['common_Vthre_Inh']
         Model['PvInh_Vthre'] = Model['common_Vthre_Inh']
             
+=======
+            # print(Model['p_CB1Inh_%s' % target], Model['p_PvInh_%s' % target])
+        
+>>>>>>> 292d3170b1f43999f98ccb8b713b4073f1f4bf0c
     NTWK = ntwk.build.populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
                                   AFFERENT_POPULATIONS=['AffExc'],
                                   **build_pops_args)
