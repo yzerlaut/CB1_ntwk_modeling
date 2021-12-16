@@ -3,12 +3,12 @@ from datavyz import ges as ge
 from analyz.signal_library.stochastic_processes import OrnsteinUhlenbeck_Process
 from analyz.processing.signanalysis import gaussian_smoothing
 
-def build_Faff_array(Model, mean=-4, std=20, seed=7):
+def build_Faff_array(Model, mean=-4, std=10, seed=2):
 
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
     OU = OrnsteinUhlenbeck_Process(mean, std, 1000, dt=Model['dt'], tstop=Model['tstop'], seed=seed)
     OU_clipped = gaussian_smoothing(np.clip(OU, 0, np.inf), int(50/Model['dt']))
-    OU_clipped[t_array>4000] = 0
+    OU_clipped[t_array>3000] = 0
     return t_array, OU_clipped
 
     
@@ -89,7 +89,8 @@ if __name__=='__main__':
         # decreasing V2 efficacy
         for target in ['Exc', 'PvInh', 'CB1Inh']:
             Model['Q_CB1Inh_%s' % target] = 5.
-            Model['p_AffExcTV_%s' % target] = 0.01
+            # Model['p_AffExcTV_%s' % target] = 0.01
+            Model['Q_AffExcTV_%s' % target] = 0.5
             
         run_single_sim(Model,
                        Faff_array=build_Faff_array(Model)[1],
