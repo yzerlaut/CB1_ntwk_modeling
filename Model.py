@@ -58,6 +58,8 @@ def run_single_sim(Model,
                                         with_synaptic_currents=False,
                                         with_synaptic_conductances=False,
                                         verbose=False),
+                   REC_POPS=['Exc', 'PvInh', 'CB1Inh'],
+                   AFF_POPS=['AffExcBG'],
                    specific_record_function=None, srf_args={},
                    Faff_array=None,
                    filename='CB1_ntwk_model_data.h5'):
@@ -68,15 +70,15 @@ def run_single_sim(Model,
         Model['N_CB1Inh'] = int(Model['CB1_PV_ratio']*Model['N_Inh'])
         Model['N_PvInh'] = Model['N_Inh']-Model['N_CB1Inh']
         # adjust proba
-        for target in ['Exc', 'PvInh', 'CB1Inh']:
+        for target in POPS:
             Model['p_CB1Inh_%s' % target] = Model['p_PvInh_%s' % target]/Model['psyn_CB1Inh_%s' % target]
 
     if ('common_Vthre_Inh' in Model):
         Model['CB1Inh_Vthre'] = Model['common_Vthre_Inh']
         Model['PvInh_Vthre'] = Model['common_Vthre_Inh']
-            
-    NTWK = ntwk.build.populations(Model, ['Exc', 'PvInh', 'CB1Inh'],
-                                  AFFERENT_POPULATIONS=(['AffExcBG', 'AffExcTV'] if (Faff_array is not None) else ['AffExcBG']),
+
+    NTWK = ntwk.build.populations(Model, REC_POPS,
+                                  AFFERENT_POPULATIONS=AFF_POPS,
                                   **build_pops_args)
 
     ntwk.build.recurrent_connections(NTWK, SEED=Model['SEED']*(Model['SEED']+1),
@@ -95,15 +97,15 @@ def run_single_sim(Model,
         print('/!\ len(Faff_array)!=len(t_array), size are %i vs %i /!\  ' % (len(Faff_array), len(t_array)))
 
     # afferent excitation onto cortical excitation and inhibition
-    for i, tpop in enumerate(['Exc', 'PvInh', 'CB1Inh']): # both on excitation and inhibition
+    for i, tpop in enumerate(REC_POPS): # both on excitation and inhibition
         # constant background input
-        ntwk.stim.construct_feedforward_input(NTWK, tpop, 'AffExcBG',
-                                              t_array, Model['F_AffExcBG']+0.*t_array,
+        ntwk.stim.construct_feedforward_input(NTWK, tpop, AFF_POPS[0],
+                                              t_array, Model['F_%s' % AFF_POPS[0]]+0.*t_array,
                                               verbose=build_pops_args['verbose'],
                                               SEED=1+2*Model['SEED']*(Model['SEED']+1))
         # time-varying input
-        if (Model['N_AffExcTV']>0) and (Faff_array is not None):
-            ntwk.stim.construct_feedforward_input(NTWK, tpop, 'AffExcTV',
+        if len(AFF_POPS)>0 and (Faff_array is not None):
+            ntwk.stim.construct_feedforward_input(NTWK, tpop, AFF_POPS[1],
                                                   t_array, Faff_array,
                                                   verbose=build_pops_args['verbose'],
                                                   SEED=1+2*Model['SEED']*(Model['SEED']+1))
