@@ -11,30 +11,29 @@ Model = {
     ### Initialisation by default parameters
     ## UNIT SYSTEM is : ms, mV, pF, nS, pA, Hz (arbitrary and unconsistent, so see code)
     ## -----------------------------------------------------------------------
-
     # numbers of neurons in population
-    'N_Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_AffExcBG':200, 'N_AffExcTV':200,
+    'N_Exc':4000, 'N_PvInh':800, 'N_CB1Inh':500, 'N_AffExcBG':200, 'N_AffExcTV':1000,
     # synaptic weights
     'Q_Exc_Exc':2., 'Q_Exc_PvInh':2.,  'Q_Exc_CB1Inh':2.,
     'Q_PvInh_Exc':10., 'Q_PvInh_PvInh':10., 'Q_PvInh_CB1Inh':10., 
     'Q_CB1Inh_Exc':10., 'Q_CB1Inh_PvInh':10., 'Q_CB1Inh_CB1Inh':10., 
     'Q_AffExcBG_Exc':4., 'Q_AffExcBG_PvInh':4., 'Q_AffExcBG_CB1Inh':4., 
-    'Q_AffExcTV_Exc':4., 'Q_AffExcTV_PvInh':4., 'Q_AffExcTV_CB1Inh':4., 
+    'Q_AffExcTV_Exc':2., 'Q_AffExcTV_PvInh':2., 'Q_AffExcTV_CB1Inh':2., 
     # synaptic time constants
     'Tse':5., 'Tsi':5.,
     # synaptic reversal potentials
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
-    'p_Exc_Exc':0.05, 'p_Exc_PvInh':0.05, 'p_Exc_CB1Inh':0.05, 
-    'p_PvInh_Exc':0.05, 'p_PvInh_PvInh':0.05, 'p_PvInh_CB1Inh':0.05, 
-    'p_CB1Inh_Exc':0.25, 'p_CB1Inh_PvInh':0.25, 'p_CB1Inh_CB1Inh':0.25,
-    'psyn_CB1Inh_Exc':0.2, 'psyn_CB1Inh_PvInh':0.2, 'psyn_CB1Inh_CB1Inh':0.2,  # probabilities of syn. transmission for CB1 synapses
+    'p_Exc_Exc':0.04, 'p_Exc_PvInh':0.04, 'p_Exc_CB1Inh':0.04, 
+    'p_PvInh_Exc':0.1, 'p_PvInh_PvInh':0.05, 'p_PvInh_CB1Inh':0.05, 
+    'p_CB1Inh_Exc':0.2, 'p_CB1Inh_PvInh':0.1, 'p_CB1Inh_CB1Inh':0.1,
+    'psyn_CB1Inh_Exc':0.5, 'psyn_CB1Inh_PvInh':0.5, 'psyn_CB1Inh_CB1Inh':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcBG_Exc':0.1, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
-    'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0.1, 'p_AffExcTV_CB1Inh':0.1,
+    'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
     # afferent stimulation (0 by default)
     'F_AffExcBG':5.,
     # simulation parameters
-    'dt':0.1, 'tstop': 1000., 'SEED':3, # low by default, see later
+    'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------
     # === cellular properties (based on AdExp), population by population ===
     # --> Excitatory population (Exc, recurrent excitation)
@@ -53,7 +52,7 @@ Model = {
 
 def run_single_sim(Model,
                    build_pops_args=dict(with_raster=True,
-                                        # with_Vm=2,
+                                        with_Vm=2,
                                         with_pop_act=True,
                                         with_synaptic_currents=False,
                                         with_synaptic_conductances=False,
@@ -126,20 +125,49 @@ def run_single_sim(Model,
 if __name__=='__main__':
     
     if sys.argv[-1]=='plot':
-        # ######################
-        # ## ----- Plot ----- ##
-        # ######################
+        
+        fig, ax = ge.figure(axes=(1,1), figsize=(.8,1.), left=1.3)
 
-        ## load file
-        data = ntwk.recording.load_dict_from_hdf5('data/CB1_ntwk_model.h5')
+        CONDS = ['V1', 'V2']
+        
+        for i, cond in enumerate(CONDS):
 
-        # ## plot
-        fig, _ = ntwk.plots.activity_plots(data, smooth_population_activity=10., COLORS=[plt.cm.tab10(i) for i in [2,3,1]])
+            if os.path.isfile('data/CB1_ntwk_model-%s.h5' % cond):
+                data = ntwk.recording.load_dict_from_hdf5('data/CB1_ntwk_model-%s.h5' % cond)
+                # # ## plot
+                fig1, _ = ntwk.plots.activity_plots(data,
+                                                    smooth_population_activity=10.,
+                                                    COLORS=[plt.cm.tab10(i) for i in [2,3,1]],
+                                                    raster_plot_args={'subsampling':1, 'ms':1},
+                                                    Vm_plot_args={'subsampling':2, 'clip_spikes':True})
+                fig1.suptitle(cond)
 
-        print(' synchrony=%.2f' % ntwk.analysis.get_synchrony_of_spiking(data))
+                ge.save_on_desktop(fig1, '%s.png' % cond)
+                try:
+                    ax.bar([i], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)],
+                           color='gray')
+                except KeyError:
+                    pass
+                        
+        ge.set_plot(ax, xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
+                    ylabel='exc. rate (Hz)')
+        ge.save_on_desktop(fig, 'fig.png')
         plt.show()
+    
+    elif sys.argv[-1]=='V1':
+        run_single_sim(Model, filename='data/CB1_ntwk_model-V1.h5')
+        
+    elif sys.argv[-1]=='V2':
+
+        decrease = 20./100.
+        # decreasing CB1 efficacy on PN
+        Model['psyn_CB1Inh_Exc'] = (1-decrease)*Model['psyn_CB1Inh_Exc']
+        Model['Q_CB1Inh_Exc'] = (1-decrease)*Model['psyn_CB1Inh_Exc']
+        
+        run_single_sim(Model, filename='data/CB1_ntwk_model-V2.h5')
     else:
-        run_single_sim(Model, filename='data/CB1_ntwk_model.h5')
+        run_single_sim(Model, filename='data/CB1_ntwk_model-V1.h5')
         print('Results of the simulation are stored as:', 'data/CB1_ntwk_model.h5')
         print('--> Run \"python CB1_ntwk_model.py plot\" to plot the results')
 
+        
