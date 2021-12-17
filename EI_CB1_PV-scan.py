@@ -92,14 +92,7 @@ if __name__=='__main__':
                       ['common_Vthre_Inh', 'inh_exc_ratio', 'CB1_PV_ratio'],
                       [np.linspace(-53, -40, 3), np.linspace(0.2,0.4,3), np.linspace(0.05,0.95,3)],
                       running_sim_func,
-                      parallelize=False)
-        
-
-    else:
-        print('need to add args')
-=======
                       parallelize=True)
         
     else:
         print('\n Need to provide instruction ...\n')
->>>>>>> 292d3170b1f43999f98ccb8b713b4073f1f4bf0c

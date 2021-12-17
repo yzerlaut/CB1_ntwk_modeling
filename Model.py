@@ -26,7 +26,7 @@ Model = {
     # connectivity parameters
     'p_Exc_Exc':0.04, 'p_Exc_PvInh':0.04, 'p_Exc_CB1Inh':0.04, 
     'p_PvInh_Exc':0.1, 'p_PvInh_PvInh':0.05, 'p_PvInh_CB1Inh':0.05, 
-    'p_CB1Inh_Exc':0.2, 'p_CB1Inh_PvInh':0.1, 'p_CB1Inh_CB1Inh':0.1,
+    'p_CB1Inh_Exc':0.2, 'p_CB1Inh_PvInh':0.2, 'p_CB1Inh_CB1Inh':0.2,
     'psyn_CB1Inh_Exc':0.5, 'psyn_CB1Inh_PvInh':0.5, 'psyn_CB1Inh_CB1Inh':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcBG_Exc':0.1, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
     'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
@@ -126,7 +126,7 @@ if __name__=='__main__':
     
     if sys.argv[-1]=='plot':
         
-        fig, ax = ge.figure(axes=(1,1), figsize=(.8,1.), left=1.3)
+        fig, AX = ge.figure(axes=(2,1), figsize=(.8,1.), left=1.3, wspace=2.)
 
         CONDS = ['V1', 'V2']
         
@@ -144,13 +144,17 @@ if __name__=='__main__':
 
                 ge.save_on_desktop(fig1, '%s.png' % cond)
                 try:
-                    ax.bar([i], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)],
+                    AX[0].bar([i], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)],
                            color='gray')
+                    AX[1].bar([i], [ntwk.analysis.get_mean_pop_act(data, pop='CB1Inh', tdiscard=200)],
+                              color='gray')
                 except KeyError:
                     pass
                         
-        ge.set_plot(ax, xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
+        ge.set_plot(AX[0], xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
                     ylabel='exc. rate (Hz)')
+        ge.set_plot(AX[1], xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
+                    ylabel='CB1 rate (Hz)')
         ge.save_on_desktop(fig, 'fig.png')
         plt.show()
     

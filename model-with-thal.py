@@ -7,8 +7,8 @@ from analyz.signal_library.classical_functions import gaussian
 
 def build_Faff_array(Model,
                      # mean=-4, std=10, # FOR OU
-                     t0=4000, sT=300, amp=15,
-                     seed=10):
+                     t0=4000, sT=300, amp=14.5,
+                     seed=100):
 
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
 
@@ -18,7 +18,8 @@ def build_Faff_array(Model,
     # OU_clipped[t_array>3000] = 0
     # return t_array, OU_clipped
 
-    g = gaussian(t_array, t0, sT)
+    # g = gaussian(t_array, t0, sT) + gaussian(t_array, t0, sT)
+    g = gaussian(t_array, 4000, sT) + gaussian(t_array, 15000, sT)
     return t_array, amp/g.max()*g
     
 
@@ -97,8 +98,8 @@ if __name__=='__main__':
                 fig1, _ = ntwk.plots.activity_plots(data,
                                                     smooth_population_activity=10.,
                                                     COLORS=[plt.cm.tab10(i) for i in [0,2,3,1]],
-                                                    raster_plot_args={'subsampling':100},
-                                                    Vm_plot_args={'subsampling':2, 'clip_spikes':True})
+                                                    raster_plot_args={'subsampling':10},
+                                                    Vm_plot_args={'subsampling':10, 'clip_spikes':True})
                 fig1.suptitle(cond)
 
                 try:
@@ -163,10 +164,10 @@ if __name__=='__main__':
         
     elif sys.argv[-1]=='V2':
 
-        decrease = 20./100.
+        decrease = 50./100.
         # decreasing CB1 efficacy on PN
         Model['psyn_CB1Inh_L23Exc'] = (1-decrease)*Model['psyn_CB1Inh_L23Exc']
-        Model['Q_CB1Inh_L23Exc'] = (1-decrease)*Model['psyn_CB1Inh_L23Exc']
+        # Model['Q_CB1Inh_L23Exc'] = (1-decrease)*Model['psyn_CB1Inh_L23Exc']
         
         # adding CB1 inhibition on L4
         Model['p_CB1Inh_L4Exc'] = 0.1
