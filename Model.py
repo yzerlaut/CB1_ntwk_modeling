@@ -61,7 +61,8 @@ def run_single_sim(Model,
                    AFF_POPS=['AffExcBG'],
                    specific_record_function=None, srf_args={},
                    Faff_array=None,
-                   filename='CB1_ntwk_model_data.h5'):
+                   filename='CB1_ntwk_model_data.h5',
+                   seed=0):
 
     if ('inh_exc_ratio' in Model) and ('CB1_PV_ratio' in Model):
         # adjust cell numbers
@@ -69,7 +70,7 @@ def run_single_sim(Model,
         Model['N_CB1Inh'] = int(Model['CB1_PV_ratio']*Model['N_Inh'])
         Model['N_PvInh'] = Model['N_Inh']-Model['N_CB1Inh']
         # adjust proba
-        for target in POPS:
+        for target in REC_POPS:
             Model['p_CB1Inh_%s' % target] = Model['p_PvInh_%s' % target]/Model['psyn_CB1Inh_%s' % target]
 
     if ('common_Vthre_Inh' in Model):
@@ -80,7 +81,7 @@ def run_single_sim(Model,
                                   AFFERENT_POPULATIONS=AFF_POPS,
                                   **build_pops_args)
 
-    ntwk.build.recurrent_connections(NTWK, SEED=Model['SEED']*(Model['SEED']+1),
+    ntwk.build.recurrent_connections(NTWK, SEED=seed+Model['SEED']*(Model['SEED']+1),
                                      verbose=build_pops_args['verbose'],
                                      store_connections=(specific_record_function is not None))
 
@@ -140,9 +141,19 @@ if __name__=='__main__':
                                                     COLORS=[plt.cm.tab10(i) for i in [2,3,1]],
                                                     raster_plot_args={'subsampling':1, 'ms':1},
                                                     Vm_plot_args={'subsampling':2, 'clip_spikes':True})
-                fig1.suptitle(cond)
+                
+                # fig1.suptitle(cond)
 
-                ge.save_on_desktop(fig1, '%s.png' % cond)
+                # fig1 = ntwk.plots.raster(data,
+                #                             COLORS=[plt.cm.tab10(i) for i in [2,3,1]])
+                
+                fig2 = ntwk.plots.few_Vm_plot(data,
+                                              COLORS=[plt.cm.tab10(i) for i in [2,3,1]],
+                                              tzoom=[0, np.inf],
+                                              clip_spikes=False,
+                                              vpeak=-40, vbottom=-80, shift=20.,
+                                              Tbar=50., Vbar=20.)                
+                
                 try:
                     AX[0].bar([i], [ntwk.analysis.get_mean_pop_act(data, pop='Exc', tdiscard=200)],
                            color='gray')
@@ -150,6 +161,9 @@ if __name__=='__main__':
                               color='gray')
                 except KeyError:
                     pass
+                # ge.save_on_desktop(fig1, '%s-1.png' % cond)
+                # ge.save_on_desktop(fig2, '%s-2.png' % cond)
+
                         
         ge.set_plot(AX[0], xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
                     ylabel='exc. rate (Hz)')
@@ -159,8 +173,15 @@ if __name__=='__main__':
         plt.show()
     
     elif sys.argv[-1]=='V1':
-        run_single_sim(Model, filename='data/CB1_ntwk_model-V1.h5')
-        
+        run_single_sim(Model,
+                       filename='data/CB1_ntwk_model-V1.h5',
+                       build_pops_args=dict(with_raster=True,
+                                            with_Vm=4,
+                                            with_pop_act=True,
+                                            with_synaptic_currents=False,
+                                            with_synaptic_conductances=False,
+                                            verbose=False), seed=3)
+                   
     elif sys.argv[-1]=='V2':
 
         decrease = 20./100.

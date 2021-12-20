@@ -6,7 +6,7 @@ def running_sim_func(Model, a=0):
 
 def data_analysis(zip_filename, data_folder):
 
-    Model = {'data_folder': data_folder, 'zip_filename':zip_filename}
+    Model = {'data_folder': data_folder, 'zip_filename':os.path.join(data_folder, zip_filename)}
 
     Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model, verbose=False)
 
@@ -32,19 +32,20 @@ if __name__=='__main__':
 
         print('loading data [...]')
 
-        zip_filename = os.path.join('exc-inh-CB1-PV-scan.zip')
+        zip_filename = os.path.join('exc-inh-CB1-PV-Aff-scan.zip')
         data = np.load(os.path.join('data', zip_filename.replace('.zip', '.npy')), allow_pickle=True).item()
         
         print('plotting data [...]')
 
-        Naff = len(np.unique(data['PARAMS_SCAN']['F_AffExc']))
+        Naff = len(np.unique(data['PARAMS_SCAN']['F_AffExcBG']))
         
-        fig, AX = ge.figure(axes=(3, Naff), top=1, hspace=3.)
+        fig, AX = ge.figure(axes=(3, Naff), hspace=3., left=2., top=2)
 
-        for ia, faff in enumerate(np.unique(data['PARAMS_SCAN']['F_AffExc'])):
-            ge.annotate(AX[ia][0], '$\\nu_{aff}$=%.1fHz' % faff, (-.65,0), rotation=90)
+        for ia, faff in enumerate(np.unique(data['PARAMS_SCAN']['F_AffExcBG'])):
+            print(faff)
+            ge.annotate(AX[ia][0], '$\\nu_{aff}$=%.1fHz' % faff, (-1,0), rotation=90)
             
-            aff_cond = (data['PARAMS_SCAN']['F_AffExc']==faff)
+            aff_cond = (data['PARAMS_SCAN']['F_AffExcBG']==faff)
 
             for x, label, ax in zip([data['meanFR'], data['stdFR'], data['synch']],
                                     ['exc. rate (Hz)', 'exc. rate std (Hz)', 'synch.'],
@@ -67,7 +68,7 @@ if __name__=='__main__':
     elif sys.argv[-1]=='analysis':
 
         print('analyzing data [...]')
-        data_analysis('exc-inh-CB1-PV-scan.zip', 'data')
+        data_analysis('exc-inh-CB1-PV-Aff-scan.zip', 'data')
         
     elif ('aff' in sys.argv[-1]) or ('Aff' in sys.argv[-1]):
 
@@ -77,10 +78,10 @@ if __name__=='__main__':
         print('running simulation [...]')
         
         ntwk.scan.run(Model,
-                      ['F_AffExc', 'inh_exc_ratio', 'CB1_PV_ratio'],
-                      [np.linspace(4., 15., 3), np.linspace(0.1,0.5,3), np.linspace(0.05,0.95,3)],
+                      ['F_AffExcBG', 'inh_exc_ratio', 'CB1_PV_ratio'],
+                      [np.linspace(4., 15., 4), np.linspace(0.1,0.5,8), np.linspace(0.05,0.95,8)],
                       running_sim_func,
-                      parallelize=False)
+                      parallelize=True)
 
     elif ('vthre' in sys.argv[-1]) or ('VthreInh' in sys.argv[-1]):
 
