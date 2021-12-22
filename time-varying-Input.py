@@ -2,20 +2,29 @@ from Model import *
 from datavyz import ges as ge
 from analyz.signal_library.stochastic_processes import OrnsteinUhlenbeck_Process
 from analyz.processing.signanalysis import gaussian_smoothing
+from analyz.signal_library.classical_functions import gaussian
 
-def build_Faff_array(Model, mean=-4, std=10, seed=2):
+# def build_Faff_array(Model, mean=-4, std=10, seed=2):
+
+#     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
+#     OU = OrnsteinUhlenbeck_Process(mean, std, 1000, dt=Model['dt'], tstop=Model['tstop'], seed=seed)
+#     OU_clipped = gaussian_smoothing(np.clip(OU, 0, np.inf), int(50/Model['dt']))
+#     OU_clipped[t_array>3000] = 0
+#     return t_array, OU_clipped
+
+
+def build_Faff_array(Model,
+                     t0=3000, sT=200, amp=5,
+                     seed=100):
 
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
-    OU = OrnsteinUhlenbeck_Process(mean, std, 1000, dt=Model['dt'], tstop=Model['tstop'], seed=seed)
-    OU_clipped = gaussian_smoothing(np.clip(OU, 0, np.inf), int(50/Model['dt']))
-    OU_clipped[t_array>3000] = 0
-    return t_array, OU_clipped
+    g = gaussian(t_array, t0, sT)
+    return t_array, amp/g.max()*g
 
-    
-Model['tstop'] = 15e3
+Model['tstop'] = 13e3
 # Model['common_Vthre_Inh'] = -50.
 
-Model['F_AffExcBG'] = 2.5
+Model['F_AffExcBG'] = 3.5
 
 if __name__=='__main__':
     
@@ -35,7 +44,8 @@ if __name__=='__main__':
         if 'plot-' in sys.argv[-1]:
             CONDS = sys.argv[-1].split('plot-')
         else:
-            CONDS = ['V1', 'V2', 'V2-low-Aff']
+            # CONDS = ['V1', 'V2', 'V2-low-Aff']
+            CONDS = ['V1', 'V2']#, 'V2-low-Aff']
 
         for i, cond in enumerate(CONDS):
 
@@ -63,6 +73,7 @@ if __name__=='__main__':
 
         run_single_sim(Model,
                        Faff_array=build_Faff_array(Model)[1],
+                       AFF_POPS=['AffExcBG', 'AffExcTV'],
                        build_pops_args=dict(with_raster=True,
                                             with_Vm=3,
                                             with_pop_act=True,
@@ -72,12 +83,13 @@ if __name__=='__main__':
     elif sys.argv[-1]=='V2':
 
         # decreasing V2 efficacy
-        for target in ['Exc', 'PvInh', 'CB1Inh']:
-            # Model['p_CB1Inh_%s' % target] = 0.15
-            Model['Q_CB1Inh_%s' % target] = 5.
+        # for target in ['Exc', 'PvInh', 'CB1Inh']:
+        for target in ['Exc']:
+            Model['Q_CB1Inh_%s' % target] = Model['Q_CB1Inh_%s' % target]/2.
             
         run_single_sim(Model,
                        Faff_array=build_Faff_array(Model)[1],
+                       AFF_POPS=['AffExcBG', 'AffExcTV'],
                        build_pops_args=dict(with_raster=True,
                                             with_Vm=3,
                                             with_pop_act=True,

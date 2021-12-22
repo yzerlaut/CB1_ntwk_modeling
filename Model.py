@@ -29,7 +29,7 @@ Model = {
     'p_CB1Inh_Exc':0.2, 'p_CB1Inh_PvInh':0.2, 'p_CB1Inh_CB1Inh':0.2,
     'psyn_CB1Inh_Exc':0.5, 'psyn_CB1Inh_PvInh':0.5, 'psyn_CB1Inh_CB1Inh':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcBG_Exc':0.1, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
-    'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
+    'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0.02, 'p_AffExcTV_CB1Inh':0.02,
     # afferent stimulation (0 by default)
     'F_AffExcBG':5.,
     # simulation parameters
