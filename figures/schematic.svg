@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:document-units="mm"
      showgrid="false"
-     inkscape:zoom="0.5"
-     inkscape:cx="2343"
-     inkscape:cy="2902"
+     inkscape:zoom="0.25"
+     inkscape:cx="2506"
+     inkscape:cy="1984"
      inkscape:window-width="1920"
      inkscape:window-height="1135"
      inkscape:window-x="0"
@@ -829,9 +829,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3932"><tspan
+         id="tspan4831"><tspan
            style="font-weight:bold"
-           id="tspan3930">Exc</tspan></tspan></text>
+           id="tspan4829">Exc</tspan></tspan></text>
     <circle
        style="fill:#d40000;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle16564"
@@ -851,9 +851,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3936"><tspan
+         id="tspan4835"><tspan
            style="font-weight:bold"
-           id="tspan3934">Inh</tspan></tspan></text>
+           id="tspan4833">Inh</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -313.6995,87.450979 c 6.90018,-9.099557 5.37654,-16.840353 16.696,-21.089898"
@@ -935,7 +935,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3938">V1</tspan></text>
+         id="tspan4837">V1</tspan></text>
     <ellipse
        style="fill:#c6e9af;fill-opacity:1;stroke-width:0.185918"
        id="ellipse19197"
@@ -963,9 +963,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3942"><tspan
+         id="tspan4841"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3940">PN</tspan></tspan></text>
+           id="tspan4839">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:0.2;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 394.86546,82.330413 c -4.76827,-20.5811 50.58803,-25.397274 30.39942,9.85962"
@@ -1009,9 +1009,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3946"><tspan
+         id="tspan4845"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3944">PN</tspan></tspan></text>
+           id="tspan4843">PN</tspan></tspan></text>
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 444.32895,324.9262 0.70745,-31.22895"
@@ -1086,7 +1086,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3948">L2/3</tspan></text>
+         id="tspan4847">L2/3</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.5139037,0,0,1.5139037,1125.892,-493.42681)"
@@ -1097,7 +1097,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3950">L4</tspan></text>
+         id="tspan4849">L4</tspan></text>
     <g
        id="g19249"
        transform="rotate(90,142.67529,295.58069)"
@@ -1131,7 +1131,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3952">bg</tspan></text>
+         id="tspan4851">bg</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.2063747,0,0,1.2063747,1024.2546,-245.64)"
@@ -1142,7 +1142,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3954">modulation</tspan></text>
+         id="tspan4853">modulation</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(2.3733404,0,0,2.3733404,1618.5097,-1140.3734)"
@@ -1153,7 +1153,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3956">V2</tspan></text>
+         id="tspan4855">V2</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,815.21564,-508.21644)"
@@ -1164,9 +1164,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3960"><tspan
+         id="tspan4859"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3958">PN</tspan></tspan></text>
+           id="tspan4857">PN</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,868.13234,-371.69136)"
@@ -1177,9 +1177,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3964"><tspan
+         id="tspan4863"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3962">PN</tspan></tspan></text>
+           id="tspan4861">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#aaccff;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 474.039,225.92523 c 45.06046,-57.59166 18.81908,-97.86965 29.13756,-116.95767"
@@ -1235,9 +1235,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3968"><tspan
+         id="tspan4867"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3966">PV</tspan></tspan></text>
+           id="tspan4865">PV</tspan></tspan></text>
     <circle
        style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle19341"
@@ -1257,9 +1257,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3972"><tspan
+         id="tspan4871"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3970">CB1</tspan></tspan></text>
+           id="tspan4869">CB1</tspan></tspan></text>
     <path
        style="fill:#c6e9af;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 441.80477,95.2302 469.33764,80.777052"
@@ -1437,7 +1437,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3974">bg</tspan></text>
+         id="tspan4873">bg</tspan></text>
     <g
        id="g19399"
        transform="rotate(-69.10968,259.66713,-337.55321)"
@@ -1471,9 +1471,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3978"><tspan
+         id="tspan4877"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3976">CB1</tspan></tspan></text>
+           id="tspan4875">CB1</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ffccaa;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 522.16002,133.32012 c 4.71475,-7.87332 3.37568,-16.41873 0.81619,-27.77666"
@@ -1517,9 +1517,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3982"><tspan
+         id="tspan4881"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3980">PN</tspan></tspan></text>
+           id="tspan4879">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:0.2;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 35.031939,82.330413 c -4.768267,-20.5811 50.588,-25.397274 30.399402,9.85962"
@@ -1563,9 +1563,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3986"><tspan
+         id="tspan4885"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3984">PN</tspan></tspan></text>
+           id="tspan4883">PN</tspan></tspan></text>
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 84.495399,324.9262 0.70745,-31.22895"
@@ -1640,7 +1640,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3988">L2/3</tspan></text>
+         id="tspan4887">L2/3</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.5139037,0,0,1.5139037,766.05775,-493.42681)"
@@ -1651,7 +1651,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3990">L4</tspan></text>
+         id="tspan4889">L4</tspan></text>
     <g
        id="g30147"
        transform="rotate(90,-37.241309,115.66425)"
@@ -1685,7 +1685,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3992">bg</tspan></text>
+         id="tspan4891">bg</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.2063747,0,0,1.2063747,664.42092,-245.64)"
@@ -1696,7 +1696,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan3994">modulation</tspan></text>
+         id="tspan4893">modulation</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,455.38208,-508.21644)"
@@ -1707,9 +1707,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan3998"><tspan
+         id="tspan4897"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan3996">PN</tspan></tspan></text>
+           id="tspan4895">PN</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,508.29878,-371.69136)"
@@ -1720,9 +1720,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4002"><tspan
+         id="tspan4901"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4000">PN</tspan></tspan></text>
+           id="tspan4899">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#aaccff;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 114.20544,225.92523 C 159.2659,168.33357 133.02452,128.05558 143.343,108.96756"
@@ -1778,9 +1778,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4006"><tspan
+         id="tspan4905"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4004">PV</tspan></tspan></text>
+           id="tspan4903">PV</tspan></tspan></text>
     <circle
        style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle30185"
@@ -1800,9 +1800,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4010"><tspan
+         id="tspan4909"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4008">CB1</tspan></tspan></text>
+           id="tspan4907">CB1</tspan></tspan></text>
     <path
        style="fill:#c6e9af;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 81.971222,95.2302 109.50408,80.777052"
@@ -1964,7 +1964,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4012">bg</tspan></text>
+         id="tspan4911">bg</tspan></text>
     <g
        id="g30243"
        transform="rotate(-69.10968,79.750666,-76.308777)"
@@ -1998,9 +1998,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4016"><tspan
+         id="tspan4915"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4014">CB1</tspan></tspan></text>
+           id="tspan4913">CB1</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ffccaa;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 162.32646,133.32012 c 4.71475,-7.87332 3.37568,-16.41873 0.81619,-27.77666"
@@ -2039,15 +2039,15 @@
        y="0"><tspan
          x="-282.38965"
          y="641.39844"
-         id="tspan4020"><tspan
+         id="tspan4919"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle"
-           id="tspan4018">CB1
+           id="tspan4917">CB1
 </tspan></tspan><tspan
          x="-302.21777"
          y="656.39844"
-         id="tspan4024"><tspan
+         id="tspan4923"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle"
-           id="tspan4022">signalling</tspan></tspan></text>
+           id="tspan4921">signalling</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#e9afc6;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 447.5383,162.41731 -3.8212,9.0634"
@@ -2113,7 +2113,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4026">bg</tspan></text>
+         id="tspan4925">bg</tspan></text>
     <g
        id="g44893"
        transform="matrix(0,0.79824301,-0.79824301,0,-135.44573,314.97935)"
@@ -2164,9 +2164,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4030"><tspan
+         id="tspan4929"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4028">PN</tspan></tspan></text>
+           id="tspan4927">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:0.2;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 770.57403,82.330413 c -4.76827,-20.5811 50.58803,-25.397274 30.39942,9.85962"
@@ -2210,9 +2210,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4034"><tspan
+         id="tspan4933"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4032">PN</tspan></tspan></text>
+           id="tspan4931">PN</tspan></tspan></text>
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 820.03752,324.9262 0.70745,-31.22895"
@@ -2287,7 +2287,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4036">L2/3</tspan></text>
+         id="tspan4935">L2/3</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.5139037,0,0,1.5139037,1501.6027,-493.42681)"
@@ -2298,7 +2298,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4038">L4</tspan></text>
+         id="tspan4937">L4</tspan></text>
     <g
        id="g45692"
        transform="rotate(90,330.52922,483.43462)"
@@ -2332,7 +2332,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4040">bg</tspan></text>
+         id="tspan4939">bg</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.2063747,0,0,1.2063747,1399.9653,-245.64)"
@@ -2343,7 +2343,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4042">modulation</tspan></text>
+         id="tspan4941">modulation</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(2.3733404,0,0,2.3733404,1951.8868,-1140.3734)"
@@ -2354,7 +2354,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4044">V2-CB1-KO</tspan></text>
+         id="tspan4943">V2-CB1-KO</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,1190.9253,-508.21644)"
@@ -2365,9 +2365,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4048"><tspan
+         id="tspan4947"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4046">PN</tspan></tspan></text>
+           id="tspan4945">PN</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,1243.8423,-371.69136)"
@@ -2378,9 +2378,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4052"><tspan
+         id="tspan4951"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4050">PN</tspan></tspan></text>
+           id="tspan4949">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#aaccff;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 849.74757,225.92523 c 45.06046,-57.59166 18.81908,-97.86965 29.13756,-116.95767"
@@ -2436,9 +2436,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4056"><tspan
+         id="tspan4955"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4054">PV</tspan></tspan></text>
+           id="tspan4953">PV</tspan></tspan></text>
     <circle
        style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle45734"
@@ -2458,9 +2458,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4060"><tspan
+         id="tspan4959"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4058">CB1</tspan></tspan></text>
+           id="tspan4957">CB1</tspan></tspan></text>
     <path
        style="fill:#c6e9af;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 817.51334,95.2302 845.04621,80.777052"
@@ -2638,7 +2638,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4062">bg</tspan></text>
+         id="tspan4961">bg</tspan></text>
     <g
        id="g45792"
        transform="rotate(-69.10968,447.52106,-610.32314)"
@@ -2672,9 +2672,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4066"><tspan
+         id="tspan4965"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4064">CB1</tspan></tspan></text>
+           id="tspan4963">CB1</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ffccaa;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 897.86859,133.32012 c 4.71475,-7.87332 3.37568,-16.41873 0.81619,-27.77666"
@@ -2722,7 +2722,7 @@
        style="font-size:12px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect50268);fill:#4d4d4d;fill-opacity:1"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4068">N.B. if background through L4, not the same story</tspan></text>
+         id="tspan4967">N.B. if background through L4, not the same story</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.1635558,0,0,1.1635558,616.28782,-802.83423)"
@@ -2733,19 +2733,19 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4070">increase in firing rate from V1 to V2 because of the lower strength of the Inh-&gt;Exc coupling in V2
+         id="tspan4969">increase in firing rate from V1 to V2 because of the lower strength of the Inh-&gt;Exc coupling in V2
 </tspan><tspan
          x="-500.25391"
          y="502.67969"
-         id="tspan4072">    
+         id="tspan4971">    
 </tspan><tspan
          x="-500.25391"
          y="517.67969"
-         id="tspan4074">-&gt; should increase input-driven correlations, but:
+         id="tspan4973">-&gt; should increase input-driven correlations, but:
 </tspan><tspan
          x="-500.25391"
          y="532.67969"
-         id="tspan4076">the CB1-&gt;L4 inhibition has the ability to shutdown evoked activity in L4, this removing input-driven correlations</tspan></text>
+         id="tspan4975">the CB1-&gt;L4 inhibition has the ability to shutdown evoked activity in L4, this removing input-driven correlations</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.1635558,0,0,1.1635558,662.85451,-658.90083)"
@@ -2769,22 +2769,22 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4078">decrease in firing rate from V2 to V2-CB1-KO because of the higher strength of the Inh-&gt;Exc coupling in V2-CB1-KO
+         id="tspan4977">decrease in firing rate from V2 to V2-CB1-KO because of the higher strength of the Inh-&gt;Exc coupling in V2-CB1-KO
 </tspan><tspan
          x="-500.25391"
          y="502.67969"
-         id="tspan4080">
+         id="tspan4979">
 </tspan><tspan
          x="-500.25391"
          y="517.67969"
-         id="tspan4082">-&gt; should decrease input-driven correlations, but:
+         id="tspan4981">-&gt; should decrease input-driven correlations, but:
 </tspan><tspan
          x="-500.25391"
          y="532.67969"
-         id="tspan4084">the lower excitabilty of the V2 network induces a lower CB1-&gt;L4 inhibition (both spontaneous and evoked), thus allowing to increase </tspan><tspan
+         id="tspan4983">the lower excitabilty of the V2 network induces a lower CB1-&gt;L4 inhibition (both spontaneous and evoked), thus allowing to increase </tspan><tspan
          x="-500.25391"
          y="547.67969"
-         id="tspan4086">the evoked L4 activity and thus to re-create the input-driven correlations that disappeared in the V2 case</tspan></text>
+         id="tspan4985">the evoked L4 activity and thus to re-create the input-driven correlations that disappeared in the V2 case</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.1635558,0,0,1.1635558,1071.1415,-48.107086)"
@@ -2808,7 +2808,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4088">V1</tspan></text>
+         id="tspan4987">V1</tspan></text>
     <ellipse
        style="fill:#c6e9af;fill-opacity:1;stroke-width:0.185918"
        id="ellipse41648"
@@ -2836,9 +2836,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4092"><tspan
+         id="tspan4991"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4090">PN</tspan></tspan></text>
+           id="tspan4989">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:0.2;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -8.2851151,705.88956 C -13.053385,685.30845 42.302915,680.49227 22.114305,715.74919"
@@ -2865,7 +2865,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4094">L2/3</tspan></text>
+         id="tspan4993">L2/3</tspan></text>
     <g
        id="g41674"
        transform="rotate(90,-370.67948,405.78486)"
@@ -2899,7 +2899,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4096">bg</tspan></text>
+         id="tspan4995">bg</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(2.3733404,0,0,2.3733404,1215.3591,-516.81352)"
@@ -2910,7 +2910,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4098">V2</tspan></text>
+         id="tspan4997">V2</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,412.06506,115.34272)"
@@ -2921,9 +2921,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4102"><tspan
+         id="tspan5001"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4100">PN</tspan></tspan></text>
+           id="tspan4999">PN</tspan></tspan></text>
     <ellipse
        style="fill:#e9afaf;fill-opacity:1;stroke-width:0.146758"
        id="ellipse41692"
@@ -2963,9 +2963,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4106"><tspan
+         id="tspan5005"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4104">PV</tspan></tspan></text>
+           id="tspan5003">PV</tspan></tspan></text>
     <circle
        style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle41704"
@@ -2985,9 +2985,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4110"><tspan
+         id="tspan5009"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4108">CB1</tspan></tspan></text>
+           id="tspan5007">CB1</tspan></tspan></text>
     <path
        style="fill:#c6e9af;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 38.654195,718.78936 66.187065,704.3362"
@@ -3133,7 +3133,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4112">bg</tspan></text>
+         id="tspan5011">bg</tspan></text>
     <g
        id="g41756"
        transform="rotate(-69.10968,510.80504,266.91956)"
@@ -3167,9 +3167,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4116"><tspan
+         id="tspan5015"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4114">CB1</tspan></tspan></text>
+           id="tspan5013">CB1</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ffccaa;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 119.00944,756.87928 c 4.71475,-7.87332 3.37568,-16.41873 0.81619,-27.77666"
@@ -3213,9 +3213,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4120"><tspan
+         id="tspan5019"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4118">PN</tspan></tspan></text>
+           id="tspan5017">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:0.2;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -368.11864,705.88956 c -4.76826,-20.58111 50.588,-25.39729 30.39941,9.85963"
@@ -3242,7 +3242,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4122">L2/3</tspan></text>
+         id="tspan5021">L2/3</tspan></text>
     <g
        id="g41794"
        transform="rotate(90,-550.59613,225.86842)"
@@ -3276,7 +3276,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4124">bg</tspan></text>
+         id="tspan5023">bg</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,52.231505,115.34272)"
@@ -3287,9 +3287,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4128"><tspan
+         id="tspan5027"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4126">PN</tspan></tspan></text>
+           id="tspan5025">PN</tspan></tspan></text>
     <ellipse
        style="fill:#e9afaf;fill-opacity:1;stroke-width:0.146758"
        id="ellipse41808"
@@ -3329,9 +3329,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4132"><tspan
+         id="tspan5031"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4130">PV</tspan></tspan></text>
+           id="tspan5029">PV</tspan></tspan></text>
     <circle
        style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle41820"
@@ -3351,9 +3351,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4136"><tspan
+         id="tspan5035"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4134">CB1</tspan></tspan></text>
+           id="tspan5033">CB1</tspan></tspan></text>
     <path
        style="fill:#c6e9af;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M -321.17935,718.78936 -293.6465,704.3362"
@@ -3499,7 +3499,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4138">bg</tspan></text>
+         id="tspan5037">bg</tspan></text>
     <g
        id="g41872"
        transform="rotate(-69.10968,330.88857,528.16407)"
@@ -3533,9 +3533,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4142"><tspan
+         id="tspan5041"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4140">CB1</tspan></tspan></text>
+           id="tspan5039">CB1</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#ffccaa;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m -240.82412,756.87928 c 4.71475,-7.87332 3.37568,-16.41873 0.81619,-27.77666"
@@ -3574,15 +3574,15 @@
        y="0"><tspan
          x="-282.38965"
          y="641.39844"
-         id="tspan4146"><tspan
+         id="tspan5045"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle"
-           id="tspan4144">CB1
+           id="tspan5043">CB1
 </tspan></tspan><tspan
          x="-302.21777"
          y="656.39844"
-         id="tspan4150"><tspan
+         id="tspan5049"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold';text-align:center;text-anchor:middle"
-           id="tspan4148">signalling</tspan></tspan></text>
+           id="tspan5047">signalling</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#e9afc6;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 44.387725,785.97647 -3.8212,9.0634"
@@ -3614,7 +3614,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4152">V1</tspan></text>
+         id="tspan5051">V1</tspan></text>
     <ellipse
        style="fill:#c6e9af;fill-opacity:1;stroke-width:0.185918"
        id="ellipse1361"
@@ -3642,9 +3642,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4156"><tspan
+         id="tspan5055"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4154">PN</tspan></tspan></text>
+           id="tspan5053">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:0.2;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 520.82421,678.03284 c -4.76827,-20.5811 50.588,-25.39727 30.3994,9.85962"
@@ -3688,9 +3688,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4160"><tspan
+         id="tspan5059"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4158">PN</tspan></tspan></text>
+           id="tspan5057">PN</tspan></tspan></text>
     <path
        style="fill:#4d4d4d;fill-opacity:1;stroke:#4d4d4d;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 570.28767,920.62863 0.70745,-31.22895"
@@ -3765,7 +3765,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4162">L2/3</tspan></text>
+         id="tspan5061">L2/3</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.5139037,0,0,1.5139037,1251.8501,102.27562)"
@@ -3776,7 +3776,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4164">L4</tspan></text>
+         id="tspan5063">L4</tspan></text>
     <g
        id="g1413"
        transform="rotate(90,-92.196388,656.4116)"
@@ -3810,7 +3810,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4166">bg</tspan></text>
+         id="tspan5065">bg</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(1.2063747,0,0,1.2063747,1150.2132,350.06243)"
@@ -3821,7 +3821,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4168">modulation</tspan></text>
+         id="tspan5067">modulation</tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,941.17435,87.485985)"
@@ -3832,9 +3832,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4172"><tspan
+         id="tspan5071"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4170">PN</tspan></tspan></text>
+           id="tspan5069">PN</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.99747733,0,0,0.99747733,983.50771,213.9569)"
@@ -3845,9 +3845,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4176"><tspan
+         id="tspan5075"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4174">PN</tspan></tspan></text>
+           id="tspan5073">PN</tspan></tspan></text>
     <path
        style="fill:none;fill-opacity:1;stroke:#aaccff;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 599.99771,821.62766 C 645.05817,764.036 618.81679,723.75801 629.13527,704.66999"
@@ -3865,22 +3865,22 @@
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <ellipse
-       style="fill:#e9afaf;fill-opacity:1;stroke-width:0.146758"
+       style="fill:#e9afaf;fill-opacity:1;stroke-width:0.126865"
        id="ellipse1439"
-       cx="636.05969"
-       cy="673.5412"
-       rx="38.128719"
-       ry="26.914087"
+       cx="630.26227"
+       cy="676.4007"
+       rx="31.701399"
+       ry="24.189682"
        inkscape:export-filename="/home/yann.zerlaut/Desktop/CB1/path846.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
     <ellipse
-       style="fill:#ffccaa;fill-opacity:1;stroke-width:0.14782"
+       style="fill:#ffccaa;fill-opacity:1;stroke-width:0.115639"
        id="ellipse1441"
-       cx="645.58826"
-       cy="747.73224"
-       rx="38.404968"
-       ry="27.109083"
+       cx="640.75555"
+       cy="752.10907"
+       rx="29.40379"
+       ry="21.668961"
        inkscape:export-filename="/home/yann.zerlaut/Desktop/CB1/path846.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300" />
@@ -3903,9 +3903,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4180"><tspan
+         id="tspan5079"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4178">PV</tspan></tspan></text>
+           id="tspan5077">PV</tspan></tspan></text>
     <circle
        style="fill:#ff6600;fill-opacity:1;stroke:none;stroke-width:0.223571"
        id="circle1451"
@@ -3925,9 +3925,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4184"><tspan
+         id="tspan5083"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4182">CB1</tspan></tspan></text>
+           id="tspan5081">CB1</tspan></tspan></text>
     <path
        style="fill:#c6e9af;fill-opacity:1;stroke:#c6e9af;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 564.56756,693.37853 30.72879,-16.89905"
@@ -3978,7 +3978,7 @@
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#e9afaf;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 670.62721,674.97801 c 35.60344,-9.83038 19.49793,-34.48622 0.83312,-22.89454"
+       d="m 658.47214,679.60107 c 35.60344,-9.83038 19.49793,-34.48622 0.83312,-22.89454"
        id="path1475"
        sodipodi:nodetypes="cc"
        inkscape:export-filename="/home/yann.zerlaut/Desktop/CB1/path846.png"
@@ -3986,7 +3986,7 @@
        inkscape:export-ydpi="300" />
     <path
        style="fill:none;fill-opacity:1;stroke:#e9afaf;stroke-width:3.51341;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 666.48477,646.71039 9.45805,11.46755"
+       d="m 654.3297,651.33345 9.45805,11.46755"
        id="path1477"
        sodipodi:nodetypes="cc"
        inkscape:export-filename="/home/yann.zerlaut/Desktop/CB1/path846.png"
@@ -4034,9 +4034,9 @@
        inkscape:export-ydpi="300"><tspan
          x="-414.90039"
          y="641.39844"
-         id="tspan4188"><tspan
+         id="tspan5087"><tspan
            style="font-weight:bold;-inkscape-font-specification:'sans-serif Bold'"
-           id="tspan4186">CB1</tspan></tspan></text>
+           id="tspan5085">CB1</tspan></tspan></text>
     <path
        style="fill:none;stroke:#999999;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2, 1;stroke-dashoffset:0;stroke-opacity:1"
        d="m 448.44129,878.02903 c 65.14024,-5.82837 192.68505,3.56378 268.91162,37.3894"
@@ -4078,10 +4078,10 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4190">bg</tspan></text>
+         id="tspan5089">bg</tspan></text>
     <g
        id="g3064"
-       transform="rotate(-44.19678,1162.2406,-445.20036)"
+       transform="rotate(-44.19678,1154.965,-439.27283)"
        inkscape:export-filename="/home/yann.zerlaut/Desktop/CB1/path846.png"
        inkscape:export-xdpi="300"
        inkscape:export-ydpi="300">
@@ -4104,7 +4104,7 @@
     </g>
     <text
        xml:space="preserve"
-       transform="matrix(1.2063747,0,0,1.2063747,1291.7327,212.78218)"
+       transform="matrix(1.2063747,0,0,1.2063747,1285.5411,209.38799)"
        id="text3068"
        style="font-size:12px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect3070);fill:#b3b3b3"
        inkscape:export-filename="/home/yann.zerlaut/Desktop/CB1/path846.png"
@@ -4112,7 +4112,7 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4192">bg</tspan></text>
+         id="tspan5091">bg</tspan></text>
     <g
        id="g3076"
        transform="rotate(-77.133351,771.86254,53.078621)"
@@ -4146,6 +4146,6 @@
        inkscape:export-ydpi="300"><tspan
          x="-500.25391"
          y="487.67969"
-         id="tspan4194">bg</tspan></text>
+         id="tspan5093">bg</tspan></text>
   </g>
 </svg>
