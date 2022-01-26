@@ -11,3 +11,10 @@ pip install .
 git submodule init
 git submodule update
 ```
+
+#### N.B. usage
+
+The module uses "relative import" so everything should be launched from the root directory (`CB1_ntwk_modeling/`):
+- notebooks: `jupyter notebook notebooks/notebook_of_interest.ipynb`
+- scripts: `python code/the_script_of_interest.py --arguments bla bla`
+
