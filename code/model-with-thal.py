@@ -1,8 +1,13 @@
+import sys
+
+
+sys.path += ['./datavyz', './neural_network_dynamics', './code']
+from datavyz import graph_env_manuscript as ge
 from Model import *
-from datavyz import ges as ge
+from analyz.signal_library.classical_functions import gaussian
+
 # from analyz.signal_library.stochastic_processes import OrnsteinUhlenbeck_Process
 # from analyz.processing.signanalysis import gaussian_smoothing
-from analyz.signal_library.classical_functions import gaussian
 
 
 def build_Faff_array(Model,
