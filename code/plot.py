@@ -6,9 +6,6 @@ sys.path += ['./datavyz', './neural_network_dynamics', './code']
 from datavyz import graph_env_manuscript as ge
 import ntwk
 
-COLORS = [ge.green, ge.red, ge.orange, ge.blue]
-POPS = ['L23Exc', 'PvInh', 'CB1Inh', 'L4Exc']
-
 def raw_data_fig_multiple_sim(FILES,
                               LABELS=None,
                               POP_KEYS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],

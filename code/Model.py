@@ -71,14 +71,14 @@ Model_v2 = {
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
     'p_AffExcBG_L4Exc':0.15, 'p_AffExcBG_L23Exc':0.2, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
-    'p_L4Exc_L23Exc':0.2, 'p_L4Exc_PvInh':0.1, 'p_L4Exc_CB1Inh':0.1, 
+    'p_L4Exc_L23Exc':0.2, 'p_L4Exc_PvInh':0.1, 'p_L4Exc_CB1Inh':0.05, 
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05, 
     'p_PvInh_L23Exc':0.05, 'p_PvInh_PvInh':0.05, 
     'p_CB1Inh_L23Exc':0.1, 
     'psyn_CB1Inh_L23Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
-    'p_AffExcTV_L4Exc':0.1,
+    'p_AffExcTV_L4Exc':0.1, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
     # afferent stimulation (0 by default)
-    'F_AffExcBG':6.,
+    'F_AffExcBG':8.,
     # simulation parameters
     'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------
