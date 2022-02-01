@@ -17,6 +17,14 @@ def raw_data_fig_multiple_sim(FILES,
                               subsampling=1):
 
     POPS = ntwk.plots.find_pop_keys(ntwk.recording.load_dict_from_hdf5(FILES[0]))
+    data0 = ntwk.recording.load_dict_from_hdf5(FILES[0])
+
+    tzoom = [np.max([tzoom[0], 0]), np.min([data0['tstop'], tzoom[1]])]
+    
+    if len(POP_KEYS)!=len(POPS):
+        POP_KEYS = POPS
+        POP_COLORS = ge.colors[:len(POPS)]
+        print('forcing pops to: ', POPS)
     
     ROW_LENGTHS = [1,3]+list(np.ones(len(POPS), dtype=int))+[1]
     ROW_LABELS = ['input (Hz)', 'spike raster']+POPS+['pop. act. (Hz)']
@@ -27,7 +35,7 @@ def raw_data_fig_multiple_sim(FILES,
         AXES_EXTENTS.append([[1, row_length] for i in range(len(FILES))])
 
     fig, AX = ge.figure(axes_extents=AXES_EXTENTS,
-                        figsize=(2,.8), wspace=0.1, hspace=0.1, left=0.7)
+                        figsize=(2,.8), wspace=0.1, hspace=0.1, left=0.7, reshape_axes=False)
 
     for i, f in enumerate(FILES):
         data = ntwk.recording.load_dict_from_hdf5(f)
@@ -37,7 +45,6 @@ def raw_data_fig_multiple_sim(FILES,
                                       [ge.brown, 'k'], tzoom, ge)
         
         ntwk.plots.raster_subplot(data, AX[1][i], POP_KEYS, POP_COLORS, tzoom, ge)
-        
 
         
         ntwk.plots.population_activity_subplot(data, AX[-1][i], POP_KEYS, POP_COLORS, tzoom, ge,
@@ -54,13 +61,17 @@ def raw_data_fig_multiple_sim(FILES,
             ylim[0] = np.min([ylim[0], AX[a][i].get_ylim()[0]])
             ylim[1] = np.max([ylim[1], AX[a][i].get_ylim()[1]])
         for i in range(len(FILES)):
-            if i==0:
+            if i==0 and a==(len(AX)-1):
+                ge.set_plot(AX[a][i], (['left', 'bottom'] if '(' in LABELS[a] else ['bottom']),
+                            ylim=ylim, ylabel=LABELS[a], xlim=tzoom, xlabel='time (s)')
+            elif i==0:
                 ge.set_plot(AX[a][i], (['left'] if '(' in LABELS[a] else []),
                             ylim=ylim, ylabel=LABELS[a], xlim=tzoom)
             else:
                 ge.set_plot(AX[a][i], [], ylim=ylim, xlim=tzoom)
                 
     return fig, AX
+
 
 if __name__=='__main__':
 
@@ -83,3 +94,8 @@ if __name__=='__main__':
                                                        graph_env=ge)
             # ge.save_on_desktop(fig, 'fig.png')
             ge.show()
+    else:
+        FILES = sys.argv[1:]
+        fig, AX = raw_data_fig_multiple_sim(FILES)
+        ge.show()
+        

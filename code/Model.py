@@ -1,10 +1,10 @@
 import os, sys, pathlib
+
 import numpy as np
 import matplotlib.pylab as plt
 
-from datavyz import ge
-sys.path.append(os.path.join(str(pathlib.Path(__file__).resolve().parents[0]), 'neural_network_dynamics'))
-import ntwk
+sys.path += ['./datavyz', './neural_network_dynamics', './code']
+from datavyz import graph_env_manuscript as ge
 
 Model = {
     ## -----------------------------------------------------------------------
@@ -57,34 +57,40 @@ Model_v2 = {
     ## UNIT SYSTEM is : ms, mV, pF, nS, pA, Hz (arbitrary and unconsistent, so see code)
     ## -----------------------------------------------------------------------
     # numbers of neurons in population
-    'N_Exc':4000, 'N_PvInh':800, 'N_CB1Inh':500, 'N_AffExcBG':200, 'N_AffExcTV':400, 
+    'N_L23Exc':4000, 'N_PvInh':800, 'N_CB1Inh':200, 'N_L4Exc':1000, 'N_AffExcBG':200, 'N_AffExcTV':200,
     # synaptic weights
-    'Q_Exc_Exc':2., 'Q_Exc_PvInh':2.,  'Q_Exc_CB1Inh':2.,
-    'Q_PvInh_Exc':10., 'Q_PvInh_PvInh':10.,
-    'Q_CB1Inh_Exc':10.,
-    'Q_AffExcBG_Exc':2., 'Q_AffExcBG_PvInh':2., 'Q_AffExcBG_CB1Inh':2., 
-    'Q_AffExcTV_Exc':2., 'Q_AffExcTV_PvInh':2., 'Q_AffExcTV_CB1Inh':2., 
+    'Q_AffExcBG_L4Exc':2., 'Q_AffExcBG_L23Exc':2., 'Q_AffExcBG_PvInh':2., 'Q_AffExcBG_CB1Inh':2., 
+    'Q_L4Exc_L23Exc':2., 'Q_L4Exc_PvInh':2.,  'Q_L4Exc_CB1Inh':2.,
+    'Q_L23Exc_L23Exc':2., 'Q_L23Exc_PvInh':2.,  'Q_L23Exc_CB1Inh':2.,
+    'Q_PvInh_L23Exc':10., 'Q_PvInh_PvInh':10.,
+    'Q_CB1Inh_L23Exc':10.,
+    'Q_AffExcTV_L4Exc':2.,
     # synaptic time constants
     'Tse':5., 'Tsi':5.,
     # synaptic reversal potentials
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
-    'p_Exc_Exc':0.04, 'p_Exc_PvInh':0.04, 'p_Exc_CB1Inh':0.04, 
-    'p_PvInh_Exc':0.1, 'p_PvInh_PvInh':0.05, 
-    'p_CB1Inh_Exc':0.2, 
-    'psyn_CB1Inh_Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
-    'p_AffExcBG_Exc':0.1, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
-    'p_AffExcTV_Exc':0.1, 'p_AffExcTV_PvInh':0.1, 'p_AffExcTV_CB1Inh':0.1,
+    'p_AffExcBG_L4Exc':0.15, 'p_AffExcBG_L23Exc':0.2, 'p_AffExcBG_PvInh':0.1, 'p_AffExcBG_CB1Inh':0.1,
+    'p_L4Exc_L23Exc':0.2, 'p_L4Exc_PvInh':0.1, 'p_L4Exc_CB1Inh':0.1, 
+    'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05, 
+    'p_PvInh_L23Exc':0.05, 'p_PvInh_PvInh':0.05, 
+    'p_CB1Inh_L23Exc':0.1, 
+    'psyn_CB1Inh_L23Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
+    'p_AffExcTV_L4Exc':0.1,
     # afferent stimulation (0 by default)
-    'F_AffExcBG':5.,
+    'F_AffExcBG':6.,
     # simulation parameters
     'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------
     # === cellular properties (based on AdExp), population by population ===
-    # --> Excitatory population (Exc, recurrent excitation)
-    'Exc_Gl':10., 'Exc_Cm':200.,'Exc_Trefrac':5.,
-    'Exc_El':-70., 'Exc_Vthre':-50., 'Exc_Vreset':-70., 'Exc_deltaV':0.,
-    'Exc_a':0., 'Exc_b': 0., 'Exc_tauw':1e9,
+    # --> L4Excitatory population (L4Exc, recurrent excitation)
+    'L4Exc_Gl':10., 'L4Exc_Cm':200.,'L4Exc_Trefrac':5.,
+    'L4Exc_El':-70., 'L4Exc_Vthre':-50., 'L4Exc_Vreset':-70., 'L4Exc_deltaV':0.,
+    'L4Exc_a':0., 'L4Exc_b': 0., 'L4Exc_tauw':1e9,
+    # --> L23Excitatory population (L23Exc, recurrent excitation)
+    'L23Exc_Gl':10., 'L23Exc_Cm':200.,'L23Exc_Trefrac':5.,
+    'L23Exc_El':-70., 'L23Exc_Vthre':-50., 'L23Exc_Vreset':-70., 'L23Exc_deltaV':0.,
+    'L23Exc_a':0., 'L23Exc_b': 0., 'L23Exc_tauw':1e9,
     # --> PV-Inhibitory population (Inh, recurrent inhibition)
     'PvInh_Gl':10., 'PvInh_Cm':200.,'PvInh_Trefrac':5.,
     'PvInh_El':-70., 'PvInh_Vthre':-53., 'PvInh_Vreset':-70., 'PvInh_deltaV':0.,
@@ -109,6 +115,8 @@ def run_single_sim(Model,
                    filename='CB1_ntwk_model_data.h5',
                    seed=0):
 
+    import ntwk
+    
     if ('inh_exc_ratio' in Model) and ('CB1_PV_ratio' in Model):
         # adjust cell numbers
         Model['N_Inh'] = int(Model['inh_exc_ratio']*Model['N_Exc'])
@@ -235,6 +243,14 @@ if __name__=='__main__':
         Model['Q_CB1Inh_Exc'] = (1-decrease)*Model['psyn_CB1Inh_Exc']
         
         run_single_sim(Model, filename='data/CB1_ntwk_model-V2.h5')
+        
+    elif sys.argv[-1]=='L4':
+
+        run_single_sim(Model_v2,
+                       REC_POPS=['L23Exc', 'L4Exc', 'PvInh', 'CB1Inh'],
+                       AFF_POPS=['AffExcBG'],
+                       filename='data/with-L4.h5')
+        
     else:
         run_single_sim(Model, filename='data/CB1_ntwk_model-V1.h5')
         print('Results of the simulation are stored as:', 'data/CB1_ntwk_model.h5')
