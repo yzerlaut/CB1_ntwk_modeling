@@ -18,7 +18,7 @@ def gaussian(x, mean=0., std=1.):
 
 def build_Faff_array(Model, 
                      # mean=-4, std=10, # FOR OU
-                     t0=4000, sT=300, amp=14.5,
+                     t0=4000, sT=300, amp=3,
                      seed=100):
 
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
