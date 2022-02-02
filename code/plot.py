@@ -11,7 +11,9 @@ def raw_data_fig_multiple_sim(FILES,
                               POP_KEYS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                               POP_COLORS=[ge.blue, ge.green, ge.red, ge.orange],
                               tzoom=[0,7000],
-                              subsampling=1):
+                              subsampling=1,
+                              with_log_scale_for_act=False,
+                              verbose=False):
 
     POPS = ntwk.plots.find_pop_keys(ntwk.recording.load_dict_from_hdf5(FILES[0]))
     data0 = ntwk.recording.load_dict_from_hdf5(FILES[0])
@@ -41,12 +43,17 @@ def raw_data_fig_multiple_sim(FILES,
                                       ['AffExcTV', 'AffExcBG'],
                                       [ge.brown, 'k'], tzoom, ge)
         
-        ntwk.plots.raster_subplot(data, AX[1][i], POP_KEYS, POP_COLORS, tzoom, ge)
+        ntwk.plots.raster_subplot(data, AX[1][i], POP_KEYS, POP_COLORS, tzoom, ge, subsampling=subsampling)
 
         
         ntwk.plots.population_activity_subplot(data, AX[-1][i], POP_KEYS, POP_COLORS, tzoom, ge,
-                                               with_smoothing=10)
-
+                                               with_smoothing=10, with_log_scale=with_log_scale_for_act)
+        if verbose:
+            t = np.arange(int(data['tstop']/data['dt']))*data['dt']
+            print(' ---- mean firing rates ----')
+            t_cond = (t>200) # discarding transient period for the dynamics
+            for key in POP_KEYS:
+                print(' - %s: %.2fHz' % (key, np.mean(data['POP_ACT_%s'%key][t_cond])))
 
         ntwk.plots.Vm_subplots_mean_with_single_trace(data,
                                                       [AX[p][i] for p in range(2, len(POP_KEYS)+2)],
@@ -60,7 +67,7 @@ def raw_data_fig_multiple_sim(FILES,
         for i in range(len(FILES)):
             if i==0 and a==(len(AX)-1):
                 ge.set_plot(AX[a][i], (['left', 'bottom'] if '(' in LABELS[a] else ['bottom']),
-                            ylim=ylim, ylabel=LABELS[a], xlim=tzoom, xlabel='time (s)')
+                            ylim=ylim, ylabel=LABELS[a], xlim=tzoom, xlabel='time (s)', yscale=('log' if with_log_scale_for_act else 'lin'))
             elif i==0:
                 ge.set_plot(AX[a][i], (['left'] if '(' in LABELS[a] else []),
                             ylim=ylim, ylabel=LABELS[a], xlim=tzoom)
@@ -81,6 +88,7 @@ if __name__=='__main__':
     if sys.argv[-1]=='raw':
         fig, AX = raw_data_fig_multiple_sim(FILES)
         ge.save_on_desktop(fig, 'fig.png')
+        
     elif sys.argv[-1] in ['syn', 'connec', 'matrix']:
         for i, f in enumerate(FILES[:1]):
             data = ntwk.recording.load_dict_from_hdf5(f)
