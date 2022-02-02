@@ -120,16 +120,6 @@ if __name__=='__main__':
                        filename='data/model-with-L4-V1.h5')
         
     elif sys.argv[-1]=='V2':
-
-        decrease = 50./100.
-        # decreasing CB1 efficacy on PN
-        Model['psyn_CB1Inh_L23Exc'] = (1-decrease)*Model['psyn_CB1Inh_L23Exc']
-        # Model['Q_CB1Inh_L23Exc'] = (1-decrease)*Model['psyn_CB1Inh_L23Exc']
-        
-        # adding CB1 inhibition on L4
-        Model['p_CB1Inh_L4Exc'] = 0.1
-        Model['psyn_CB1Inh_L4Exc'] = 0.5
-        Model['Q_CB1Inh_L4Exc'] = 10.
             
         run_single_sim(Model,
                        REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
@@ -159,6 +149,16 @@ if __name__=='__main__':
                                             with_pop_act=True,
                                             verbose=False),
                        filename='data/model-with-L4-V2-CB1-KO.h5')
+        
+    elif sys.argv[-1]=='run':
+        import subprocess
+        for model in ['V1', 'V2', 'V2-CB1-KO']:
+            print('launching:   ', 'python code/model-with-L4.py %s &' % model)
+            subprocess.Popen('python code/model-with-L4.py %s &' % model,
+                             shell=True,
+                             stdout=subprocess.PIPE,
+                             stderr=subprocess.STDOUT)
+        
 
         
     else:
