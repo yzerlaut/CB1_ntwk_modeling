@@ -10,7 +10,7 @@ def raw_data_fig_multiple_sim(FILES,
                               LABELS=None,
                               POP_KEYS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                               POP_COLORS=[ge.blue, ge.green, ge.red, ge.orange],
-                              tzoom=[0,7000],
+                              tzoom=[200,7000],
                               subsampling=1,
                               with_log_scale_for_act=False,
                               verbose=False):
@@ -51,13 +51,13 @@ def raw_data_fig_multiple_sim(FILES,
         if verbose:
             t = np.arange(int(data['tstop']/data['dt']))*data['dt']
             print(' ---- mean firing rates ----')
-            t_cond = (t>200) # discarding transient period for the dynamics
+            t_cond = (t>tzoom[0]) # discarding transient period for the dynamics
             for key in POP_KEYS:
                 print(' - %s: %.2fHz' % (key, np.mean(data['POP_ACT_%s'%key][t_cond])))
 
         ntwk.plots.Vm_subplots_mean_with_single_trace(data,
                                                       [AX[p][i] for p in range(2, len(POP_KEYS)+2)],
-                                                      POP_KEYS, POP_COLORS, tzoom, ge)
+                                                      POP_KEYS, POP_COLORS, tzoom, ge, clip_spikes=True)
 
     for a in range(len(AX)):
         ylim = [np.inf, -np.inf]

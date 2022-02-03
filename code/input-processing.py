@@ -31,12 +31,8 @@ def running_sim_func(Model, a=0, NVm=3):
 
 if __name__=='__main__':
 
-    if sys.argv[-1]=='input':
-
-        ge.plot(*build_time_varying_afferent_array(Model))
-        ge.show()
-
-    elif sys.argv[-1]=='main-scan':
+    
+    if sys.argv[-1]=='main-scan':
 
         Model['data_folder'] = './data/'
         Model['zip_filename'] = 'data/main-space-scan.zip'
@@ -93,7 +89,7 @@ if __name__=='__main__':
         from plot import raw_data_fig_multiple_sim
 
         fig2, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
-                                              subsampling=20, tzoom=[0,1e4])
+                                              subsampling=20, tzoom=[200,1e4])
 
         sumup = {'rate':[], 'sttc':[]}
         for i, cond in enumerate(CONDS):
