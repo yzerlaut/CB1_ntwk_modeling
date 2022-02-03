@@ -26,7 +26,7 @@ Model = {
     # synaptic reversal potentials
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
-    'p_AffExcBG_L4Exc':0.025, 'p_AffExcBG_L23Exc':0.1, 'p_AffExcBG_PvInh':0.075, 'p_AffExcBG_CB1Inh':0.075,
+    'p_AffExcBG_L4Exc':0.02, 'p_AffExcBG_L23Exc':0.1, 'p_AffExcBG_PvInh':0.075, 'p_AffExcBG_CB1Inh':0.075,
     'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.05, 'p_L4Exc_CB1Inh':0.025,
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
     'p_PvInh_L23Exc':0.15, 'p_PvInh_PvInh':0.1,
