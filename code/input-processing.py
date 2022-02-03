@@ -13,7 +13,7 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitude'] = 6
+Model['event_amplitude'] = 5
 Model['event_width'] = 150
 Model['event_times'] = [3000, 9000]
 Model['tstop'] = 10000
@@ -32,30 +32,8 @@ def running_sim_func(Model, a=0, NVm=3):
 if __name__=='__main__':
 
     
-    if sys.argv[-1]=='main-scan':
 
-        Model['data_folder'] = './data/'
-        Model['zip_filename'] = 'data/main-space-scan.zip'
-        
-        Nscan = 3
-
-        # variations of CB1-signalling level
-        psyn0 = Model['psyn_CB1Inh_L23Exc']
-        psyn_variations = np.linspace(0.1, 1, Nscan)*Model['psyn_CB1Inh_L23Exc']
-        pconn = Model['p_CB1Inh_L4Exc']*np.linspace(1, 5, Nscan)
-        
-        ntwk.scan.run(Model,
-                      ['psyn_CB1Inh_L23Exc', 'p_CB1Inh_L4Exc'],
-                      [psyn_variations, pconn],
-                      running_sim_func,
-                      parallelize=True)
-
-    elif sys.argv[-1]=='main-scan-plot':
-
-        Model = {'data_folder': './data/', 'zip_filename':'data/main-space-scan.zip'}
-        Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
-
-    elif sys.argv[-1]=='input-bg-scan-plot':
+    if sys.argv[-1]=='input-bg-scan-plot':
 
         Model = {'data_folder': './data/', 'zip_filename':'data/input-bg-space-scan.zip'}
         Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
@@ -102,7 +80,7 @@ if __name__=='__main__':
                     AX[0].bar([i], [sumup['rate'][-1]], color='gray')
                     sumup['sttc'].append(ntwk.analysis.get_synchrony_of_spiking(data, pop='L23Exc',
                                                                         method='STTC',
-                                                                        Tbin=300, Nmax_pairs=5000))
+                                                                        Tbin=300, Nmax_pairs=1000))
                 except KeyError:
                     pass
 

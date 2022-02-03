@@ -13,7 +13,7 @@ Model = {
     ## UNIT SYSTEM is : ms, mV, pF, nS, pA, Hz (arbitrary and unconsistent, so see code)
     ## -----------------------------------------------------------------------
     # numbers of neurons in population
-    'N_L23Exc':4000, 'N_PvInh':1000, 'N_CB1Inh':500, 'N_L4Exc':4000, 'N_AffExcBG':4000, 'N_AffExcTV':1000,
+    'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, 'N_AffExcBG':4000, 'N_AffExcTV':1000,
     # synaptic weights
     'Q_AffExcBG_L4Exc':2., 'Q_AffExcBG_L23Exc':2., 'Q_AffExcBG_PvInh':2., 'Q_AffExcBG_CB1Inh':2., 
     'Q_L4Exc_L23Exc':2., 'Q_L4Exc_PvInh':2.,  'Q_L4Exc_CB1Inh':2.,
@@ -27,10 +27,10 @@ Model = {
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
     'p_AffExcBG_L4Exc':0.025, 'p_AffExcBG_L23Exc':0.1, 'p_AffExcBG_PvInh':0.075, 'p_AffExcBG_CB1Inh':0.075,
-    'p_L4Exc_L23Exc':0.17, 'p_L4Exc_PvInh':0.05, 'p_L4Exc_CB1Inh':0.025,
+    'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.05, 'p_L4Exc_CB1Inh':0.025,
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
-    'p_PvInh_L23Exc':0.05, 'p_PvInh_PvInh':0.05,
-    'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.05,
+    'p_PvInh_L23Exc':0.15, 'p_PvInh_PvInh':0.1,
+    'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.05,'p_CB1Inh_CB1Inh':0.05,
     'psyn_CB1Inh_L23Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcTV_L4Exc':0.1, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
     # afferent stimulation (0 by default)
@@ -202,10 +202,11 @@ if __name__=='__main__':
         fig, _, _ = ntwk.plots.connectivity_matrix(data,
                                                    REC_POPS=['L23Exc', 'PvInh', 'CB1Inh', 'L4Exc'],
                                                    AFF_POPS=['AffExcBG', 'AffExcTV'],
+                                                   COLORS=[ge.green, ge.red, ge.orange, ge.blue, ge.grey, ge.brown],
                                                    blank_zero=True,
                                                    graph_env=ge)
+        ge.show()
         ge.save_on_desktop(fig, 'fig.svg')
-        # ge.show()
             
     elif 'plot' in sys.argv[-1]:
         # ######################
