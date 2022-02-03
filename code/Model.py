@@ -196,7 +196,18 @@ def run_single_sim(Model,
 
 if __name__=='__main__':
     
-    if 'plot' in sys.argv[-1]:
+    if sys.argv[-1] in ['syn', 'connec', 'matrix']:
+
+        data = ntwk.recording.load_dict_from_hdf5('data/CB1_ntwk_model-V1.h5')
+        fig, _, _ = ntwk.plots.connectivity_matrix(data,
+                                                   REC_POPS=['L23Exc', 'PvInh', 'CB1Inh', 'L4Exc'],
+                                                   AFF_POPS=['AffExcBG', 'AffExcTV'],
+                                                   blank_zero=True,
+                                                   graph_env=ge)
+        # ge.save_on_desktop(fig, 'fig.svg')
+        ge.show()
+            
+    elif 'plot' in sys.argv[-1]:
         # ######################
         # ## ----- Plot ----- ##
         # ######################

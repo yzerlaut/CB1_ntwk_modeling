@@ -22,7 +22,6 @@ def running_sim_func(Model, a=0, NVm=3):
     run_single_sim(Model,
                    REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                    AFF_POPS=['AffExcBG', 'AffExcTV'],
-                   Faff_array=build_Faff_array(Model, amp=Model['input_amplitude'])[1],
                    build_pops_args=dict(with_raster=True,
                                         with_Vm=NVm,
                                         with_pop_act=True,
@@ -42,11 +41,11 @@ if __name__=='__main__':
         Model['data_folder'] = './data/'
         Model['zip_filename'] = 'data/main-space-scan.zip'
         
-        Nscan = 10
+        Nscan = 3
 
         # variations of CB1-signalling level
         psyn0 = Model['psyn_CB1Inh_L23Exc']
-        psyn_variations = np.linspace(0, 1, Nscan)*Model['psyn_CB1Inh_L23Exc']
+        psyn_variations = np.linspace(0.1, 1, Nscan)*Model['psyn_CB1Inh_L23Exc']
         pconn = Model['p_CB1Inh_L4Exc']*np.linspace(1, 5, Nscan)
         
         ntwk.scan.run(Model,
@@ -55,6 +54,16 @@ if __name__=='__main__':
                       running_sim_func,
                       parallelize=True)
 
+    elif sys.argv[-1]=='main-scan-plot':
+
+        Model = {'data_folder': './data/', 'zip_filename':'data/main-space-scan.zip'}
+        Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
+
+    elif sys.argv[-1]=='input-bg-scan-plot':
+
+        Model = {'data_folder': './data/', 'zip_filename':'data/input-bg-space-scan.zip'}
+        Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
+        
     elif sys.argv[-1]=='input-bg-scan':
 
         Model['data_folder'] = './data/'
@@ -66,6 +75,7 @@ if __name__=='__main__':
                       ['F_AffExcBG', 'input_amplitude'],
                       [np.linspace(1, 8, Nscan), np.linspace(2, 10, Nscan)],
                       running_sim_func,
+                      fix_missing_only=True,
                       parallelize=True)
         
     elif 'plot' in sys.argv[-1]:
