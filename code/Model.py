@@ -13,7 +13,7 @@ Model = {
     ## UNIT SYSTEM is : ms, mV, pF, nS, pA, Hz (arbitrary and unconsistent, so see code)
     ## -----------------------------------------------------------------------
     # numbers of neurons in population
-    'N_L23Exc':4000, 'N_PvInh':1000, 'N_CB1Inh':500, 'N_L4Exc':2000, 'N_AffExcBG':1000, 'N_AffExcTV':1000,
+    'N_L23Exc':4000, 'N_PvInh':1000, 'N_CB1Inh':500, 'N_L4Exc':4000, 'N_AffExcBG':1000, 'N_AffExcTV':1000,
     # synaptic weights
     'Q_AffExcBG_L4Exc':2., 'Q_AffExcBG_L23Exc':2., 'Q_AffExcBG_PvInh':2., 'Q_AffExcBG_CB1Inh':2., 
     'Q_L4Exc_L23Exc':2., 'Q_L4Exc_PvInh':2.,  'Q_L4Exc_CB1Inh':2.,
@@ -27,7 +27,7 @@ Model = {
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
     'p_AffExcBG_L4Exc':0.05, 'p_AffExcBG_L23Exc':0.2, 'p_AffExcBG_PvInh':0.15, 'p_AffExcBG_CB1Inh':0.15,
-    'p_L4Exc_L23Exc':0.35, 'p_L4Exc_PvInh':0.1, 'p_L4Exc_CB1Inh':0.05,
+    'p_L4Exc_L23Exc':0.17, 'p_L4Exc_PvInh':0.05, 'p_L4Exc_CB1Inh':0.025,
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
     'p_PvInh_L23Exc':0.05, 'p_PvInh_PvInh':0.05,
     'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.05,
@@ -204,8 +204,8 @@ if __name__=='__main__':
                                                    AFF_POPS=['AffExcBG', 'AffExcTV'],
                                                    blank_zero=True,
                                                    graph_env=ge)
-        # ge.save_on_desktop(fig, 'fig.svg')
-        ge.show()
+        ge.save_on_desktop(fig, 'fig.svg')
+        # ge.show()
             
     elif 'plot' in sys.argv[-1]:
         # ######################
