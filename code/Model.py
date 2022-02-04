@@ -198,11 +198,10 @@ if __name__=='__main__':
     
     if sys.argv[-1] in ['syn', 'connec', 'matrix']:
 
-        data = ntwk.recording.load_dict_from_hdf5('data/CB1_ntwk_model-V1.h5')
-        fig, _, _ = ntwk.plots.connectivity_matrix(data,
-                                                   REC_POPS=['L23Exc', 'PvInh', 'CB1Inh', 'L4Exc'],
+        fig, _, _ = ntwk.plots.connectivity_matrix(Model,
+                                                   REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                                                    AFF_POPS=['AffExcBG', 'AffExcTV'],
-                                                   COLORS=[ge.green, ge.red, ge.orange, ge.blue, ge.grey, ge.brown],
+                                                   COLORS=[ge.blue, ge.green, ge.red, ge.orange, ge.grey, ge.brown],
                                                    blank_zero=True,
                                                    graph_env=ge)
         ge.show()
