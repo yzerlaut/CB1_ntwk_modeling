@@ -13,10 +13,10 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitude'] = 5
+Model['event_amplitude'] = 6
 Model['event_width'] = 150
-Model['event_times'] = [3000, 9000]
-Model['tstop'] = 10000
+Model['event_times'] = [9000, 13000]
+Model['tstop'] = 15000
 
 def running_sim_func(Model, a=0, NVm=3):
     run_single_sim(Model,
@@ -67,8 +67,9 @@ if __name__=='__main__':
         from plot import raw_data_fig_multiple_sim
 
         fig2, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
-                                              subsampling=20, tzoom=[200,1e4])
-
+                                              subsampling=20, tzoom=[200,Model['tstop']])
+        ge.save_on_desktop(fig2, 'fig.png')
+        
         sumup = {'rate':[], 'sttc':[]}
         for i, cond in enumerate(CONDS):
 
@@ -80,7 +81,7 @@ if __name__=='__main__':
                     AX[0].bar([i], [sumup['rate'][-1]], color='gray')
                     sumup['sttc'].append(ntwk.analysis.get_synchrony_of_spiking(data, pop='L23Exc',
                                                                         method='STTC',
-                                                                        Tbin=300, Nmax_pairs=1000))
+                                                                        Tbin=300, Nmax_pairs=2000))
                 except KeyError:
                     pass
 
@@ -92,8 +93,8 @@ if __name__=='__main__':
                     ylabel='L23 PN rate (Hz)')
         ge.set_plot(AX[1], xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
                     ylabel='L23 PN STTC', yscale='log')
-
         ge.show()
+        ge.save_on_desktop(fig, 'fig.svg')
         
     elif sys.argv[-1]=='Aff':
         
