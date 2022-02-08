@@ -51,20 +51,18 @@ if __name__=='__main__':
                                                                 tdiscard=200))
 
         fig, ax, cb = ge.twoD_plot(np.array(PARAMS_SCAN['p_CB1Inh_L4Exc'])/Model['p_CB1Inh_L4Exc'],
-                     1-np.array(PARAMS_SCAN['psyn_CB1Inh_L23Exc'])/Model['psyn_CB1Inh_L23Exc'],
-                     # np.array(PARAMS_SCAN['psyn_CB1Inh_L23Exc']),
-                     np.array(sumup['rate']),
-                     # ylabel=r'psyn$\,_{CB1 \rightarrow L23}$',
-                     bar_legend_args={'label':'L23 PN rate (Hz)'})
+                                   np.array(PARAMS_SCAN['psyn_CB1Inh_L23Exc']),
+                                   np.array(sumup['rate']),
+                                   bar_legend_args={'label':'L23 PN rate (Hz)'})
 
         for x, y, label, color in zip([1, 4, 4],
-                                      [0, 0, 0.5],
+                                      [0.5, 0.5, 0.25],
                                       ['V1', 'V2M-CB1-KO', 'V2M'],
                                       ge.colors[5:]):
             ax.scatter([x], [y], s=20, color='r', facecolor='none')
             ge.annotate(ax, label+'\n', (x, y), xycoords='data', ha='center', va='center', color='k', size='x-small')
         ge.set_plot(ax,
-                    xlabel=r'p$\,_{CB1 \rightarrow L4}$ factor',
-                    ylabel='s$\,_{CB1}$')
+                    xlabel=r'$\,_{CB1 \rightarrow L4}$ $p_{conn}$ factor',
+                    ylabel='psyn $\,_{CB1->L23}$')
                     
         ge.show()
