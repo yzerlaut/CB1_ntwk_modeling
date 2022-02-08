@@ -18,23 +18,23 @@ Model = {
     'Q_AffExcBG_L4Exc':2., 'Q_AffExcBG_L23Exc':2., 'Q_AffExcBG_PvInh':2., 'Q_AffExcBG_CB1Inh':2., 
     'Q_L4Exc_L23Exc':2., 'Q_L4Exc_PvInh':2.,  'Q_L4Exc_CB1Inh':2.,
     'Q_L23Exc_L23Exc':2., 'Q_L23Exc_PvInh':2.,  'Q_L23Exc_CB1Inh':2.,
-    'Q_PvInh_L23Exc':10., 'Q_PvInh_PvInh':10., 'Q_PvInh_CB1Inh':10.,
-    'Q_CB1Inh_L4Exc':10., 'Q_CB1Inh_L23Exc':10., 'Q_CB1Inh_PvInh':10., 'Q_CB1Inh_CB1Inh':10.,
+    'Q_PvInh_L23Exc':7., 'Q_PvInh_PvInh':7., 'Q_PvInh_CB1Inh':7.,
+    'Q_CB1Inh_L4Exc':7., 'Q_CB1Inh_L23Exc':7., 'Q_CB1Inh_PvInh':7., 'Q_CB1Inh_CB1Inh':7.,
     'Q_AffExcTV_L4Exc':2.,
     # synaptic time constants
     'Tse':5., 'Tsi':5.,
     # synaptic reversal potentials
     'Ee':0., 'Ei': -80.,
     # connectivity parameters
-    'p_AffExcBG_L4Exc':0.025, 'p_AffExcBG_L23Exc':0.1, 'p_AffExcBG_PvInh':0.075, 'p_AffExcBG_CB1Inh':0.075,
+    'p_AffExcBG_L4Exc':0.02, 'p_AffExcBG_L23Exc':0.15, 'p_AffExcBG_PvInh':0.15, 'p_AffExcBG_CB1Inh':0.05,
     'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.05, 'p_L4Exc_CB1Inh':0.025,
-    'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
-    'p_PvInh_L23Exc':0.15, 'p_PvInh_PvInh':0.15,
-    'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.05,
+    'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.1, 'p_L23Exc_CB1Inh':0.1,
+    'p_PvInh_L23Exc':0.1, 'p_PvInh_PvInh':0.1,
+    'p_CB1Inh_L4Exc':0.05, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.05,
     'psyn_CB1Inh_L23Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcTV_L4Exc':0.1, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
     # afferent stimulation (0 by default)
-    'F_AffExcBG':2.5,
+    'F_AffExcBG':4,
     # simulation parameters
     'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------
