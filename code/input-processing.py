@@ -13,7 +13,7 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitude'] = 7
+Model['event_amplitude'] = 4
 Model['event_width'] = 150
 Model['event_times'] = [9000, 13000]
 Model['tstop'] = 15000
@@ -63,7 +63,7 @@ if __name__=='__main__':
             CONDS = [sys.argv[-1].split('plot-')[-1]]
         else:
             CONDS = ['V1', 'V2', 'V2-CB1-KO']
-
+            CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
         from plot import raw_data_fig_multiple_sim
 
         fig2, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
@@ -120,7 +120,7 @@ if __name__=='__main__':
 
         ntwk.recording.write_as_hdf5(NTWK, filename='data/input-processing-Aff.h5')
     
-    elif sys.argv[-1] in ['V1', 'V2', 'V2-CB1-KO']:
+    elif sys.argv[-1] in ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']:
 
         Model = update_model(Model, sys.argv[-1])
         
@@ -135,7 +135,7 @@ if __name__=='__main__':
         
     elif sys.argv[-1]=='run':
         import subprocess
-        for model in ['V1', 'V2', 'V2-CB1-KO']:
+        for model in ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']:
             subprocess.Popen('python code/input-processing.py %s &' % model,
                              shell=True,
                              stdout=subprocess.PIPE,
