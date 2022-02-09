@@ -13,7 +13,7 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitude'] = 4
+Model['event_amplitude'] = 5
 Model['event_width'] = 150
 Model['event_times'] = [9000, 13000]
 Model['tstop'] = 15000
@@ -67,8 +67,8 @@ if __name__=='__main__':
         from plot import raw_data_fig_multiple_sim
 
         fig2, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
-                                              subsampling=20, tzoom=[200,Model['tstop']])
-        ge.save_on_desktop(fig2, 'fig.png')
+                                              subsampling=100, tzoom=[200,Model['tstop']])
+        # ge.save_on_desktop(fig2, 'fig.png')
         
         sumup = {'rate':[], 'sttc':[]}
         for i, cond in enumerate(CONDS):
@@ -79,9 +79,13 @@ if __name__=='__main__':
                     sumup['rate'].append(ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
                                                                         tdiscard=200))
                     AX[0].bar([i], [sumup['rate'][-1]], color='gray')
-                    sumup['sttc'].append(ntwk.analysis.get_synchrony_of_spiking(data, pop='L23Exc',
-                                                                        method='STTC',
-                                                                        Tbin=300, Nmax_pairs=2000))
+                    if False:
+                        sumup['sttc'].append(ntwk.analysis.get_synchrony_of_spiking(data, pop='L23Exc',
+                                                                                    method='STTC',
+                                                                                    Tbin=300, Nmax_pairs=2000))
+                    else:
+                        sumup['sttc'].append(0.1)
+                        
                 except KeyError:
                     pass
 

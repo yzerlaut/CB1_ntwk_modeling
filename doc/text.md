@@ -2,8 +2,13 @@
 
 ## Results
 
+### Modelling CB1-related
+
 [...]
 
 ## Material and Methods
+
+### Spiking network model of 
+
 
 [...]
