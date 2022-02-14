@@ -32,7 +32,6 @@ def running_sim_func(Model, a=0, NVm=3):
 if __name__=='__main__':
 
     
-
     if sys.argv[-1]=='input-bg-scan-plot':
 
         Model = {'data_folder': './data/', 'zip_filename':'data/input-bg-space-scan.zip'}

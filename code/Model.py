@@ -1,4 +1,4 @@
-import os, sys, pathlib
+import os, sys, pathlib, time
 
 import numpy as np
 import matplotlib.pylab as plt
@@ -151,8 +151,10 @@ def run_single_sim(Model,
                    specific_record_function=None, srf_args={},
                    Faff_array=None,
                    filename='CB1_ntwk_model_data.h5',
-                   seed=0):
+                   seed=0,
+                   verbose=True):
 
+    start = time.time()
     try:
         print('running sim with ntwk v%s' % ntwk.version)
     except NameError:
@@ -217,9 +219,25 @@ def run_single_sim(Model,
     #####################
     ## ----- Run ----- ##
     #####################
-    network_sim = ntwk.collect_and_run(NTWK, verbose=True)
+    network_sim = ntwk.collect_and_run(NTWK, verbose=verbose)
 
-    ntwk.recording.write_as_hdf5(NTWK, filename=filename)
+
+    ##########################
+    ## ----- Analysis ----- ##
+    ##########################
+    NTWK['STTC_L23Exc'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
+                                                                 method='STTC',
+                                                                 Tbin=300, Nmax_pairs=2000)
+    
+    ######################
+    ## ----- Save ----- ##
+    ######################
+    ntwk.recording.write_as_hdf5(NTWK,
+                                 filename=filename,
+                                 SINGLE_VALUES_KEYS=['STTC_L23Exc'])
+    
+    if verbose:
+        print('--> done ! simulation took %.1fs' % (time.time()-start))
 
 
 if __name__=='__main__':
