@@ -224,13 +224,7 @@ def run_single_sim(Model,
 
     ##########################
     ## ----- Analysis ----- ##
-    # we write it per population
-    for ii in range(len(NTWK['NEURONS'])):
-        nrn = NTWK['NEURONS'][ii]
-        name = NTWK['NEURONS'][ii]['name']
-        NTWK['tRASTER_'+name] = NTWK['RASTER'][ii].t/ntwk.ms
-        NTWK['iRASTER_'+name] = np.array(NTWK['RASTER'][ii].i,
-                                         dtype=np.int)
+    ##########################
     NTWK['STTC_L23Exc'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
                                                                  method='STTC',
                                                                  Tbin=300, Nmax_pairs=2000)
