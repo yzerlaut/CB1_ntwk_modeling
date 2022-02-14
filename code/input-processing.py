@@ -56,48 +56,20 @@ if __name__=='__main__':
         # ## ----- Plot ----- ##
         # ######################
 
-        fig, AX = ge.figure(axes=(2,1), figsize=(.8,1.), hspace=2., wspace=3., bottom=1.5, top=0.3)
-
         if 'plot-' in sys.argv[-1]:
             CONDS = [sys.argv[-1].split('plot-')[-1]]
         else:
             CONDS = ['V1', 'V2', 'V2-CB1-KO']
             CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
-        from plot import raw_data_fig_multiple_sim
+        from plot import raw_data_fig_multiple_sim, summary_fig_multiple_sim
 
-        fig2, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
-                                              subsampling=100, tzoom=[200,Model['tstop']])
-        # ge.save_on_desktop(fig2, 'fig.png')
-        
-        sumup = {'rate':[], 'sttc':[]}
-        for i, cond in enumerate(CONDS):
+        fig_raw, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
+                                                 subsampling=100, tzoom=[200,Model['tstop']])
+        fig_raw.savefig('fig_raw.png')
 
-            if os.path.isfile('data/input-processing-%s.h5' % cond):
-                data = ntwk.recording.load_dict_from_hdf5('data/input-processing-%s.h5' % cond)
-                try:
-                    sumup['rate'].append(ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
-                                                                        tdiscard=200))
-                    AX[0].bar([i], [sumup['rate'][-1]], color='gray')
-                    if False:
-                        sumup['sttc'].append(ntwk.analysis.get_synchrony_of_spiking(data, pop='L23Exc',
-                                                                                    method='STTC',
-                                                                                    Tbin=300, Nmax_pairs=2000))
-                    else:
-                        sumup['sttc'].append(0.1)
-                        
-                except KeyError:
-                    pass
-
-        # np.save('sumup.npy', sumup)
-        sttc = np.array(sumup['sttc'])
-        AX[1].bar(range(len(sttc)), sttc, bottom=sttc.min()-.1*sttc.min(), color=ge.gray)
-        
-        ge.set_plot(AX[0], xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
-                    ylabel='L23 PN rate (Hz)')
-        ge.set_plot(AX[1], xticks=range(len(CONDS)), xticks_labels=CONDS, xticks_rotation=70,
-                    ylabel='L23 PN STTC', yscale='log')
-        ge.show()
-        ge.save_on_desktop(fig, 'fig.svg')
+        fig_summary, AX2 = summary_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
+                                                    LABELS=CONDS)
+        fig_summary.savefig('fig_summary.png')
         
     elif sys.argv[-1]=='Aff':
         

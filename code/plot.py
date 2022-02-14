@@ -190,6 +190,41 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
     return fig, AX
 
 
+def summary_fig_multiple_sim(FILES,
+                             pop='L23Exc',
+                             LABELS=None,
+                             color=ge.green,
+                             tzoom=[200,7000],
+                             subsampling=1,
+                             with_log_scale_for_act=False,
+                             verbose=False):
+
+    fig, AX = ge.figure(axes=(2,1), figsize=(.8,1.),
+                        hspace=2., wspace=3., bottom=1.5, top=0.3)
+
+    sttc = []
+    for i, f in enumerate(FILES):
+        data = ntwk.recording.load_dict_from_hdf5(f)
+        # firing rate
+        rate = ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
+                                              tdiscard=200)
+        AX[0].bar([i], [rate], color=ge.green)
+        # correlations - sttc
+        sttc.append(data['STTC_L23Exc'][0])
+        
+    AX[1].bar(range(len(sttc)), sttc,
+              bottom=np.min(sttc)-.05*np.min(sttc), color=ge.green)
+
+    ge.set_plot(AX[0], xticks=range(len(FILES)),
+                xticks_labels=(LABELS if (LABELS is not None) else FILES),
+                xticks_rotation=70,
+                ylabel='L23 PN rate (Hz)')
+    ge.set_plot(AX[1], xticks=range(len(FILES)), 
+                xticks_labels=(LABELS if (LABELS is not None) else FILES),
+                    xticks_rotation=70,
+                    ylabel='L23 PN STTC', yscale='log')
+    return fig, AX
+
 if __name__=='__main__':
 
     import os
