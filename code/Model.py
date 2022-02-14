@@ -45,7 +45,7 @@ Model = {
     # 'psyn_CB1Inh_L23Exc':0.5, 'psyn_CB1Inh_L4Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcTV_L4Exc':0.1, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
     # background afferent activity level (in Hz)
-    'F_AffExcBG':5,
+    'F_AffExcBG':1,
     # simulation parameters 
     'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------
