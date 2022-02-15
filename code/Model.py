@@ -13,7 +13,7 @@ Model = {
     ## UNIT SYSTEM is : ms, mV, pF, nS, pA, Hz (arbitrary and unconsistent, so see code)-
     ## ----------------------------------------------------------------------------------
     # numbers of neurons in the different population population (integer)
-    'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, 'N_AffExcBG':4000, 'N_AffExcTV':1000,
+    'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, 'N_AffExcBG':4000, 'N_AffExcTV':2000,
     # 'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, # population of recurrent network model
     # 'N_AffExcBG':4000, # population for afferent background activity
     # 'N_AffExcTV':4000, # population for afferent input activity (i.e. time varying)
@@ -32,10 +32,10 @@ Model = {
     'Ee':0., 'Ei': -80.,
     # connectivity parameters  -- p_PRE_POST -- (as a probability of connection, i.e. 0<=p<1 )
     'p_AffExcBG_L4Exc':0.025, 'p_AffExcBG_L23Exc':0.1, 'p_AffExcBG_PvInh':0.075, 'p_AffExcBG_CB1Inh':0.075,
-    'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.05, 'p_L4Exc_CB1Inh':0.025,
+    'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.075, 'p_L4Exc_CB1Inh':0.025,
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
     'p_PvInh_L23Exc':0.15, 'p_PvInh_PvInh':0.15,
-    'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.05,
+    'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.075,
     'psyn_CB1Inh_L23Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
     # 'p_AffExcBG_L4Exc':0.01, 'p_AffExcBG_L23Exc':0.125, 'p_AffExcBG_PvInh':0.125, 'p_AffExcBG_CB1Inh':0.015,
     # 'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.1, 'p_L4Exc_CB1Inh':0.05,
@@ -45,7 +45,7 @@ Model = {
     # 'psyn_CB1Inh_L23Exc':0.5, 'psyn_CB1Inh_L4Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
     'p_AffExcTV_L4Exc':0.1, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
     # background afferent activity level (in Hz)
-    'F_AffExcBG':1,
+    'F_AffExcBG':2,
     # simulation parameters 
     'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------

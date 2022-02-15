@@ -13,8 +13,8 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitude'] = 5
-Model['event_width'] = 150
+Model['event_amplitude'] = 4
+Model['event_width'] = 200
 Model['event_times'] = [9000, 13000]
 Model['tstop'] = 15000
 
