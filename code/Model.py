@@ -235,7 +235,6 @@ def run_single_sim(Model,
         SINGLE_VALUES_KEYS=[]
         for i in range(len(NTWK['NEURONS'])):
             name = NTWK['NEURONS'][i]['name']
-            print(ntwk.analysis.get_mean_pop_act(NTWK, pop=name))
             NTWK['rate_%s'%name] = ntwk.analysis.get_mean_pop_act(NTWK, pop=name)
             SINGLE_VALUES_KEYS.append('rate_%s'%name)
             
