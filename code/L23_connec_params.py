@@ -48,11 +48,14 @@ if __name__=='__main__':
         Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan-test.zip'}
         Model2, PARAMS_SCAN, DATA = ntwk.scan.get(Model2)
 
-        print(DATA[0])
-        print(30*'--')
-        print(DATA[-1])
-        
-    else:
+        for data in DATA:
+            print(40*'--')
+            i=0
+            while str(i) in data:
+                pop = data[str(i)]['name']
+                print(pop, data['rate_%s'%pop])
+                i+=1
+    elif sys.argv[-1]=='scan':
         # means scan
         Model['data_folder'] = './data/'
         Model['zip_filename'] = 'data/pconn-scan.zip'
