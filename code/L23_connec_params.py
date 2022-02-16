@@ -9,16 +9,6 @@ import ntwk
 
 Model['tstop'] = 1000 # 1s and we discard the first 200ms
 
-def running_sim_func(Model, a=0):
-    run_single_sim(Model,
-                   REC_POPS=['L23Exc', 'PvInh', 'CB1Inh'],
-                   AFF_POPS=['AffExcBG'],
-                   build_pops_args=dict(with_raster=False,
-                                        with_Vm=0,
-                                        with_pop_act=True,
-                                        verbose=False),
-                   filename=Model['filename'])
-
 
 pconn_values = [0.025, 0.05, 0.075, 0.1, 0.15]
 
@@ -30,6 +20,44 @@ KEYS = ['p_AffExcBG_L23Exc',
         'p_PvInh_PvInh',
         'p_CB1Inh_L23Exc',
         'p_CB1Inh_CB1Inh']
+
+DESIRED_RATES = {'L23Exc':0.1,
+                 'CB1Inh':20.,
+                 'PvInh':30.}
+
+
+def compute_residual_and_update_minimum(data,
+                                        current_residual,
+                                        DESIRED_RATES,
+                                        verbose=True):
+    # compute residual
+    residual = 0
+    for pop in DESIRED_RATES:
+        residual += (data['rate_%s'%pop]-DESIRED_RATES[pop])/DESIRED_RATES[pop]
+
+    # compute residual
+    current_params = {}
+    if residual<current_residual:
+        current_residual = residual
+        for key in KEYS:
+            current_params[key] = data[key]
+        if verbose:
+            print(40*'--')
+            print('-> update ', [data['rate_%s'%pop] for pop in DESIRED_RATES])
+
+    return current_residual, current_params
+
+
+def running_sim_func(Model, a=0):
+    run_single_sim(Model,
+                   REC_POPS=['L23Exc', 'PvInh', 'CB1Inh'],
+                   AFF_POPS=['AffExcBG'],
+                   build_pops_args=dict(with_raster=False,
+                                        with_Vm=0,
+                                        with_pop_act=True,
+                                        verbose=False),
+                   filename=Model['filename'])
+
 
 if __name__=='__main__':
 
@@ -48,6 +76,11 @@ if __name__=='__main__':
         Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan-test.zip'}
         Model2, PARAMS_SCAN, DATA = ntwk.scan.get(Model2)
 
+        current_residual, current_params = compute_residual_and_update_minimum(data,
+                                                                               current_residual,
+                                                                               DESIRED_RATES)
+
+        
         for data in DATA:
             print(40*'--')
             i=0
@@ -68,13 +101,19 @@ if __name__=='__main__':
 
     elif sys.argv[-1]=='scan-analysis':
         # means scan
+
         Model['data_folder'] = './data/'
         Model['zip_filename'] = 'data/pconn-scan.zip'
         
-        ntwk.scan.run(Model,
-                      KEYS, [pconn_values for k in KEYS],
-                      running_sim_func,
-                      parallelize=True)
+        Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan.zip'}
+        Model2, PARAMS_SCAN, _ = ntwk.scan.get(Model2,
+                                                  filenames_only=True)
+
+        for filename in PARAMS_SCAN['filenames']:
+            data = ntwk.recording.load_dict_from_hdf5(filename)
+            current_residual, current_params = compute_residual_and_update_minimum(data,
+                                                                                   np.inf,
+                                                                                   DESIRED_RATES)
         
 
-            
+
