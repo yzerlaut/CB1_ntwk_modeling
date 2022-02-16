@@ -225,16 +225,23 @@ def run_single_sim(Model,
     ##########################
     ## ----- Analysis ----- ##
     ##########################
-    NTWK['STTC_L23Exc'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
-                                                                 method='STTC',
-                                                                 Tbin=300, Nmax_pairs=2000)
+    if 'RASTER' in NTWK:
+        NTWK['STTC_L23Exc'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
+                                                                     method='STTC',
+                                                                     Tbin=300, Nmax_pairs=2000)
+        SINGLE_VALUES_KEYS=['STTC_L23Exc']
+        KEY_NOT_TO_RECORD=[]
+    else:
+        SINGLE_VALUES_KEYS=[]
+        KEY_NOT_TO_RECORD=['POP_ACT', 'Rate_AFF_POP', 'Raster_AFF_POP']
     
     ######################
     ## ----- Save ----- ##
     ######################
     ntwk.recording.write_as_hdf5(NTWK,
                                  filename=filename,
-                                 SINGLE_VALUES_KEYS=['STTC_L23Exc'])
+                                 SINGLE_VALUES_KEYS=SINGLE_VALUES_KEYS,
+                                 KEY_NOT_TO_RECORD=KEY_NOT_TO_RECORD)
     
     if verbose:
         print('--> done ! simulation took %.1fs' % (time.time()-start))
