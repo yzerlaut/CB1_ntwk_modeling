@@ -233,7 +233,13 @@ def run_single_sim(Model,
         KEY_NOT_TO_RECORD=[]
     else:
         SINGLE_VALUES_KEYS=[]
-        KEY_NOT_TO_RECORD=['POP_ACT', 'Rate_AFF_POP', 'Raster_AFF_POP']
+        for i in range(len(NTWK['NEURONS'])):
+            name = NTWK['NEURONS'][i]['name']
+            NTWK['rate_%s'%name] = ntwk.analysis.get_mean_pop_act(NTWK, pop=name)
+            SINGLE_VALUES_KEYS.append(NTWK['rate_%s'%name])
+            
+        KEY_NOT_TO_RECORD=['POP_ACT', 'Rate_AFF_POP', 'Raster_AFF_POP',
+                           'iRASTER_PRE', 'iRASTER_PRE_in_terms_of_Pre_Pop']
     
     ######################
     ## ----- Save ----- ##

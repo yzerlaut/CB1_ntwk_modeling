@@ -43,11 +43,14 @@ if __name__=='__main__':
                       running_sim_func,
                       parallelize=True)
 
-    if sys.argv[-1]=='test-analysis':
+    elif sys.argv[-1]=='test-analysis':
 
         Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan-test.zip'}
         Model2, PARAMS_SCAN, DATA = ntwk.scan.get(Model2)
-        
+
+        print(DATA[0])
+        print(30*'--')
+        print(DATA[-1])
         
     else:
         # means scan
