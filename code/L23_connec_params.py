@@ -55,6 +55,7 @@ if __name__=='__main__':
                 pop = data[str(i)]['name']
                 print(pop, data['rate_%s'%pop])
                 i+=1
+                
     elif sys.argv[-1]=='scan':
         # means scan
         Model['data_folder'] = './data/'
@@ -65,5 +66,15 @@ if __name__=='__main__':
                       running_sim_func,
                       parallelize=True)
 
+    elif sys.argv[-1]=='scan-analysis':
+        # means scan
+        Model['data_folder'] = './data/'
+        Model['zip_filename'] = 'data/pconn-scan.zip'
+        
+        ntwk.scan.run(Model,
+                      KEYS, [pconn_values for k in KEYS],
+                      running_sim_func,
+                      parallelize=True)
+        
 
             
