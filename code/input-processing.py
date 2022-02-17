@@ -65,7 +65,7 @@ if __name__=='__main__':
 
         fig_raw, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
                                                  subsampling=100, tzoom=[200,Model['tstop']])
-        fig_raw.savefig('fig_raw.png')
+        fig_raw.savefig('fig.png')
 
         fig_summary, AX2 = summary_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
                                                     LABELS=CONDS)

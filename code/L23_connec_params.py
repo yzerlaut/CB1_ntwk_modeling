@@ -10,9 +10,6 @@ import ntwk
 Model['tstop'] = 700 # 0.8s and we discard the first 200ms
 
 
-#pconn_values = [0.025, 0.05, 0.075, 0.1, 0.15]
-pconn_values = [0.025, 0.05, 0.075, 0.1]
-
 # starting from a network with 
 KEYS = ['p_AffExcBG_L23Exc',
         'p_AffExcBG_PvInh',
@@ -20,6 +17,7 @@ KEYS = ['p_AffExcBG_L23Exc',
         'p_PvInh_PvInh',
         'p_CB1Inh_CB1Inh']
 
+pconn_values = [0.025, 0.05, 0.075, 0.1]
 VALUES = [pconn_values,
           pconn_values,
           pconn_values,
@@ -97,7 +95,7 @@ if __name__=='__main__':
 
         fig_raw, AX2 = raw_data_fig_multiple_sim([('data/L23-circuit-%s.h5' % cond) for cond in CONDS],
                                                  subsampling=10, tzoom=[200,Model['tstop']], verbose=True)
-        fig_raw.savefig('fig_raw.png')
+        fig_raw.savefig('fig.png')
 
         
     elif sys.argv[-1]=='scan-analysis':

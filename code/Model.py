@@ -13,37 +13,35 @@ Model = {
     ## UNIT SYSTEM is : ms, mV, pF, nS, pA, Hz (arbitrary and unconsistent, so see code)-
     ## ----------------------------------------------------------------------------------
     # numbers of neurons in the different population population (integer)
-    'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, 'N_AffExcBG':4000, 'N_AffExcTV':2000,
-    # 'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, # population of recurrent network model
-    # 'N_AffExcBG':4000, # population for afferent background activity
-    # 'N_AffExcTV':4000, # population for afferent input activity (i.e. time varying)
+    'N_L23Exc':4000, 'N_PvInh':500, 'N_CB1Inh':500, 'N_L4Exc':4000, # population of recurrent network model
+    'N_AffExcBG':4000, # population for afferent background activity
+    'N_AffExcTV':4000, # population for afferent input activity (i.e. time varying)
     # synaptic weights -- Q_PRE_POST --  (in nS)
     'Q_AffExcBG_L4Exc':2., 'Q_AffExcBG_L23Exc':2., 'Q_AffExcBG_PvInh':2., 'Q_AffExcBG_CB1Inh':2., 
     'Q_L4Exc_L23Exc':2., 'Q_L4Exc_PvInh':2.,  'Q_L4Exc_CB1Inh':2.,
     'Q_L23Exc_L23Exc':2., 'Q_L23Exc_PvInh':2.,  'Q_L23Exc_CB1Inh':2.,
     'Q_PvInh_L23Exc':10., 'Q_PvInh_PvInh':10., 'Q_PvInh_CB1Inh':10.,
     'Q_CB1Inh_L4Exc':10., 'Q_CB1Inh_L23Exc':10., 'Q_CB1Inh_PvInh':10., 'Q_CB1Inh_CB1Inh':10.,
-    # 'Q_PvInh_L23Exc':7., 'Q_PvInh_PvInh':7., 'Q_PvInh_CB1Inh':7.,
-    # 'Q_CB1Inh_L4Exc':7., 'Q_CB1Inh_L23Exc':7., 'Q_CB1Inh_PvInh':7., 'Q_CB1Inh_CB1Inh':7.,
     'Q_AffExcTV_L4Exc':2.,
     # synaptic time constants (in ms) - "e": excitation, "i": inhibition
     'Tse':5., 'Tsi':5.,
     # synaptic reversal potentials (in mV) - "e": excitation, "i": inhibition
     'Ee':0., 'Ei': -80.,
     # connectivity parameters  -- p_PRE_POST -- (as a probability of connection, i.e. 0<=p<1 )
+    ## === N.B. some 0 connectivities are set after optimization, see below === ##
     # L23 circuit
-    'p_AffExcBG_L23Exc':0.15, 'p_AffExcBG_PvInh':0.15, 'p_AffExcBG_CB1Inh':0.15,
+    'p_AffExcBG_L23Exc':0, 'p_AffExcBG_PvInh':0, 'p_AffExcBG_CB1Inh':0,
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
-    'p_PvInh_L23Exc':0.067, 'p_PvInh_PvInh':0.,
-    'p_CB1Inh_L23Exc':0.067,'p_CB1Inh_CB1Inh':0.,
+    'p_PvInh_L23Exc':0.067, 'p_PvInh_PvInh':0,
+    'p_CB1Inh_L23Exc':0.067,'p_CB1Inh_CB1Inh':0,
     'psyn_CB1Inh_L23Exc':0.5, # probabilities of syn. transmission for CB1 synapses
     # L4-L23 circuit
-    'p_AffExcBG_L4Exc':0.075,
-    'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.075, 'p_L4Exc_CB1Inh':0.025,
+    'p_AffExcBG_L4Exc':0,
+    'p_L4Exc_L23Exc':0, 'p_L4Exc_PvInh':0, 'p_L4Exc_CB1Inh':0,
     'p_CB1Inh_L4Exc':0.025, # CB1 to L4 connection !
     'psyn_CB1Inh_L4Exc':0.5, # probabilities of syn. transmission for CB1 synapses
-    # input to L4
-    'p_AffExcTV_L4Exc':0.1,
+    # time-varying input to L4 only
+    'p_AffExcTV_L4Exc':0.025, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_CB1Inh':0, 'p_AffExcTV_PvInh':0,
     # background afferent activity level (in Hz)
     'F_AffExcBG':4,
     # simulation parameters 
@@ -81,6 +79,13 @@ Model = {
 # FROM: "$python code/L23_connec_params.py scan-analysis"
 Model.update({'p_AffExcBG_L23Exc': 0.075, 'p_AffExcBG_PvInh': 0.1, 'p_AffExcBG_CB1Inh': 0.025,
               'p_PvInh_PvInh': 0.075, 'p_CB1Inh_CB1Inh': 0.025})
+
+# FROM: "$python code/L4.py bg; python code/L4.py bg-analysis"
+Model.update({'p_AffExcBG_L4Exc': 0.01})
+
+# FROM: "$python code/L4.py L23"
+Model.update({'p_L4Exc_L23Exc': 0.15, 'p_L4Exc_Inh': 0.1})
+
 
 
 def decrease_CB1_efficacy_on_L23PN(Model,
@@ -158,22 +163,15 @@ def run_single_sim(Model,
     except NameError:
         import ntwk
     
-    if ('inh_exc_ratio' in Model) and ('CB1_PV_ratio' in Model):
-        # adjust cell numbers
-        Model['N_Inh'] = int(Model['inh_exc_ratio']*Model['N_Exc'])
-        Model['N_CB1Inh'] = int(Model['CB1_PV_ratio']*Model['N_Inh'])
-        Model['N_PvInh'] = Model['N_Inh']-Model['N_CB1Inh']
-        # adjust proba
-        for target in REC_POPS:
-            Model['p_CB1Inh_%s' % target] = Model['p_PvInh_%s' % target]/Model['psyn_CB1Inh_%s' % target]
-
-    if ('common_Vthre_Inh' in Model):
-        Model['CB1Inh_Vthre'] = Model['common_Vthre_Inh']
-        Model['PvInh_Vthre'] = Model['common_Vthre_Inh']
-
     if ('p_Inh_L23Exc' in Model):
+        # used in code/L23_connec_params.py
         Model['p_CB1Inh_L23Exc'] = Model['p_Inh_L23Exc']
         Model['p_PvInh_L23Exc'] = Model['p_Inh_L23Exc']
+
+    if ('p_L4Exc_Inh' in Model):
+        # used in code/L4.py
+        Model['p_L4Exc_CB1Inh'] = Model['p_L4Exc_Inh']
+        Model['p_L4Exc_PvInh'] = Model['p_L4Exc_Inh']
         
     NTWK = ntwk.build.populations(Model, REC_POPS,
                                   AFFERENT_POPULATIONS=AFF_POPS,
@@ -227,12 +225,12 @@ def run_single_sim(Model,
     ##########################
     ## ----- Analysis ----- ##
     ##########################
+    KEY_NOT_TO_RECORD=['Raster_AFF_POP', 'iRASTER_PRE', 'iRASTER_PRE_in_terms_of_Pre_Pop']
     if 'RASTER' in NTWK:
         NTWK['STTC_L23Exc'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
                                                                      method='STTC',
                                                                      Tbin=300, Nmax_pairs=2000)
         SINGLE_VALUES_KEYS=['STTC_L23Exc']
-        KEY_NOT_TO_RECORD=[]
     else:
         SINGLE_VALUES_KEYS=[]
         for i in range(len(NTWK['NEURONS'])):
@@ -240,8 +238,7 @@ def run_single_sim(Model,
             NTWK['rate_%s'%name] = ntwk.analysis.get_mean_pop_act(NTWK, pop=name)
             SINGLE_VALUES_KEYS.append('rate_%s'%name)
             
-        KEY_NOT_TO_RECORD=['POP_ACT', 'Rate_AFF_POP', 'Raster_AFF_POP',
-                           'iRASTER_PRE', 'iRASTER_PRE_in_terms_of_Pre_Pop']
+        KEY_NOT_TO_RECORD+=['POP_ACT', 'Rate_AFF_POP']
     
     ######################
     ## ----- Save ----- ##
@@ -282,7 +279,7 @@ if __name__=='__main__':
         fig, AX = raw_data_fig_multiple_sim([('data/CB1_ntwk_model-%s.h5' % cond) for cond in CONDS if os.path.isfile('data/CB1_ntwk_model-%s.h5' % cond)],
                                             with_log_scale_for_act=True, verbose=True)
         
-        plt.show()
+        fig.savefig('fig.png')
     
     
     elif sys.argv[-1] in ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']:

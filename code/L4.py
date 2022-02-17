@@ -7,16 +7,29 @@ from datavyz import graph_env_manuscript as ge
 from Model import *
 import ntwk
 
-
 def running_sim_func(Model):
     run_single_sim(Model,
                    REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                    AFF_POPS=['AffExcBG', 'AffExcTV'],
-                   build_pops_args=dict(with_raster=False,
+                   build_pops_args=dict(with_raster=True,
                                         with_Vm=0,
                                         with_pop_act=True,
                                         verbose=False),
                    filename=Model['filename'])
+
+    
+def input_output_analysis(data):
+
+    t = np.arange(int(data['tstop']/data['dt']))*data['dt']
+
+    output = []
+    for et in data['event_times']:
+        cond = (t>(et-50)) & (t<(et+50))
+        output.append(np.mean(data['POP_ACT_L23Exc'][cond]))
+
+    fig, ax = ge.plot(data['event_amplitudes'], output,
+                      xlabel='input to L4 (Hz)', ylabel='L23 PN rate (Hz)')
+    return fig, ax 
 
 
 
@@ -51,7 +64,7 @@ elif 'bg' in sys.argv[-1]:
                        filename=Model['filename'])
 
     
-    pconn_values = [0.025, 0.05, 0.075, 0.1, 0.125, 0.15]
+    pconn_values = np.linspace(0.01, 0.1, 16)
 
     ntwk.scan.run(Model, ['p_AffExcBG_L4Exc'], [pconn_values], running_sim_func,
                   fix_missing_only=('fix-missing' in sys.argv[-1]),
@@ -64,28 +77,34 @@ elif 'bg' in sys.argv[-1]:
                           fix_missing_only=True, parallelize=True)
 
 
+elif sys.argv[-1]=='test-run':
 
-elif 'bg' in sys.argv[-1]:
-    KEYS = ['p_L4Exc_L23Exc', 'p_L4Exc_PvInh', 'p_L4Exc_CB1Inh']
+    Model['p_L4Exc_L23Exc'] = 0.15
+    Model['p_L4Exc_Inh'] = 0.1
     
-    pconn_values = [0.025, 0.05, 0.075, 0.1]
-    VALUES = [pconn_values,
-              pconn_values,
-              pconn_values,
-              pconn_values,
-              pconn_values]
-else:
-    Model['event_amplitudes'] = np.linspace(0, 5, 10)
+    Model['event_amplitudes'] = np.linspace(0, 10, 10)
     Model['event_width'] = 200
-    Model['event_times'] = 1000*np.arange(10)
+    Model['event_times'] = 200+1000*np.arange(10)
     Model['tstop'] = Model['event_times'][-1]+3*Model['event_width']
 
     run_single_sim(Model,
                    REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                    AFF_POPS=['AffExcBG', 'AffExcTV'],
-                   build_pops_args=dict(with_raster=False,
+                   build_pops_args=dict(with_raster=True,
                                         with_Vm=0,
                                         with_pop_act=True,
                                         verbose=False),
-                   filename='data/L4-circuit-%s.h5' % sys.argv[-1])
+                   filename='data/L4-circuit.h5')
+    
+elif sys.argv[-1]=='test-analysis':
 
+    data = ntwk.recording.load_dict_from_hdf5('data/L4-circuit.h5')
+
+    fig, ax = input_output_analysis(data)
+    fig.savefig('fig.png')
+    
+    fig, _ = ntwk.plots.activity_plots(data, subsampling=20)
+    fig.savefig('fig_raw.png')
+
+else:
+    print('need args')
