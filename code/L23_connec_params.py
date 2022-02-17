@@ -7,43 +7,51 @@ from datavyz import graph_env_manuscript as ge
 from Model import *
 import ntwk
 
-Model['tstop'] = 1000 # 1s and we discard the first 200ms
+Model['tstop'] = 700 # 0.8s and we discard the first 200ms
 
 
-pconn_values = [0.025, 0.05, 0.075, 0.1, 0.15]
+#pconn_values = [0.025, 0.05, 0.075, 0.1, 0.15]
+pconn_values = [0.025, 0.05, 0.075, 0.1]
 
 # starting from a network with 
 KEYS = ['p_AffExcBG_L23Exc',
         'p_AffExcBG_PvInh',
         'p_AffExcBG_CB1Inh',
-        'p_PvInh_L23Exc',
         'p_PvInh_PvInh',
-        'p_CB1Inh_L23Exc',
         'p_CB1Inh_CB1Inh']
 
-DESIRED_RATES = {'L23Exc':0.1,
-                 'CB1Inh':20.,
-                 'PvInh':30.}
+VALUES = [pconn_values,
+          pconn_values,
+          pconn_values,
+          pconn_values,
+          pconn_values]
+          
+
+DESIRED_RATES = {'L23Exc':0.5,
+                 'CB1Inh':15.,
+                 'PvInh':20.}
 
 
 def compute_residual_and_update_minimum(data,
                                         current_residual,
+                                        current_params,
                                         DESIRED_RATES,
                                         verbose=True):
     # compute residual
-    residual = 0
+    residual = 0.
     for pop in DESIRED_RATES:
-        residual += (data['rate_%s'%pop]-DESIRED_RATES[pop])/DESIRED_RATES[pop]
+        residual += float(np.abs((data['rate_%s'%pop]-DESIRED_RATES[pop])/DESIRED_RATES[pop]))
 
     # compute residual
-    current_params = {}
     if residual<current_residual:
-        current_residual = residual
+        current_residual, current_params = residual, {}
         for key in KEYS:
-            current_params[key] = data[key]
+            current_params[key] = float(data[key])
         if verbose:
             print(40*'--')
+            print('   residual', current_residual)
             print('-> update ', [data['rate_%s'%pop] for pop in DESIRED_RATES])
+            print(current_params)
 
     return current_residual, current_params
 
@@ -61,59 +69,69 @@ def running_sim_func(Model, a=0):
 
 if __name__=='__main__':
 
-    if sys.argv[-1]=='test':
+    if sys.argv[-1] in ['V1', 'V2']:
+
+        Model = update_model(Model, sys.argv[-1])
         
-        Model['data_folder'] = './data/'
-        Model['zip_filename'] = 'data/pconn-scan-test.zip'
+        run_single_sim(Model,
+                       REC_POPS=['L23Exc', 'PvInh', 'CB1Inh'],
+                       AFF_POPS=['AffExcBG'],
+                       build_pops_args=dict(with_raster=True,
+                                            with_Vm=3,
+                                            with_pop_act=True,
+                                            verbose=False),
+                       filename='data/L23-circuit-%s.h5' % sys.argv[-1])
         
-        ntwk.scan.run(Model,
-                      KEYS[:1], [pconn_values],
-                      running_sim_func,
-                      parallelize=True)
+    elif 'plot' in sys.argv[-1]:
+        # ######################
+        # ## ----- Plot ----- ##
+        # ######################
 
-    elif sys.argv[-1]=='test-analysis':
+        if 'plot-' in sys.argv[-1]:
+            CONDS = [sys.argv[-1].split('plot-')[-1]]
+        else:
+            CONDS = ['V1', 'V2']
+            CONDS = ['V1', 'V2']
+            
+        from plot import raw_data_fig_multiple_sim, summary_fig_multiple_sim
 
-        Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan-test.zip'}
-        Model2, PARAMS_SCAN, DATA = ntwk.scan.get(Model2)
-
-        current_residual, current_params = compute_residual_and_update_minimum(data,
-                                                                               current_residual,
-                                                                               DESIRED_RATES)
+        fig_raw, AX2 = raw_data_fig_multiple_sim([('data/L23-circuit-%s.h5' % cond) for cond in CONDS],
+                                                 subsampling=10, tzoom=[200,Model['tstop']], verbose=True)
+        fig_raw.savefig('fig_raw.png')
 
         
-        for data in DATA:
-            print(40*'--')
-            i=0
-            while str(i) in data:
-                pop = data[str(i)]['name']
-                print(pop, data['rate_%s'%pop])
-                i+=1
-                
-    elif sys.argv[-1]=='scan':
-        # means scan
-        Model['data_folder'] = './data/'
-        Model['zip_filename'] = 'data/pconn-scan.zip'
-        
-        ntwk.scan.run(Model,
-                      KEYS, [pconn_values for k in KEYS],
-                      running_sim_func,
-                      parallelize=True)
-
     elif sys.argv[-1]=='scan-analysis':
         # means scan
 
+        Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan.zip'}
+        Model2, PARAMS_SCAN, _ = ntwk.scan.get(Model2,
+                                               filenames_only=True)
+
+        current_residual, current_params = np.inf, {}
+        for filename in PARAMS_SCAN['FILENAMES']:
+            data = ntwk.recording.load_dict_from_hdf5(filename)
+            current_residual, current_params = compute_residual_and_update_minimum(data,
+                                                                                   current_residual,
+                                                                                   current_params,
+                                                                                   DESIRED_RATES)
+    elif 'scan' in sys.argv[-1]:
+        # means scan, possible options:
+        # "scan", "scan-fix-missing", "scan-with-repeat" or "scan-fix-missing-with-repeat"
         Model['data_folder'] = './data/'
         Model['zip_filename'] = 'data/pconn-scan.zip'
         
-        Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan.zip'}
-        Model2, PARAMS_SCAN, _ = ntwk.scan.get(Model2,
-                                                  filenames_only=True)
+        ntwk.scan.run(Model, KEYS, VALUES, running_sim_func,
+                      fix_missing_only=('fix-missing' in sys.argv[-1]),
+                      parallelize=True)
 
-        for filename in PARAMS_SCAN['filenames']:
-            data = ntwk.recording.load_dict_from_hdf5(filename)
-            current_residual, current_params = compute_residual_and_update_minimum(data,
-                                                                                   np.inf,
-                                                                                   DESIRED_RATES)
-        
+        if 'with-repeat' in sys.argv[-1]:
+            # "scan-with-repeat" or "scan-fix-missing-with-repeat"
+            for i in range(5):
+                ntwk.scan.run(Model, KEYS, VALUES, running_sim_func,
+                              fix_missing_only=True, parallelize=True)
+                
 
+
+    else:
+        print('need args')
 

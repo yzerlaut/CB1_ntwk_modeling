@@ -31,21 +31,21 @@ Model = {
     # synaptic reversal potentials (in mV) - "e": excitation, "i": inhibition
     'Ee':0., 'Ei': -80.,
     # connectivity parameters  -- p_PRE_POST -- (as a probability of connection, i.e. 0<=p<1 )
-    'p_AffExcBG_L4Exc':0.025, 'p_AffExcBG_L23Exc':0.1, 'p_AffExcBG_PvInh':0.075, 'p_AffExcBG_CB1Inh':0.075,
-    'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.075, 'p_L4Exc_CB1Inh':0.025,
+    # L23 circuit
+    'p_AffExcBG_L23Exc':0.15, 'p_AffExcBG_PvInh':0.15, 'p_AffExcBG_CB1Inh':0.15,
     'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.05, 'p_L23Exc_CB1Inh':0.05,
-    'p_PvInh_L23Exc':0.15, 'p_PvInh_PvInh':0.15,
-    'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1,'p_CB1Inh_CB1Inh':0.075,
-    'psyn_CB1Inh_L23Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
-    # 'p_AffExcBG_L4Exc':0.01, 'p_AffExcBG_L23Exc':0.125, 'p_AffExcBG_PvInh':0.125, 'p_AffExcBG_CB1Inh':0.015,
-    # 'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.1, 'p_L4Exc_CB1Inh':0.05,
-    # 'p_L23Exc_L23Exc':0.05, 'p_L23Exc_PvInh':0.1, 'p_L23Exc_CB1Inh':0.1,
-    # 'p_PvInh_L23Exc':0.075, 'p_PvInh_PvInh':0.1,
-    # 'p_CB1Inh_L4Exc':0.025, 'p_CB1Inh_L23Exc':0.1, 'p_CB1Inh_CB1Inh':0.02,
-    # 'psyn_CB1Inh_L23Exc':0.5, 'psyn_CB1Inh_L4Exc':0.5,  # probabilities of syn. transmission for CB1 synapses
-    'p_AffExcTV_L4Exc':0.1, 'p_AffExcTV_L23Exc':0, 'p_AffExcTV_PvInh':0, 'p_AffExcTV_CB1Inh':0,
+    'p_PvInh_L23Exc':0.067, 'p_PvInh_PvInh':0.,
+    'p_CB1Inh_L23Exc':0.067,'p_CB1Inh_CB1Inh':0.,
+    'psyn_CB1Inh_L23Exc':0.5, # probabilities of syn. transmission for CB1 synapses
+    # L4-L23 circuit
+    'p_AffExcBG_L4Exc':0.075,
+    'p_L4Exc_L23Exc':0.15, 'p_L4Exc_PvInh':0.075, 'p_L4Exc_CB1Inh':0.025,
+    'p_CB1Inh_L4Exc':0.025, # CB1 to L4 connection !
+    'psyn_CB1Inh_L4Exc':0.5, # probabilities of syn. transmission for CB1 synapses
+    # input to L4
+    'p_AffExcTV_L4Exc':0.1,
     # background afferent activity level (in Hz)
-    'F_AffExcBG':2,
+    'F_AffExcBG':4,
     # simulation parameters 
     'dt':0.1, 'tstop': 1000., 'SEED':5, # low by default, see later
     ## ---------------------------------------------------------------------------------
@@ -73,10 +73,15 @@ Model = {
     'CB1Inh_a':0., 'CB1Inh_b': 0., 'CB1Inh_tauw':1e9
 }
 
+    
+########################################
+########## update default params #######
+########################################
 
-################################
-########## update params #######
-################################
+# FROM: "$python code/L23_connec_params.py scan-analysis"
+Model.update({'p_AffExcBG_L23Exc': 0.075, 'p_AffExcBG_PvInh': 0.1, 'p_AffExcBG_CB1Inh': 0.025,
+              'p_PvInh_PvInh': 0.075, 'p_CB1Inh_CB1Inh': 0.025})
+
 
 def decrease_CB1_efficacy_on_L23PN(Model,
                                    decrease=0.5):
@@ -91,14 +96,6 @@ def increase_CB1_inhibition_on_L4PN(Model,
     Model2['p_CB1Inh_L4Exc'] = pconn_increase_factor*Model2['p_CB1Inh_L4Exc']
     return Model2
 
-# def add_CB1_inhibition_on_L4PN(Model, pconn=None, Q=None, psyn=None):
-#     """ previous version copying L23 props"""
-#     Model2 = Model.copy()
-#     Model2['p_CB1Inh_L4Exc'] = (pconn if (pconn is not None) else Model2['p_CB1Inh_L23Exc'])
-#     Model2['psyn_CB1Inh_L4Exc'] = (psyn if (psyn is not None) else Model2['psyn_CB1Inh_L23Exc'])
-#     Model2['Q_CB1Inh_L4Exc'] = (Q if (Q is not None) else Model2['Q_CB1Inh_L23Exc'])
-#     return Model2
-    
 def update_model(Model, key,
                  CB1_L23PN_decrease_factor=0.5,
                  p_CB1_L4PN_increase_factor=4):
@@ -115,6 +112,7 @@ def update_model(Model, key,
 
     return Model
 
+
 ################################
 ########## input ###############
 ################################
@@ -123,15 +121,15 @@ def gaussian(x, mean=0., std=1.):
     return np.exp(-(x-mean)**2/2./std**2)/np.sqrt(2.*np.pi)/std
 
 def build_time_varying_afferent_array(Model,
-                                      event_amplitude=6,
+                                      event_amplitudes=[6,6],
                                       event_width=150, 
                                       event_times = [4000, 9000]):
 
     t_array = np.arange(int(Model['tstop']/Model['dt']))*Model['dt']
     g = 0*t_array
     norm_factor = float(1./gaussian(0, 0, event_width))
-    for t in event_times:
-        g[:] += event_amplitude*gaussian(t_array[:], t, event_width)*norm_factor
+    for t, amp in zip(event_times, event_amplitudes):
+        g[:] += amp*gaussian(t_array[:], t, event_width)*norm_factor
 
     return t_array, g
 
@@ -173,6 +171,10 @@ def run_single_sim(Model,
         Model['CB1Inh_Vthre'] = Model['common_Vthre_Inh']
         Model['PvInh_Vthre'] = Model['common_Vthre_Inh']
 
+    if ('p_Inh_L23Exc' in Model):
+        Model['p_CB1Inh_L23Exc'] = Model['p_Inh_L23Exc']
+        Model['p_PvInh_L23Exc'] = Model['p_Inh_L23Exc']
+        
     NTWK = ntwk.build.populations(Model, REC_POPS,
                                   AFFERENT_POPULATIONS=AFF_POPS,
                                   **build_pops_args)
@@ -191,7 +193,7 @@ def run_single_sim(Model,
     t_array = ntwk.arange(int(Model['tstop']/Model['dt']))*Model['dt']
     if (Faff_array is None) and ('event_times' in Model):
         Faff_array = build_time_varying_afferent_array(Model,
-                                                       event_amplitude=Model['event_amplitude'],
+                                                       event_amplitudes=Model['event_amplitudes'],
                                                        event_width=Model['event_width'],
                                                        event_times=Model['event_times'])[1]    
     if (Faff_array is not None) and (len(Faff_array)!=len(t_array)):
@@ -262,7 +264,7 @@ if __name__=='__main__':
                                                    AFF_POPS=['AffExcBG', 'AffExcTV'],
                                                    blank_zero=True,
                                                    graph_env=ge)
-        ge.save_on_desktop(fig, 'fig.svg')
+        # ge.save_on_desktop(fig, 'fig.svg')
         ge.show()
             
     elif 'plot' in sys.argv[-1]:
