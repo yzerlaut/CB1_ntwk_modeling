@@ -32,7 +32,6 @@ def input_output_analysis(data):
     return fig, ax 
 
 
-
 if sys.argv[-1]=='bg-analysis':
     # means scan
 
@@ -77,6 +76,32 @@ elif 'bg' in sys.argv[-1]:
                           fix_missing_only=True, parallelize=True)
 
 
+elif sys.argv[-1]=='scan-analysis':
+    pass
+
+elif 'scan' in sys.argv[-1]:
+    # means scan, possible options:
+    # "bg", "bg-fix-missing", "bg-with-repeat" or "bg-fix-missing-with-repeat"
+    Model['data_folder'] = './data/'
+    Model['zip_filename'] = 'data/L4-scan.zip'
+
+    pconn_values = np.linspace(0.01, 0.1, 16)
+
+    KEYS = ['p_L4Exc_L23Exc', 'p_L4Exc_Inh']
+    pconn = np.array([0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2])
+    VALUES = [pconn, pconn]
+    ntwk.scan.run(Model, KEYS, VALUES, running_sim_func,
+                  fix_missing_only=('fix-missing' in sys.argv[-1]),
+                  parallelize=True)
+
+    if 'with-repeat' in sys.argv[-1]:
+        # "scan-with-repeat" or "scan-fix-missing-with-repeat"
+        for i in range(5):
+            ntwk.scan.run(Model,  KEYS, VALUES, running_sim_func,
+                          fix_missing_only=True, parallelize=True)
+
+
+            
 elif sys.argv[-1]=='test-run':
 
     Model['p_L4Exc_L23Exc'] = 0.15

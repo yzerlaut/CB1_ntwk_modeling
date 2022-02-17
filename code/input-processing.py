@@ -13,7 +13,7 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitudes'] = [4,4]
+Model['event_amplitudes'] = [3,3]
 Model['event_width'] = 200
 Model['event_times'] = [9000, 13000]
 Model['tstop'] = 15000
@@ -60,7 +60,7 @@ if __name__=='__main__':
             CONDS = [sys.argv[-1].split('plot-')[-1]]
         else:
             CONDS = ['V1', 'V2', 'V2-CB1-KO']
-            CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
+            # CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
         from plot import raw_data_fig_multiple_sim, summary_fig_multiple_sim
 
         fig_raw, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],

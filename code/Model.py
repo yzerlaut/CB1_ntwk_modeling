@@ -87,7 +87,6 @@ Model.update({'p_AffExcBG_L4Exc': 0.01})
 Model.update({'p_L4Exc_L23Exc': 0.15, 'p_L4Exc_Inh': 0.1})
 
 
-
 def decrease_CB1_efficacy_on_L23PN(Model,
                                    decrease=0.5):
     Model2 = Model.copy()
