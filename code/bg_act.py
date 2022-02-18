@@ -27,21 +27,20 @@ if sys.argv[-1]=='L23-psyn-scan':
                                             verbose=False),
                        filename=Model['filename'])
         
-    psyn_variations = np.linspace(0.1, 0.65, Nscan)
+    psyn_variations = np.linspace(0.2, 0.55, Nscan)
     ntwk.scan.run(Model, ['psyn_CB1Inh_L23Exc'], [psyn_variations], running_sim_func,
                   parallelize=True)
 
-    
 elif sys.argv[-1]=='L23-psyn-analysis':
 
-    Model2 = {'data_folder': './data/', 'zip_filename':'data/pconn-scan.zip'}
+    Model2 = {'data_folder': './data/', 'zip_filename':'data/L23-psyn-scan.zip'}
     Model2, PARAMS_SCAN, _ = ntwk.scan.get(Model2,
                                            filenames_only=True)
 
     fig, ax = ge.figure()
     ge.title(ax, 'L23 circuit\n(spont. act.)', size='small')
 
-    rates, psyn = {'L23Exc':[], 'PvInh':[], 'CB1Inh':[]}, psyn
+    rates, psyn = {'L23Exc':[], 'PvInh':[], 'CB1Inh':[]}, []
     for filename in PARAMS_SCAN['FILENAMES']:
         data = ntwk.recording.load_dict_from_hdf5(filename)
         for key in rates:
@@ -52,7 +51,7 @@ elif sys.argv[-1]=='L23-psyn-analysis':
         ax.plot(psyn, rates[key], color=color, lw=1)
         ge.annotate(ax, i*'\n'+key, (1,1), ha='right', va='top')
         
-    ge.set_plot(ax, xlabel='$p_{syn}$ CB1->PN', xticks=[0.2, 0.4, 0.6],
+    ge.set_plot(ax, xlabel='$p_{syn}$ CB1->PN', xticks=[0.25, 0.5],
                 # yscale='log',
                 ylabel='rate (Hz)')
     

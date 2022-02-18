@@ -38,33 +38,35 @@ def input_output_analysis(data):
 
 
 if sys.argv[1]=='analysis':
-    # means scan
 
-    fig, AX = ge.figure(axes=(8,8),
+    fig, AX = ge.figure(axes=(8,1),
                         figsize=(.8,.8), wspace=1.2, left=1.4, bottom=1.1, top=1.5)
     
     for c, cond, color in zip(range(3), ['V1', 'V2', 'V2-CB1-KO'], [ge.blue, ge.red, ge.green]):
         Model2 = {'data_folder': './data/', 'zip_filename':'data/gain-scan-%s.zip' % cond}
         Model2, PARAMS_SCAN, _ = ntwk.scan.get(Model2, filenames_only=True)
 
-        ge.annotate(AX[0][0], c*20*' '+cond, (.2,1), xycoords='figure fraction', va='top', size='small', color=color)
+        ge.annotate(AX[0], c*20*' '+cond, (.2,.99), xycoords='figure fraction', va='top', color=color)
         for i, filename in enumerate(PARAMS_SCAN['FILENAMES']):
             data = ntwk.recording.load_dict_from_hdf5(filename)
             x, y = input_output_analysis(data)
             
-            AX[i%8][int(i/8)].plot(x, y, '-', lw=1, color=color)
+            # AX[i%8][int(i/8)].plot(x, y, '-', lw=1, color=color)
+            AX[i].plot(x, y, '-', lw=1, color=color)
             if cond=='V2-CB1-KO':
-                ge.set_plot(AX[i%8][int(i/8)])
-                ge.annotate(AX[i%8][int(i/8)],
+                # ge.set_plot(AX[i%8][int(i/8)])
+                # ge.annotate(AX[i%8][int(i/8)],
+                ge.set_plot(AX[i])
+                ge.annotate(AX[i],
                             'p$_{L4-L23PN}$=%.2f\np$_{L4-Inh}$=%.2f' % (data['p_L4Exc_L23Exc'], data['p_L4Exc_Inh']),
                             (1,1), ha='right', va='top', size='xx-small')
                 
-    for i in range(8):
-        ge.set_plot(AX[i][0], ylabel='$\delta$ rate (Hz)')
-        ge.set_plot(AX[7][i], xlabel='input (Hz)')
-    ge.set_plot(AX[7][0], xlabel='input (Hz)', ylabel='$\delta$ rate (Hz)')
+    # for i in range(8):
+    #     ge.set_plot(AX[i][0], ylabel='$\delta$ rate (Hz)')
+    #     ge.set_plot(AX[7][i], xlabel='input (Hz)')
+    ge.set_plot(AX[0], xlabel='input (Hz)', ylabel='$\delta$ rate (Hz)')
 
-    fig.savefig('fig.png')
+    fig.savefig('doc/gain-comparison-various-psyn.png')
 
 elif sys.argv[1] in ['V1', 'V2', 'V2-CB1-KO']:
     
@@ -77,9 +79,9 @@ elif sys.argv[1] in ['V1', 'V2', 'V2-CB1-KO']:
     Model['zip_filename'] = 'data/gain-scan-%s.zip' % sys.argv[1]
     
     KEYS = ['p_L4Exc_L23Exc', 'p_L4Exc_Inh']
-    pconn = np.array([0.025, 0.05, 0.075, 0.1, 0.125, 0.15, 0.175, 0.2])
+    pconn = np.linspace(0.005, 0.15, 8)
     
-    VALUES = [pconn, pconn]
+    VALUES = [pconn, [0]]
     ntwk.scan.run(Model, KEYS, VALUES, running_sim_func,
                   fix_missing_only=('fix-missing' in sys.argv[2]),
                   parallelize=True)

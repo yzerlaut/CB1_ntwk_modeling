@@ -84,7 +84,8 @@ Model.update({'p_AffExcBG_L23Exc': 0.075, 'p_AffExcBG_PvInh': 0.1, 'p_AffExcBG_C
 Model.update({'p_AffExcBG_L4Exc': 0.01})
 
 # FROM: "$python code/L4.py L23"
-Model.update({'p_L4Exc_L23Exc': 0.1, 'p_L4Exc_Inh': 0.025})
+# Model.update({'p_L4Exc_L23Exc': 0.1, 'p_L4Exc_Inh': 0.025})
+Model.update({'p_L4Exc_L23Exc': 0.01})
 
 
 def decrease_CB1_efficacy_on_L23PN(Model,
@@ -94,7 +95,7 @@ def decrease_CB1_efficacy_on_L23PN(Model,
     return Model2
 
 def increase_CB1_inhibition_on_L4PN(Model,
-                                    pconn_increase_factor=4,
+                                    pconn_increase_factor=2,
                                     Q=None, psyn=None):
     Model2 = Model.copy()
     Model2['p_CB1Inh_L4Exc'] = pconn_increase_factor*Model2['p_CB1Inh_L4Exc']
@@ -102,7 +103,7 @@ def increase_CB1_inhibition_on_L4PN(Model,
 
 def update_model(Model, key,
                  CB1_L23PN_decrease_factor=0.5,
-                 p_CB1_L4PN_increase_factor=4):
+                 p_CB1_L4PN_increase_factor=2):
 
     if 'V2' in key:
         # add CB1 inhibition on L4

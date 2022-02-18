@@ -62,11 +62,11 @@ elif 'plot' in sys.argv[-1]:
 
     fig_raw, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
                                              subsampling=100, tzoom=[200,Model['tstop']])
-    fig_raw.savefig('fig.png')
+    fig_raw.savefig('doc/full_dynamics_raw.png')
 
     fig_summary, AX2 = summary_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
                                                 LABELS=CONDS)
-    fig_summary.savefig('fig_summary.png')
+    fig_summary.savefig('doc/full_dynamics_summary.png')
 
 elif sys.argv[-1]=='Aff':
 

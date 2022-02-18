@@ -23,7 +23,7 @@ python_path='/home/yann.zerlaut/miniconda3/bin/python'
 # --- final temporal dynamics --- #
 $python_path code/input-processing.py V1 &
 $python_path code/input-processing.py V2 &
-# $python_path code/input-processing.py V2-no-CB1-L4 &
+$python_path code/input-processing.py V2-no-CB1-L4 &
 $python_path code/input-processing.py V2-CB1-KO 
 sleep 10s
 $python_path code/input-processing.py plot
