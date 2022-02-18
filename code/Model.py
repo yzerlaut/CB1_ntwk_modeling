@@ -84,7 +84,7 @@ Model.update({'p_AffExcBG_L23Exc': 0.075, 'p_AffExcBG_PvInh': 0.1, 'p_AffExcBG_C
 Model.update({'p_AffExcBG_L4Exc': 0.01})
 
 # FROM: "$python code/L4.py L23"
-Model.update({'p_L4Exc_L23Exc': 0.15, 'p_L4Exc_Inh': 0.1})
+Model.update({'p_L4Exc_L23Exc': 0.15, 'p_L4Exc_Inh': 0.075})
 
 
 def decrease_CB1_efficacy_on_L23PN(Model,
