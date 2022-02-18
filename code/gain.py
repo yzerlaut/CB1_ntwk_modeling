@@ -40,7 +40,8 @@ def input_output_analysis(data):
 if sys.argv[1]=='analysis':
     # means scan
 
-    fig, AX = ge.figure(axes=(8,8), figsize=(.8,.8), wspace=1.2, left=1.4, bottom=1.1, top=1.5)
+    fig, AX = ge.figure(axes=(8,8),
+                        figsize=(.8,.8), wspace=1.2, left=1.4, bottom=1.1, top=1.5)
     
     for c, cond, color in zip(range(3), ['V1', 'V2', 'V2-CB1-KO'], [ge.blue, ge.red, ge.green]):
         Model2 = {'data_folder': './data/', 'zip_filename':'data/gain-scan-%s.zip' % cond}

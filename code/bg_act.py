@@ -56,7 +56,7 @@ elif sys.argv[-1]=='L23-psyn-analysis':
                 # yscale='log',
                 ylabel='rate (Hz)')
     
-    fig.savefig('fig.png')
+    fig.savefig('doc/L23-psyn-variations.png')
     
 if sys.argv[-1]=='L4-L23-psyn-pconn-scan':
     
