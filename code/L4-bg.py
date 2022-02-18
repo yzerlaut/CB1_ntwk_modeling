@@ -9,16 +9,6 @@ import ntwk
 
 Model['tstop'] = 1000 # 1s and we discard the first 200ms
 
-def running_sim_func(Model):
-    run_single_sim(Model,
-                   REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
-                   AFF_POPS=['AffExcBG'],
-                   build_pops_args=dict(with_raster=False,
-                                        with_Vm=0,
-                                        with_pop_act=True,
-                                        verbose=False),
-                   filename=Model['filename'])
-    
 if sys.argv[-1]=='bg-analysis':
     # means scan
 
@@ -37,8 +27,20 @@ elif 'bg' in sys.argv[-1]:
     Model['data_folder'] = './data/'
     Model['zip_filename'] = 'data/L4-bg-scan.zip'
 
-    pconn_values = np.linspace(0.01, 0.1, 16)
+    Nscan = 2*8
 
+    def running_sim_func(Model):
+        run_single_sim(Model,
+                       REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
+                       AFF_POPS=['AffExcBG'],
+                       build_pops_args=dict(with_raster=False,
+                                            with_Vm=0,
+                                            with_pop_act=True,
+                                            verbose=False),
+                       filename=Model['filename'])
+
+    pconn_values = np.linspace(0.01, 0.1, Nscan)
+    
     ntwk.scan.run(Model, ['p_AffExcBG_L4Exc'], [pconn_values], running_sim_func,
                   fix_missing_only=('fix-missing' in sys.argv[-1]),
                   parallelize=True)

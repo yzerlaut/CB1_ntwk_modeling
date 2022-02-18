@@ -1,4 +1,4 @@
-# Modeling cortical network dynamics with CB1-mediated inhibition
+# Modeling cortical dynamics with CB1-mediated inhibition
 
 > Simulation and analysis code 
 
@@ -15,20 +15,40 @@ Note that the code relies on custom modules for [spiking network simulation] (ba
 
 ## Reproducing the results of the study
 
-### 1) Optimization of model parameters
-
-#### L23-only model: connectivity parameters
+All results are reproduced by launching the following set of instructions:
 ```
-python code/L23_connec_params.py scan # N.B. some runs might fail when using multiprocessing, use: scan-fix-missing, scan-with-repeat-fix-missing
+# --- Layer23-circuit connectivity optimization --- #
+python code/L23_connec_params.py V1 &
+python code/L23_connec_params.py V2
+# sleep 1s
+python code/L23_connec_params.py plot
+# --- Layer4-L23 connectivity optimization --- #
+python code/L4.py test-run
+python code/L4.py test-analysis
+# --- look at gain curves --- #
+python code/gain.py V1 with-repeat
+python code/gain.py V2 with-repeat
+python code/gain.py V2-CB1-KO with-repeat
+python code/gain.py analysis
+# --- psyn dep on spontaneous activity --- #
+$python_path code/bg_act.py L23-psyn-scan
+$python_path code/bg_act.py L23-psyn-analysis
+# --- final spontaneous activity --- #
+python code/Model.py V1 &
+python code/Model.py V2 &
+python code/Model.py V2-no-CB1-L4 &
+python code/Model.py  V2-CB1-KO 
+# sleep 20s
+python code/Model.py plot
+# --- final temporal dynamics --- #
+python code/input-processing.py V1 &
+python code/input-processing.py V2 &
+# python code/input-processing.py V2-no-CB1-L4 &
+python code/input-processing.py V2-CB1-KO 
+# sleep 10s
+python code/input-processing.py plot
 ```
-and analyze with:
-```
-python code/L23_connec_params.py scan-analysis
-```
-
-#### Adding the L4-to-L23 pathway
-
-### 2) Effect of CB1-specific in 
+They are listed in the (bash.sh)[./bash.sh] script (comment/uncomment part of the files to launch it step-by-step).
 
 #### N.B. usage
 

@@ -7,7 +7,7 @@ from datavyz import graph_env_manuscript as ge
 from Model import *
 import ntwk
 
-Model['tstop'] = 700 # 0.8s and we discard the first 200ms
+Model['tstop'] = 700 # 0.5s and we discard the first 200ms
 
 
 # starting from a network with 

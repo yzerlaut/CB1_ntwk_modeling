@@ -40,13 +40,13 @@ def input_output_analysis(data):
 if sys.argv[1]=='analysis':
     # means scan
 
-    fig, AX = ge.figure(axes=(8,8), figsize=(.8,.8), wspace=1.2)
+    fig, AX = ge.figure(axes=(8,8), figsize=(.8,.8), wspace=1.2, left=1.4, bottom=1.1, top=1.5)
     
-    # for cond, color in zip(['V1', 'V2', 'V2-CB1-KO'], [ge.blue, ge.red, ge.green]):
-    for cond, color in zip(['V1'], [ge.blue, ge.red, ge.green]):
+    for c, cond, color in zip(range(3), ['V1', 'V2', 'V2-CB1-KO'], [ge.blue, ge.red, ge.green]):
         Model2 = {'data_folder': './data/', 'zip_filename':'data/gain-scan-%s.zip' % cond}
         Model2, PARAMS_SCAN, _ = ntwk.scan.get(Model2, filenames_only=True)
 
+        ge.annotate(AX[0][0], c*20*' '+cond, (.2,1), xycoords='figure fraction', va='top', size='small', color=color)
         for i, filename in enumerate(PARAMS_SCAN['FILENAMES']):
             data = ntwk.recording.load_dict_from_hdf5(filename)
             x, y = input_output_analysis(data)
@@ -60,8 +60,8 @@ if sys.argv[1]=='analysis':
                 
     for i in range(8):
         ge.set_plot(AX[i][0], ylabel='$\delta$ rate (Hz)')
-        ge.set_plot(AX[0][i], xlabel='input (Hz)')
-    ge.set_plot(AX[0][0], xlabel='input (Hz)', ylabel='$\delta$ rate (Hz)')
+        ge.set_plot(AX[7][i], xlabel='input (Hz)')
+    ge.set_plot(AX[7][0], xlabel='input (Hz)', ylabel='$\delta$ rate (Hz)')
 
     fig.savefig('fig.png')
 
