@@ -49,12 +49,14 @@ elif sys.argv[-1]=='L23-psyn-analysis':
 
     for i, key, color in zip(range(3), ['L23Exc', 'PvInh', 'CB1Inh'], [ge.green, ge.red, ge.orange]):
         ax.plot(psyn, rates[key], color=color, lw=1)
-        ge.annotate(ax, i*'\n'+key, (1,1), ha='right', va='top')
+        # ge.annotate(ax, i*'\n'+key, (1,1), ha='right', va='top')
         
-    ge.set_plot(ax, xlabel='$p_{syn}$ CB1->PN', xticks=[0.25, 0.5],
-                # yscale='log',
+    ge.set_plot(ax, xlabel='$p_{rel}$ CB1->L23PN', xticks=[0.25, 0.5],
+                yscale='log', yticks=[1,10], yticks_labels=['1','10'],
                 ylabel='rate (Hz)')
-    
+
+    ge.show()
+    ge.save_on_desktop(fig, 'fig.svg')
     fig.savefig('doc/L23-psyn-variations.png')
     
 if sys.argv[-1]=='L4-L23-psyn-pconn-scan':

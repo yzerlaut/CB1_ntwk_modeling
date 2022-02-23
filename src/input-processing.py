@@ -13,10 +13,10 @@ import ntwk
 ########## adding input props #######
 #####################################
 
-Model['event_amplitudes'] = [8, 8]
+Model['event_amplitudes'] = [7]
 Model['event_width'] = 200
-Model['event_times'] = [9000, 13000]
-Model['tstop'] = 15000
+Model['event_times'] = [9000]
+Model['tstop'] = 12000
 
 def running_sim_func(Model, a=0, NVm=3):
     run_single_sim(Model,

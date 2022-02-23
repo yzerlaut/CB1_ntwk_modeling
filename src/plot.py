@@ -81,10 +81,10 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                                         LABELS=None,
                                         POP_KEYS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                                         POP_COLORS=[ge.blue, ge.green, ge.red, ge.orange],
-                                        tzoom=[200,7000],
-                                        tzoom2=[200,300],
+                                        tzoom=[200,7000], Tbar_zoom=100, Tbar_zoom_label='100ms',
+                                        tzoom2=[300,400], Tbar=1000, Tbar_label='1s',
                                         subsampling=1,
-                                        with_log_scale_for_act=True,
+                                        with_log_scale_for_act=False,
                                         min_pop_act_for_log=0.,
                                         verbose=False):
 
@@ -98,15 +98,15 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         POP_COLORS = ge.colors[:len(POPS)]
         print('forcing pops to: ', POPS)
     
-    ROW_LENGTHS = [1, 2, 3, 2]
-    ROW_LABELS = ['input (Hz)', 'spike raster', '', 'pop. act. (Hz)']
+    ROW_LENGTHS = [1, 2, 3, 1]
+    ROW_LABELS = ['rate (Hz)', 'spike raster', '', 'pop. act. (Hz)']
     AXES_EXTENTS = []
 
-    LABELS = ['input (Hz)', 'spike raster', '$V_m$', 'rate (Hz)']
+    LABELS = ['rate (Hz)', 'spike raster\n', '$V_m$\n\n', 'rate (Hz)']
     for row_length in ROW_LENGTHS:
         axes_per_column = []
         for i in range(len(FILES)):
-            axes_per_column.append([10, row_length])
+            axes_per_column.append([8, row_length])
             axes_per_column.append([1, row_length])
             axes_per_column.append([12, row_length])
             axes_per_column.append([3, row_length])
@@ -114,7 +114,7 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         AXES_EXTENTS.append(axes_per_column)
 
     fig, AX = ge.figure(axes_extents=AXES_EXTENTS,
-                        figsize=(.5,.8), wspace=0.1, hspace=0.1, left=0.7, reshape_axes=False)
+                        figsize=(.4,.8), wspace=0.1, hspace=0.1, left=2, right=.3,reshape_axes=False)
 
 
     for i, f in enumerate(FILES):
@@ -130,13 +130,18 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                                       ['AffExcTV', 'AffExcBG'],
                                       [ge.brown, 'k'], tzoom, ge)
         
-        ntwk.plots.raster_subplot(data, AX[1][4*i+2], POP_KEYS, POP_COLORS, tzoom, ge, subsampling=subsampling)
+        ge.draw_bar_scales(AX[0][4*i+2], Xbar=Tbar, Xbar_label=Tbar_label, Ybar=1e-12)
+        
+        ntwk.plots.raster_subplot(data, AX[1][4*i+2], POP_KEYS, POP_COLORS, tzoom, ge,
+                                  Nmax_per_pop_cond=[500, 4000, 500, 500],
+                                  subsampling=subsampling)
 
 
         ntwk.plots.few_Vm_plot(data, ax=AX[2][4*i+2],
                                POP_KEYS=POP_KEYS[::-1],
                                COLORS=POP_COLORS[::-1], graph_env=ge,
-                               tzoom=tzoom, shift=25, vpeak=-45)
+                               tzoom=tzoom, shift=25, vpeak=-45,
+                               bar_scales_args=None)
         
         
         ntwk.plots.population_activity_subplot(data, AX[3][4*i+2], POP_KEYS, POP_COLORS, tzoom, ge,
@@ -147,14 +152,19 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         ntwk.plots.input_rate_subplot(data, AX[0][4*i],
                                       ['AffExcTV', 'AffExcBG'],
                                       [ge.brown, 'k'], tzoom2, ge)
+        ge.draw_bar_scales(AX[0][4*i], Xbar=Tbar_zoom, Xbar_label=Tbar_zoom_label, Ybar=1e-12)
         
-        ntwk.plots.raster_subplot(data, AX[1][4*i], POP_KEYS, POP_COLORS, tzoom2, ge, subsampling=subsampling)
+        ntwk.plots.raster_subplot(data, AX[1][4*i], POP_KEYS, POP_COLORS,
+                                  tzoom2, ge,
+                                  Nmax_per_pop_cond=[500, 4000, 500, 500],
+                                  subsampling=subsampling)
 
 
         ntwk.plots.few_Vm_plot(data, ax=AX[2][4*i],
                                POP_KEYS=POP_KEYS[::-1],
                                COLORS=POP_COLORS[::-1], graph_env=ge,
-                               tzoom=tzoom2, shift=25, vpeak=-45)
+                               tzoom=tzoom2, shift=25, vpeak=-45,
+                               bar_scales_args=None)
         
         
         ntwk.plots.population_activity_subplot(data, AX[3][4*i], POP_KEYS, POP_COLORS, tzoom2, ge,

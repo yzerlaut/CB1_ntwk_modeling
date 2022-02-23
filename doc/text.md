@@ -2,7 +2,7 @@
 
 ## Results
 
-We next analyzed the . To this prupose, we adapted previous model of th. in a conductance-based network model of 
+We next analyzed whether the speci . To this purpose, we adapted a previous model of th. in a conductance-based network model of 
 Starting from an excitatory-inhibitory spiking network model of the cortical assembly (Zerlaut et al., 2019), we 
 
 We adapted a 
@@ -12,7 +12,11 @@ We adapted a
 
 ## Material and Methods
 
-### Reduced spiking network model of the cortical 
+### Spiking network model
+
+We
+
+
 
 
 [...]

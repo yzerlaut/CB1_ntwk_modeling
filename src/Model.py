@@ -259,10 +259,11 @@ if __name__=='__main__':
         fig, _, _ = ntwk.plots.connectivity_matrix(Model,
                                                    REC_POPS=['L23Exc', 'PvInh', 'CB1Inh', 'L4Exc'],
                                                    AFF_POPS=['AffExcBG', 'AffExcTV'],
+                                                   COLORS=[ge.green, ge.red, ge.orange, ge.blue, 'k', ge.brown],
                                                    blank_zero=True,
                                                    graph_env=ge)
-        # ge.save_on_desktop(fig, 'fig.svg')
-        ge.show()
+        ge.save_on_desktop(fig, 'fig.svg')
+        # ge.show()
             
     elif 'plot' in sys.argv[-1]:
         # ######################
