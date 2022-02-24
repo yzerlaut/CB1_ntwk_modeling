@@ -13,6 +13,8 @@ python_path='/home/yann.zerlaut/miniconda3/bin/python'
 # --- psyn dep on spontaneous activity --- #
 # $python_path src/bg_act.py L23-psyn-scan
 # $python_path src/bg_act.py L23-psyn-analysis
+# ---
+# $python_path src/bg_act.py L4-L23-psyn-pconn-scan
 # --- final spontaneous activity --- #
 # $python_path src/Model.py V1 &
 # $python_path src/Model.py V2 &

@@ -229,8 +229,13 @@ def run_single_sim(Model,
     if 'RASTER' in NTWK:
         NTWK['STTC_L23Exc'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
                                                                      method='STTC',
+                                                                     tzoom=[200,Model['tstop']],
                                                                      Tbin=300, Nmax_pairs=2000)
-        SINGLE_VALUES_KEYS=['STTC_L23Exc']
+        NTWK['STTC_L23Exc_pre_stim'] = ntwk.analysis.get_synchrony_of_spiking(NTWK, pop='L23Exc',
+                                                                              method='STTC',
+                                                                              tzoom=[200,8000],
+                                                                              Tbin=300, Nmax_pairs=2000)
+        SINGLE_VALUES_KEYS=['STTC_L23Exc', 'STTC_L23Exc_pre_stim']
     else:
         SINGLE_VALUES_KEYS=[]
         for i in range(len(NTWK['NEURONS'])):

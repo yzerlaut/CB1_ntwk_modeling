@@ -58,16 +58,23 @@ elif 'plot' in sys.argv[-1]:
     else:
         CONDS = ['V1', 'V2', 'V2-CB1-KO']
         # CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
-    from plot import raw_data_fig_multiple_sim, summary_fig_multiple_sim
+    from plot import raw_data_fig_multiple_sim_with_zoom, summary_fig_multiple_sim
 
-    fig_raw, AX2 = raw_data_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
-                                             subsampling=100, tzoom=[200,Model['tstop']])
-    fig_raw.savefig('doc/full_dynamics_raw.png')
+    FILES = [('data/input-processing-%s.h5' % cond) for cond in CONDS]
+    # fig_raw, AX = raw_data_fig_multiple_sim_with_zoom(FILES,
+    #                                                   tzoom=[200,12000],
+    #                                                   tzoom2=[1000,1500],
+    #                                                   raster_subsampling=50,
+    #                                                   min_pop_act_for_log=0.1)
+    # fig_raw.savefig('doc/full_dynamics_raw.png')
 
-    fig_summary, AX2 = summary_fig_multiple_sim([('data/input-processing-%s.h5' % cond) for cond in CONDS],
+    fig_summary, AX2 = summary_fig_multiple_sim(FILES,
                                                 LABELS=CONDS)
-    fig_summary.savefig('doc/full_dynamics_summary.png')
+    # fig_summary.savefig('doc/full_dynamics_summary.png')
+    ge.save_on_desktop(fig_summary, 'fig.svg')
 
+    ge.show()
+    
 elif sys.argv[-1]=='Aff':
 
     NTWK = ntwk.build.populations(Model, ['L4Exc'],

@@ -83,7 +83,8 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                                         POP_COLORS=[ge.blue, ge.green, ge.red, ge.orange],
                                         tzoom=[200,7000], Tbar_zoom=100, Tbar_zoom_label='100ms',
                                         tzoom2=[300,400], Tbar=1000, Tbar_label='1s',
-                                        subsampling=1,
+                                        NVMS=None,
+                                        raster_subsampling=1,
                                         with_log_scale_for_act=False,
                                         min_pop_act_for_log=0.,
                                         verbose=False):
@@ -97,7 +98,9 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         POP_KEYS = POPS
         POP_COLORS = ge.colors[:len(POPS)]
         print('forcing pops to: ', POPS)
-    
+    if NVMS is None:
+       NVMS = [[0] for _ in range(len(POP_KEYS))] 
+
     ROW_LENGTHS = [1, 2, 3, 1]
     ROW_LABELS = ['rate (Hz)', 'spike raster', '', 'pop. act. (Hz)']
     AXES_EXTENTS = []
@@ -109,12 +112,13 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
             axes_per_column.append([8, row_length])
             axes_per_column.append([1, row_length])
             axes_per_column.append([12, row_length])
-            axes_per_column.append([3, row_length])
+            axes_per_column.append([2, row_length])
                        
         AXES_EXTENTS.append(axes_per_column)
 
     fig, AX = ge.figure(axes_extents=AXES_EXTENTS,
-                        figsize=(.4,.8), wspace=0.1, hspace=0.1, left=2, right=.3,reshape_axes=False)
+                        figsize=(.4,.9),
+                        wspace=0.1, hspace=0.1, left=2, right=.3,reshape_axes=False)
 
 
     for i, f in enumerate(FILES):
@@ -128,19 +132,27 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         # -- full view
         ntwk.plots.input_rate_subplot(data, AX[0][4*i+2],
                                       ['AffExcTV', 'AffExcBG'],
-                                      [ge.brown, 'k'], tzoom, ge)
+                                      [ge.brown, 'k'], tzoom, ge,
+                                      with_label=False)
         
-        ge.draw_bar_scales(AX[0][4*i+2], Xbar=Tbar, Xbar_label=Tbar_label, Ybar=1e-12)
         
-        ntwk.plots.raster_subplot(data, AX[1][4*i+2], POP_KEYS, POP_COLORS, tzoom, ge,
-                                  Nmax_per_pop_cond=[500, 4000, 500, 500],
-                                  subsampling=subsampling)
+        # ntwk.plots.raster_subplot(data, AX[1][4*i+2], POP_KEYS, POP_COLORS, tzoom, ge,
+        #                           Nmax_per_pop_cond=[500, 4000, 500, 500],
+        #                           subsampling=subsampling)
+        ntwk.plots.raster(data, POP_KEYS, POP_COLORS, tzoom=tzoom, graph_env=ge,
+                          NMAXS=[500, 4000, 500, 500],
+                          subsampling=raster_subsampling,
+                          bar_scales_args=None,
+                          ax=AX[1][4*i+2])
 
 
         ntwk.plots.few_Vm_plot(data, ax=AX[2][4*i+2],
                                POP_KEYS=POP_KEYS[::-1],
                                COLORS=POP_COLORS[::-1], graph_env=ge,
-                               tzoom=tzoom, shift=25, vpeak=-45,
+                               NVMS=NVMS,
+                               clip_spikes=True,
+                               tzoom=tzoom, shift=30, vpeak=-45,
+                               subsampling=50,
                                bar_scales_args=None)
         
         
@@ -151,19 +163,20 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         # -- zoomed view
         ntwk.plots.input_rate_subplot(data, AX[0][4*i],
                                       ['AffExcTV', 'AffExcBG'],
-                                      [ge.brown, 'k'], tzoom2, ge)
-        ge.draw_bar_scales(AX[0][4*i], Xbar=Tbar_zoom, Xbar_label=Tbar_zoom_label, Ybar=1e-12)
+                                      [ge.brown, 'k'], tzoom2, ge,
+                                      with_label=False)
         
-        ntwk.plots.raster_subplot(data, AX[1][4*i], POP_KEYS, POP_COLORS,
-                                  tzoom2, ge,
-                                  Nmax_per_pop_cond=[500, 4000, 500, 500],
-                                  subsampling=subsampling)
-
+        ntwk.plots.raster(data, POP_KEYS, POP_COLORS, tzoom=tzoom2, graph_env=ge,
+                          NMAXS=[500, 4000, 500, 500],
+                          subsampling=raster_subsampling,
+                          bar_scales_args=None,
+                          ax=AX[1][4*i])
 
         ntwk.plots.few_Vm_plot(data, ax=AX[2][4*i],
                                POP_KEYS=POP_KEYS[::-1],
                                COLORS=POP_COLORS[::-1], graph_env=ge,
-                               tzoom=tzoom2, shift=25, vpeak=-45,
+                               NVMS=NVMS,
+                               tzoom=tzoom2, shift=30, vpeak=-45,
                                bar_scales_args=None)
         
         
@@ -174,6 +187,9 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
             for a in range(len(AX)):
                 AX[a][4*i+j].axis('off')
                 
+    ge.draw_bar_scales(AX[1][0], Xbar=1e-12, Ybar=1000,
+                       Ybar_label='%i neurons' % (1000/raster_subsampling),
+                       loc='top-left')
 
     for a in range(len(AX)):
         ylim = [np.inf, -np.inf]
@@ -193,9 +209,14 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
             ge.set_plot(AX[a][4*i+2], [], ylim=ylim, xlim=tzoom)
             
             if a==0:
-                AX[a][4*i].fill_between(tzoom2, ylim[0]*np.ones(2), ylim[1]*np.ones(2), color='gray', alpha=.2, lw=0)
-                AX[a][4*i+2].fill_between(tzoom2, ylim[0]*np.ones(2), ylim[1]*np.ones(2), color='gray', alpha=.2, lw=0)
-            
+                # AX[a][4*i].fill_between(tzoom2, ylim[0]*np.ones(2), ylim[1]*np.ones(2), color='gray', alpha=.2, lw=0)
+                AX[a][4*i+2].fill_between(tzoom2, ylim[0]*np.ones(2),
+                                          ylim[1]*np.ones(2), color='gray', alpha=.2, lw=0)
+                ge.draw_bar_scales(AX[0][4*i+2],
+                                   Xbar=Tbar, Xbar_label=Tbar_label, Ybar=1e-12)
+                ge.draw_bar_scales(AX[0][4*i],
+                                   Xbar=Tbar_zoom, Xbar_label=Tbar_zoom_label, Ybar=1e-12)
+        
     ge.show()
     return fig, AX
 
@@ -207,32 +228,61 @@ def summary_fig_multiple_sim(FILES,
                              tzoom=[200,7000],
                              subsampling=1,
                              with_log_scale_for_act=False,
+                             sttc_lim=[0.04, 0.21],
+                             Vm_bottom=-72,
                              verbose=False):
 
-    fig, AX = ge.figure(axes=(2,1), figsize=(.8,1.),
-                        hspace=2., wspace=3., bottom=1.5, top=0.3)
+    fig, AX = ge.figure(axes=(4,1), figsize=(.8,1.),
+                        hspace=2., wspace=3., bottom=1.5, top=4)
 
-    sttc = []
+    sttc, sttc_spont = [], []
     for i, f in enumerate(FILES):
         data = ntwk.recording.load_dict_from_hdf5(f)
         # firing rate
         rate = ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
-                                              tdiscard=200)
+                                              tdiscard=200, tmax=9000)
         AX[0].bar([i], [rate], color=ge.green)
+        
         # correlations - sttc
         sttc.append(data['STTC_L23Exc'][0])
+        sttc_spont.append(data['STTC_L23Exc_pre_stim'][0])
         
-    AX[1].bar(range(len(sttc)), sttc,
-              bottom=np.min(sttc)-.05*np.min(sttc), color=ge.green)
+        # L4 Vm depol
+        muV, _, _, _ = ntwk.analysis.get_Vm_fluct_props(data, tdiscard=200, tmax=9000, pop='L4Exc')
+        AX[3].bar([i], [-Vm_bottom+np.mean(muV)], bottom=Vm_bottom, color=ge.blue)
 
+    AX[1].bar(range(len(sttc)), -sttc_lim[0]+np.array(sttc_spont),
+              bottom=sttc_lim[0], color=ge.green)
+
+    AX[2].bar(range(len(sttc)), -sttc_lim[0]+np.array(sttc),
+              bottom=sttc_lim[0], color=ge.green)
+    
     ge.set_plot(AX[0], xticks=range(len(FILES)),
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70,
                 ylabel='L23 PN rate (Hz)')
+    ge.title(AX[0], 'L4-L23 circuit\n(spont. act.)', size='small')
+    
     ge.set_plot(AX[1], xticks=range(len(FILES)), 
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
-                    xticks_rotation=70,
-                    ylabel='L23 PN STTC', yscale='log')
+                xticks_rotation=70, ylim=sttc_lim,
+                yscale='log',
+                ylabel='L23 PN STTC')
+    ge.title(AX[1], 'L4-L23 circuit\n(spont. act.)', size='small')
+
+    ge.set_plot(AX[2], xticks=range(len(FILES)), 
+                xticks_labels=(LABELS if (LABELS is not None) else FILES),
+                xticks_rotation=70, ylim=sttc_lim,
+                yscale='log',
+                ylabel='L23 PN STTC')
+    ge.title(AX[2], 'L4-L23 circuit\n(w. evoked act.)', size='small')
+
+    ge.set_plot(AX[3], xticks=range(len(FILES)), 
+                xticks_labels=(LABELS if (LABELS is not None) else FILES),
+                xticks_rotation=70,
+                ylabel=r'L4PN $\langle$ $V_m$ $\rangle$ (mV)     ')
+    ge.title(AX[3], 'L4-L23 circuit\n(spont. act.)', size='small')
+
     return fig, AX
 
 if __name__=='__main__':
