@@ -85,7 +85,7 @@ if sys.argv[-1]=='L4-L23-psyn-pconn-scan':
                   running_sim_func,
                   parallelize=True)
 
-elif sys.argv[-1]=='L4-L23-psyn-pconn-scan':
+elif sys.argv[-1]=='L4-L23-psyn-pconn-scan-analysis':
 
     Model2 = {'data_folder': './data/', 'zip_filename':'data/L4-L23-psyn-pconn-scan.zip'}
     Model2, PARAMS_SCAN, DATA = ntwk.scan.get(Model2)
@@ -95,21 +95,23 @@ elif sys.argv[-1]=='L4-L23-psyn-pconn-scan':
         sumup['rate'].append(ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
                                                             tdiscard=200))
 
-    fig, ax, cb = ge.twoD_plot(np.array(PARAMS_SCAN['p_CB1Inh_L4Exc'])/Model['p_CB1Inh_L4Exc'],
-                               np.array(PARAMS_SCAN['psyn_CB1Inh_L23Exc']),
+    fig, ax, cb = ge.twoD_plot(PARAMS_SCAN['psyn_CB1Inh_L23Exc'],
+                               100*PARAMS_SCAN['p_CB1Inh_L4Exc'],
                                np.array(sumup['rate']),
                                bar_legend_args={'label':'L23 PN rate (Hz)'})
 
-    for x, y, label, color in zip([1, 4, 4],
-                                  [0.5, 0.5, 0.25],
+    for x, y, label, color in zip([0.5, 0.5, 0.25],
+                                  [2.5, 5, 5],
                                   ['V1', 'V2M-CB1-KO', 'V2M'],
                                   ge.colors[5:]):
         ax.scatter([x], [y], s=20, color='r', facecolor='none')
         ge.annotate(ax, label+'\n', (x, y), xycoords='data', ha='center', va='center', color='k', size='x-small')
     ge.set_plot(ax,
-                xlabel=r'$\,_{CB1 \rightarrow L4}$ $p_{conn}$ factor',
-                ylabel='psyn $\,_{CB1->L23}$')
-
+                xlabel=r'p$_{rel}$ $\,_{CB1 \rightarrow L23}$',
+                ylabel=r'$p_{conn}$ $\,_{CB1 \rightarrow L4}$ (%)     ', ylim=[2,5.5],
+                xticks=[0.25, 0.5], yticks=[2.5, 5.])
+    ge.title(ax, 'L4-L23 circuit\n(spont. act.)', size='small')
+    ge.save_on_desktop(fig, 'fig.svg')
     ge.show()
     
 elif sys.argv[-1]=='main-scan-plot':
