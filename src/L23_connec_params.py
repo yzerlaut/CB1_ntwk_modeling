@@ -17,7 +17,7 @@ KEYS = ['p_AffExcBG_L23Exc',
         'p_PvInh_PvInh',
         'p_CB1Inh_CB1Inh']
 
-pconn_values = [0.025, 0.05, 0.075, 0.1]
+pconn_values = [.025, 0.05, 0.075, 0.1]
 VALUES = [pconn_values,
           pconn_values,
           pconn_values,
