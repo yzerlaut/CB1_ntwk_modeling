@@ -84,7 +84,7 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                                         tzoom=[200,7000], Tbar_zoom=100, Tbar_zoom_label='100ms',
                                         tzoom2=[300,400], Tbar=1000, Tbar_label='1s',
                                         NVMS=None,
-                                        raster_subsampling=1,
+                                        raster_subsampling=1, Vm_subsampling=50, ms=0.3,
                                         with_log_scale_for_act=False,
                                         min_pop_act_for_log=0.,
                                         verbose=False):
@@ -143,7 +143,8 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                           NMAXS=[500, 4000, 500, 500],
                           subsampling=raster_subsampling,
                           bar_scales_args=None,
-                          ax=AX[1][4*i+2])
+                          ax=AX[1][4*i+2],
+                          ms=ms)
 
 
         ntwk.plots.few_Vm_plot(data, ax=AX[2][4*i+2],
@@ -152,7 +153,7 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                                NVMS=NVMS,
                                clip_spikes=True,
                                tzoom=tzoom, shift=30, vpeak=-45,
-                               subsampling=50,
+                               subsampling=Vm_subsampling,
                                bar_scales_args=None)
         
         
@@ -217,7 +218,6 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
                 ge.draw_bar_scales(AX[0][4*i],
                                    Xbar=Tbar_zoom, Xbar_label=Tbar_zoom_label, Ybar=1e-12)
         
-    ge.show()
     return fig, AX
 
 
@@ -232,14 +232,15 @@ def summary_fig_multiple_sim(FILES,
                              Vm_bottom=-72,
                              verbose=False):
 
-    fig, AX = ge.figure(axes=(6,1), figsize=(.5,1.),
+    fig, AX = ge.figure(axes=(7,1), figsize=(.5,1.),
                         left=2, hspace=2., wspace=4., bottom=1.5, top=4)
     # 0 -> spont L23 rate 
     # 1 -> spont L4 depol.
     # 2 -> evoked L4 rate
     # 3 -> evoked L23 rate
     # 4 -> evoked rel. var.
-    # 5 -> correl
+    # 5 -> correl - log
+    # 6 -> correl - lin
     sttc, sttc_spont = [], []
     for i, f in enumerate(FILES):
         data = ntwk.recording.load_dict_from_hdf5(f)
@@ -270,6 +271,8 @@ def summary_fig_multiple_sim(FILES,
 
     AX[5].bar(range(len(sttc)), -sttc_lim[0]+np.array(sttc),
               bottom=sttc_lim[0], color=ge.green)
+
+    AX[6].bar(range(len(sttc)), np.array(sttc), color=ge.green)
     
     ge.set_plot(AX[0], xticks=range(len(FILES)),
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
@@ -305,9 +308,17 @@ def summary_fig_multiple_sim(FILES,
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70, ylim=sttc_lim,
                 yscale='log',
-                yticks=[0.05, 0.1, 0.2],yticks_labels=['0.05', '0.1', '0.2'],
+                # yticks=[0.05, 0.1, 0.2],yticks_labels=['0.05', '0.1', '0.2'],
                 ylabel='L23 PN STTC')
-    ge.title(AX[2], 'L4-L23 circuit\n(w. evoked act.)', size='small')
+    ge.title(AX[5], 'L4-L23 circuit\n(w. evoked act.)', size='small')
+
+    ge.set_plot(AX[6], xticks=range(len(FILES)), 
+                xticks_labels=(LABELS if (LABELS is not None) else FILES),
+                xticks_rotation=70,
+                # yticks=[0.05, 0.1, 0.2],yticks_labels=['0.05', '0.1', '0.2'],
+                ylabel='L23 PN STTC')
+    ge.title(AX[6], 'L4-L23 circuit\n(w. evoked act.)', size='small')
+    
 
     return fig, AX
 
@@ -331,7 +342,6 @@ if __name__=='__main__':
                                                        blank_zero=True,
                                                        graph_env=ge)
             # ge.save_on_desktop(fig, 'fig.png')
-            ge.show()
     else:
         FILES = sys.argv[1:]
         fig, AX = raw_data_fig_multiple_sim(FILES)

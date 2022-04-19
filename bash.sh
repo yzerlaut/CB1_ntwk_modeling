@@ -23,11 +23,18 @@ python_path='/home/yann.zerlaut/miniconda3/bin/python'
 # sleep 20s
 # $python_path src/Model.py plot
 # --- final temporal dynamics --- #
-$python_path src/input-processing.py V1 &
-$python_path src/input-processing.py V2 &
-$python_path src/input-processing.py V2-no-CB1-L4 &
-$python_path src/input-processing.py V2-CB1-KO 
-sleep 10s
-$python_path src/input-processing.py plot
-xdg-open doc/full_dynamics_raw.png &
-xdg-open doc/full_dynamics_summary.png
+# $python_path src/input-processing.py V1 &
+# $python_path src/input-processing.py V2 &
+# $python_path src/input-processing.py V2-CB1-KO 
+# sleep 10s
+# $python_path src/input-processing.py plot
+# xdg-open dnoc/full_dynamics_raw.png &
+# xdg-open doc/full_dynamics_summary.png
+
+$python_path src/input-processing.py seed-input-scan
+$python_path src/input-processing.py seed-input-scan
+$python_path src/input-processing.py seed-input-scan
+$python_path src/input-processing.py seed-input-scan
+$python_path src/input-processing.py seed-input-scan
+$python_path src/input-processing.py seed-input-scan
+$python_path src/input-processing.py seed-input-scan

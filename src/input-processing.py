@@ -9,16 +9,42 @@ from Model import *
 # from analyz.processing.signanalysis import gaussian_smoothing
 import ntwk
 
+from plot import raw_data_fig_multiple_sim_with_zoom, summary_fig_multiple_sim
+
 #####################################
 ########## adding input props #######
 #####################################
+def set_events(Model, seed=None, nmax=200):
+    
+    if seed is None:
+        np.random.seed(Model['seed']+1)
+    else:
+        np.random.seed(seed)
+        
+    times = 4e3+np.cumsum(Model['event_width']+np.random.exponential(1e3/Model['event_freq'], size=nmax))
+    events = np.random.uniform(0, Model['event_max_level'], size=nmax)
+    Model['event_amplitudes'] = events[times<Model['tstop']]
+    Model['event_times'] = times[times<Model['tstop']]
 
-Model['event_amplitudes'] = [7]
+Model['tstop'] = 30000
 Model['event_width'] = 200
-Model['event_times'] = [9000]
-Model['tstop'] = 12000
+Model['event_freq'] = 1 # Hz 
+Model['event_max_level'] = 4.5 # Hz 
+set_events(Model, seed=4)
 
-def running_sim_func(Model, a=0, NVm=3):
+def running_sim_func(Model, a=0,
+                     NVm=3, 
+                     nmax=200):
+    """
+    
+    """
+
+    # update model according to config
+    if 'Model-key' in Model:
+        Model = update_model(Model, Model['Model-key'])
+    # set the input
+    set_events(Model, seed=Model['input-seed'])
+    # run
     run_single_sim(Model,
                    REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                    AFF_POPS=['AffExcBG', 'AffExcTV'],
@@ -43,12 +69,61 @@ elif sys.argv[-1]=='input-bg-scan':
 
     ntwk.scan.run(Model,
                   ['F_AffExcBG', 'input_amplitude'],
-                  [np.linspace(1, 8, Nscan), np.linspace(2, 10, Nscan)],
+                  [np.linspace(1, 8, Nscan),
+                   np.linspace(2, 10, Nscan)],
+                  running_sim_func,
+                  fix_missing_only=True,
+                  parallelize=True)
+    
+
+elif sys.argv[-1]=='seed-input-scan':
+
+
+    Model['data_folder'] = './data/'
+    Model['zip_filename'] = 'data/seed-input-scan.zip'
+
+    ntwk.scan.run(Model,
+                  ['input-seed',
+                   'event_max_level',
+                   'Model-key'],
+                  [np.arange(3,10),
+                   np.linspace(3.5, 5, 4),
+                   ['V1', 'V2', 'V2-CB1-KO']],
                   running_sim_func,
                   fix_missing_only=True,
                   parallelize=True)
 
+elif sys.argv[-1]=='seed-input-analysis':
+
+    
+    Model = {'data_folder': './data/', 'zip_filename':'data/seed-input-scan.zip'}
+    Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
+    
+    FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[]}
+    
+    for filename in PARAMS_SCAN['FILENAMES']:
+        for m in ['V1', 'V2', 'V2-CB1-KO']:
+            if m in filename:
+                FILES[m].append(filename)
+
+    for i in (range(len(FILES['V1']))):
+        print(i+1, '/', len(FILES['V1']))
+        fig_raw, AX = raw_data_fig_multiple_sim_with_zoom([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
+                                                          tzoom=[200,Model['tstop']],
+                                                          tzoom2=[1000,1500],
+                                                          raster_subsampling=10,
+                                                          min_pop_act_for_log=0.1)
+        fig_raw.savefig('doc/all/full_dynamics_raw_%i.png'%i)
+    
+        fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
+                                                    LABELS=['V1', 'V2', 'V2-CB1-KO'],
+                                                    sttc_lim=[0.001, 0.2])
+        fig_summary.savefig('doc/all/full_dynamics_summary_%i.png'%i)
+
+
+    
 elif 'plot' in sys.argv[-1]:
+    
     # ######################
     # ## ----- Plot ----- ##
     # ######################
@@ -58,20 +133,20 @@ elif 'plot' in sys.argv[-1]:
     else:
         CONDS = ['V1', 'V2', 'V2-CB1-KO']
         # CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
-    from plot import raw_data_fig_multiple_sim_with_zoom, summary_fig_multiple_sim
 
     FILES = [('data/input-processing-%s.h5' % cond) for cond in CONDS]
-    # fig_raw, AX = raw_data_fig_multiple_sim_with_zoom(FILES,
-    #                                                   tzoom=[200,12000],
-    #                                                   tzoom2=[1000,1500],
-    #                                                   raster_subsampling=50,
-    #                                                   min_pop_act_for_log=0.1)
-    # fig_raw.savefig('doc/full_dynamics_raw.png')
+    fig_raw, AX = raw_data_fig_multiple_sim_with_zoom(FILES,
+                                                      tzoom=[200,Model['tstop']],
+                                                      tzoom2=[1000,1500],
+                                                      raster_subsampling=10,
+                                                      min_pop_act_for_log=0.1)
+    fig_raw.savefig('doc/full_dynamics_raw.png')
 
     fig_summary, AX2 = summary_fig_multiple_sim(FILES,
-                                                LABELS=CONDS)
-    # fig_summary.savefig('doc/full_dynamics_summary.png')
-    ge.save_on_desktop(fig_summary, 'fig.svg')
+                                                LABELS=CONDS,
+                                                sttc_lim=[0.001, 0.2])
+    fig_summary.savefig('doc/full_dynamics_summary.png')
+    # ge.save_on_desktop(fig_summary, 'fig.svg')
 
     ge.show()
     
