@@ -86,8 +86,8 @@ elif sys.argv[-1]=='seed-input-scan':
                   ['input-seed',
                    'event_max_level',
                    'Model-key'],
-                  [np.arange(10, 20),
-                   np.linspace(3.5, 5, 6),
+                  [np.arange(20, 40),
+                   np.linspace(3, 5, 7),
                    ['V1', 'V2', 'V2-CB1-KO']],
                   running_sim_func,
                   fix_missing_only=True,
@@ -119,7 +119,7 @@ elif sys.argv[-1]=='seed-input-analysis':
         fig_raw.savefig('doc/all/full_dynamics_raw_%i.png'%i)
         fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
                                                     LABELS=['V1', 'V2', 'V2-CB1-KO'],
-                                                    sttc_lim=[0.001, 0.2])
+                                                    sttc_lim=[0.009, 0.2])
         fig_summary.suptitle(FILES['filename'][i])
         fig_summary.savefig('doc/all/full_dynamics_summary_%i.png'%i)
 
