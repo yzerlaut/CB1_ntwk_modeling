@@ -99,12 +99,14 @@ elif sys.argv[-1]=='seed-input-analysis':
     Model = {'data_folder': './data/', 'zip_filename':'data/seed-input-scan.zip'}
     Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
     
-    FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[]}
+    FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[], 'filename':[]}
     
     for filename in PARAMS_SCAN['FILENAMES']:
         for m in ['V1', 'V2', 'V2-CB1-KO']:
             if filename.split('Model-key_')[1].split('_')[0]==m:
                 FILES[m].append(filename)
+                if m=='V1':
+                    FILES['filename'].append(filename.split('Model-key_')[0].split(os.path.sep)[-1])
 
     for i in (range(len(FILES['V1']))):
         print(i+1, '/', len(FILES['V1']))
@@ -113,11 +115,12 @@ elif sys.argv[-1]=='seed-input-analysis':
                                                           tzoom2=[1000,1500],
                                                           raster_subsampling=10,
                                                           min_pop_act_for_log=0.1)
+        fig_raw.suptitle(FILES['filename'][i])
         fig_raw.savefig('doc/all/full_dynamics_raw_%i.png'%i)
-    
         fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
                                                     LABELS=['V1', 'V2', 'V2-CB1-KO'],
                                                     sttc_lim=[0.001, 0.2])
+        fig_summary.suptitle(FILES['filename'][i])
         fig_summary.savefig('doc/all/full_dynamics_summary_%i.png'%i)
 
 
