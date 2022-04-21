@@ -103,7 +103,7 @@ elif sys.argv[-1]=='seed-input-analysis':
     
     for filename in PARAMS_SCAN['FILENAMES']:
         for m in ['V1', 'V2', 'V2-CB1-KO']:
-            if m in filename:
+            if filename.split('Model-key_')[1].split('_')[0]==m:
                 FILES[m].append(filename)
 
     for i in (range(len(FILES['V1']))):
