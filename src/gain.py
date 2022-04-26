@@ -2,12 +2,14 @@ import sys, os
 
 import numpy as np
 
-sys.path += ['./datavyz', './neural_network_dynamics', './code']
+sys.path += ['./datavyz', './neural_network_dynamics', './src']
 from datavyz import graph_env_manuscript as ge
 from Model import *
 import ntwk
 
-def running_sim_func(Model):
+def running_sim_func(Model,
+                     rec_pops=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
+                     aff_pops=['AffExcBG', 'AffExcTV']):
     
     # adding input
     Model['event_amplitudes'] = np.linspace(0, 10, 10)
@@ -16,8 +18,8 @@ def running_sim_func(Model):
     Model['tstop'] = Model['event_times'][-1]+3*Model['event_width']
     
     run_single_sim(Model,
-                   REC_POPS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
-                   AFF_POPS=['AffExcBG', 'AffExcTV'],
+                   REC_POPS=rec_pops,
+                   AFF_POPS=aff_pops,
                    build_pops_args=dict(with_raster=True,
                                         with_Vm=0,
                                         with_pop_act=True,
@@ -66,8 +68,25 @@ if sys.argv[1]=='analysis':
     #     ge.set_plot(AX[7][i], xlabel='input (Hz)')
     ge.set_plot(AX[0], xlabel='input (Hz)', ylabel='$\delta$ rate (Hz)')
 
-    fig.savefig('doc/gain-comparison-various-psyn.png')
+    # fig.savefig('doc/gain-comparison-various-psyn.png')
+    ge.show()
 
+elif sys.argv[1]=='L23-ntwk':
+
+    if sys.argv[-1]=='analysis':
+        data = ntwk.recording.load_dict_from_hdf5('data/gain-%s-%s.zip' % (sys.argv[1],
+                                                                           sys.argv[2]))
+        x, y = input_output_analysis(data)
+        ge.plot(x, y)
+        ge.show()
+    else:
+        Model = update_model(Model, sys.argv[2])
+        Model['filename'] = 'data/gain-%s-%s.zip' % (sys.argv[1], sys.argv[2])
+        running_sim_func(Model,
+                     rec_pops=['L23Exc', 'PvInh', 'CB1Inh'],
+                     aff_pops=['AffExcBG', 'L4Exc'])
+
+    
 elif sys.argv[1] in ['V1', 'V2', 'V2-CB1-KO']:
     
     # means scan, possible options:
@@ -122,5 +141,7 @@ elif sys.argv[-1]=='test-analysis':
     fig, _ = ntwk.plots.activity_plots(data, subsampling=20)
     fig.savefig('fig_raw.png')
     
+    ge.show()
+
 else:
     print('need args')    

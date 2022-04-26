@@ -5,7 +5,13 @@ python_path='/home/yann.zerlaut/miniconda3/bin/python'
 # --- Layer4-L23 connectivity optimization --- #
 # $python_path src/L4.py test-run
 # $python_path src/L4.py test-analysis
-# --- look at gain curves --- #
+# --- compute gain curves --- #
+$python_path src/gain.py L23-ntwk V1 
+$python_path src/gain.py L23-ntwk V2
+$python_path src/gain.py L23-ntwk V2-CB1-KO 
+# $python_path src/gain.py V2 with-repeat
+# $python_path src/gain.py V2-CB1-KO with-repeat
+# $python_path src/gain.py analysis
 # $python_path src/gain.py V1 with-repeat
 # $python_path src/gain.py V2 with-repeat
 # $python_path src/gain.py V2-CB1-KO with-repeat
@@ -31,10 +37,11 @@ python_path='/home/yann.zerlaut/miniconda3/bin/python'
 # xdg-open dnoc/full_dynamics_raw.png &
 # xdg-open doc/full_dynamics_summary.png
 
-$python_path src/input-processing.py seed-input-scan
-$python_path src/input-processing.py seed-input-scan
-$python_path src/input-processing.py seed-input-scan
-$python_path src/input-processing.py seed-input-scan
-$python_path src/input-processing.py seed-input-scan
-$python_path src/input-processing.py seed-input-scan
-$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#$python_path src/input-processing.py seed-input-scan
+#

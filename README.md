@@ -1,6 +1,7 @@
 # Modeling cortical dynamics with CB1-mediated inhibition
 
-> Simulation and analysis code 
+> Simulation and analysis code for the modelling work of the study:
+> 
 
 ## Requirements / Installation
 
@@ -11,7 +12,7 @@ cd CB1_ntwk_modeling
 git submodule init
 git submodule update
 ```
-Note that the code relies on custom modules for [spiking network simulation] (based on Brian2) and [data visualization] (based on matplotlib).
+Note that the code relies on custom modules for [spiking network simulation](based on Brian2) and [data visualization](based on matplotlib).
 
 ## Reproducing the results of the study
 
