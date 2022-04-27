@@ -99,7 +99,7 @@ elif sys.argv[-1]=='seed-input-analysis':
     Model = {'data_folder': './data/', 'zip_filename':'data/seed-input-scan.zip'}
     Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
     
-    FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[], 'filename':[]}
+    FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[], 'filename':[], 'seed':[], 'input':[]}
     
     for filename in PARAMS_SCAN['FILENAMES']:
         for m in ['V1', 'V2', 'V2-CB1-KO']:
@@ -108,20 +108,22 @@ elif sys.argv[-1]=='seed-input-analysis':
                 if m=='V1':
                     FILES['filename'].append(filename.split('Model-key_')[0].split(os.path.sep)[-1])
 
-    for i in (range(len(FILES['V1']))):
-        print(i+1, '/', len(FILES['V1']))
-        fig_raw, AX = raw_data_fig_multiple_sim_with_zoom([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
-                                                          tzoom=[200,Model['tstop']],
-                                                          tzoom2=[1000,1500],
-                                                          raster_subsampling=10,
-                                                          min_pop_act_for_log=0.1)
-        fig_raw.suptitle(FILES['filename'][i])
-        fig_raw.savefig('doc/all/full_dynamics_raw_%i.png'%i)
-        fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
-                                                    LABELS=['V1', 'V2', 'V2-CB1-KO'],
-                                                    sttc_lim=[0.009, 0.2])
-        fig_summary.suptitle(FILES['filename'][i])
-        fig_summary.savefig('doc/all/full_dynamics_summary_%i.png'%i)
+    # plot all data
+    # for i in (range(len(FILES['V1']))):
+        # print(i+1, '/', len(FILES['V1']))
+        # fig_raw, AX = raw_data_fig_multiple_sim_with_zoom([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
+                                                          # tzoom=[200,Model['tstop']],
+                                                          # tzoom2=[1300,1800],
+                                                          # raster_subsampling=10,
+                                                          # min_pop_act_for_log=0.1)
+        # fig_raw.suptitle(FILES['filename'][i])
+        # fig_raw.savefig('doc/all/full_dynamics_raw_%i.svg'%i)
+        # fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
+                                                    # LABELS=['V1', 'V2', 'V2-CB1-KO'],
+                                                    # sttc_lim=[0.009, 0.11])
+        # fig_summary.suptitle(FILES['filename'][i])
+        # fig_summary.savefig('doc/all/full_dynamics_summary_%i.svg'%i)
+        # plt.close('all')
 
 
     
