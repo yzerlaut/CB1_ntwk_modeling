@@ -10,7 +10,7 @@ import ntwk
 def running_sim_func(Model,
                      rec_pops=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
                      aff_pops=['AffExcBG', 'AffExcTV']):
-    
+
     # adding input
     Model['event_amplitudes'] = np.linspace(0, 10, 10)
     Model['event_width'] = 200
