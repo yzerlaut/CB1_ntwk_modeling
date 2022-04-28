@@ -1,12 +1,11 @@
 import sys, os
 
 import numpy as np
+from scipy.stats import ttest_rel
 
-sys.path += ['./datavyz', './neural_network_dynamics', './code']
+sys.path += ['./datavyz', './neural_network_dynamics', './src']
 from datavyz import graph_env_manuscript as ge
 from Model import *
-# from analyz.signal_library.stochastic_processes import OrnsteinUhlenbeck_Process
-# from analyz.processing.signanalysis import gaussian_smoothing
 import ntwk
 
 from plot import raw_data_fig_multiple_sim_with_zoom, summary_fig_multiple_sim
@@ -100,60 +99,73 @@ elif sys.argv[-1]=='seed-input-analysis':
     Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
     
     FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[], 'filename':[], 'seed':[], 'input':[]}
-    
+    for m in ['V1', 'V2', 'V2-CB1-KO']:
+        FILES['sttc_%s'%m] = []
+       
+    for data, filename, seed, Imax in zip(DATA,
+                                          PARAMS_SCAN['FILENAMES'], 
+                                          PARAMS_SCAN['input-seed'],
+                                          PARAMS_SCAN['event_max_level']):
+        for m in ['V1', 'V2', 'V2-CB1-KO']:
+            if filename.split('Model-key_')[1].split('_')[0]==m:
+                FILES[m].append(filename)
+                FILES['sttc_%s'%m].append(data['STTC_L23Exc'][0]) 
+                if m=='V1':
+                    FILES['seed'].append(seed)
+                    FILES['input'].append(Imax)
+                    FILES['filename'].append(filename.split('Model-key_')[0].split(os.path.sep)[-1])
+    #  
+    SUMMARY = {'input':[]}
+    for m in ['V1', 'V2', 'V2-CB1-KO']:
+        SUMMARY['sttc_mean_%s'%m] = []
+        SUMMARY['sttc_std_%s'%m] = []
+
+    for i in np.unique(FILES['input']):
+        cond = np.array(FILES['input'])==i
+        for m in ['V1', 'V2', 'V2-CB1-KO']:
+            SUMMARY['sttc_mean_%s'%m].append(np.mean(np.array(FILES['sttc_%s'%m])[cond])) 
+            SUMMARY['sttc_std_%s'%m].append(np.std(np.array(FILES['sttc_%s'%m])[cond])) 
+        SUMMARY['input'].append(i) 
+    icond = np.arange(len(SUMMARY['input']))[np.array(SUMMARY['sttc_mean_V1'])>0.067][0]
+    print(SUMMARY)
+    for m in ['V1', 'V2', 'V2-CB1-KO']:
+        print(m, SUMMARY['sttc_mean_%s'%m][icond], SUMMARY['sttc_std_%s'%m][icond])
+        for m2 in ['V1', 'V2', 'V2-CB1-KO']:
+            Icond = np.array(FILES['input'])==SUMMARY['input'][icond]
+            x = np.array(FILES['sttc_%s'%m])[Icond] 
+            y = np.array(FILES['sttc_%s'%m2])[Icond] 
+            print(m, m2, ttest_rel(x, y))        
+
+elif sys.argv[-1]=='seed-input-plot-all':
+    Model = {'data_folder': './data/', 'zip_filename':'data/seed-input-scan.zip'}
+    Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
+    FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[], 'filename':[]}
     for filename in PARAMS_SCAN['FILENAMES']:
         for m in ['V1', 'V2', 'V2-CB1-KO']:
             if filename.split('Model-key_')[1].split('_')[0]==m:
                 FILES[m].append(filename)
                 if m=='V1':
                     FILES['filename'].append(filename.split('Model-key_')[0].split(os.path.sep)[-1])
+    # # plot all data
+    for i in range(len(FILES['V1']))[:1]:
+        print(i+1, '/', len(FILES['V1']))
+        fig_raw, AX = raw_data_fig_multiple_sim_with_zoom([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
+                                                          tzoom=[200,Model['tstop']],
+                                                          tzoom2=[1100,1600],
+                                                          raster_subsampling=20,
+                                                          min_pop_act_for_log=0.1)
+        fig_raw.suptitle(FILES['filename'][i], fontsize=9)
+        fig_raw.savefig('doc/all/png/full_dynamics_raw_%i.png'%i)
+        fig_raw.savefig('doc/all/svg/full_dynamics_raw_%i.svg'%i)
+        fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
+                                                    LABELS=['V1', 'V2', 'V2-CB1-KO'],
+                                                    sttc_lim=[0.009, 0.105])
+        fig_summary.suptitle(FILES['filename'][i], fontsize=9)
+        fig_summary.savefig('doc/all/png/full_dynamics_summary_%i.png'%i)
+        fig_summary.savefig('doc/all/svg/full_dynamics_summary_%i.svg'%i)
+        plt.close('all')
 
-    # plot all data
-    # for i in (range(len(FILES['V1']))):
-        # print(i+1, '/', len(FILES['V1']))
-        # fig_raw, AX = raw_data_fig_multiple_sim_with_zoom([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
-                                                          # tzoom=[200,Model['tstop']],
-                                                          # tzoom2=[1300,1800],
-                                                          # raster_subsampling=10,
-                                                          # min_pop_act_for_log=0.1)
-        # fig_raw.suptitle(FILES['filename'][i])
-        # fig_raw.savefig('doc/all/full_dynamics_raw_%i.svg'%i)
-        # fig_summary, AX2 = summary_fig_multiple_sim([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
-                                                    # LABELS=['V1', 'V2', 'V2-CB1-KO'],
-                                                    # sttc_lim=[0.009, 0.11])
-        # fig_summary.suptitle(FILES['filename'][i])
-        # fig_summary.savefig('doc/all/full_dynamics_summary_%i.svg'%i)
-        # plt.close('all')
 
-
-    
-elif 'plot' in sys.argv[-1]:
-    
-    # ######################
-    # ## ----- Plot ----- ##
-    # ######################
-
-    if 'plot-' in sys.argv[-1]:
-        CONDS = [sys.argv[-1].split('plot-')[-1]]
-    else:
-        CONDS = ['V1', 'V2', 'V2-CB1-KO']
-        # CONDS = ['V1', 'V2', 'V2-CB1-KO', 'V2-no-CB1-L4']
-
-    FILES = [('data/input-processing-%s.h5' % cond) for cond in CONDS]
-    fig_raw, AX = raw_data_fig_multiple_sim_with_zoom(FILES,
-                                                      tzoom=[200,Model['tstop']],
-                                                      tzoom2=[1000,1500],
-                                                      raster_subsampling=10,
-                                                      min_pop_act_for_log=0.1)
-    fig_raw.savefig('doc/full_dynamics_raw.png')
-
-    fig_summary, AX2 = summary_fig_multiple_sim(FILES,
-                                                LABELS=CONDS,
-                                                sttc_lim=[0.001, 0.2])
-    fig_summary.savefig('doc/full_dynamics_summary.png')
-    # ge.save_on_desktop(fig_summary, 'fig.svg')
-
-    ge.show()
     
 elif sys.argv[-1]=='Aff':
 

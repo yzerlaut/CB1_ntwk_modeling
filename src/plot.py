@@ -2,7 +2,7 @@ import sys
 
 import numpy as np
 
-sys.path += ['./datavyz', './neural_network_dynamics', './code']
+sys.path += ['./datavyz', './neural_network_dynamics']
 from datavyz import graph_env_manuscript as ge
 import ntwk
 
@@ -229,7 +229,7 @@ def summary_fig_multiple_sim(FILES,
                              subsampling=1,
                              with_log_scale_for_act=False,
                              sttc_lim=[0.049, 0.201],
-                             Vm_bottom=-72,
+                             Vm_bottom=-71,
                              verbose=False):
 
     fig, AX = ge.figure(axes=(7,1), figsize=(.5,1.),
@@ -331,7 +331,7 @@ if __name__=='__main__':
     if sys.argv[-1]=='raw':
         fig, AX = raw_data_fig_multiple_sim_with_zoom(FILES,
                                                       min_pop_act_for_log=0.1)
-        # ge.save_on_desktop(fig, 'fig.png')
+        ge.save_on_desktop(fig, 'fig.svg')
         
     elif sys.argv[-1] in ['syn', 'connec', 'matrix']:
         for i, f in enumerate(FILES[:1]):

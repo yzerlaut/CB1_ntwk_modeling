@@ -1,7 +1,7 @@
 # Modeling cortical dynamics with CB1-mediated inhibition
 
 > Simulation and analysis code for the modelling work of the study:
-> 
+> [...]
 
 ## Requirements / Installation
 
