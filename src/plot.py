@@ -131,8 +131,8 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
         
         # -- full view
         ntwk.plots.input_rate_subplot(data, AX[0][4*i+2],
-                                      ['AffExcTV', 'AffExcBG'],
-                                      [ge.brown, 'k'], tzoom, ge,
+                                      ['AffExcTV'],
+                                      [ge.brown], tzoom, ge,
                                       with_label=False)
         
         
@@ -163,15 +163,16 @@ def raw_data_fig_multiple_sim_with_zoom(FILES,
 
         # -- zoomed view
         ntwk.plots.input_rate_subplot(data, AX[0][4*i],
-                                      ['AffExcTV', 'AffExcBG'],
-                                      [ge.brown, 'k'], tzoom2, ge,
+                                      ['AffExcTV'],
+                                      [ge.brown], tzoom2, ge,
                                       with_label=False)
         
         ntwk.plots.raster(data, POP_KEYS, POP_COLORS, tzoom=tzoom2, graph_env=ge,
                           NMAXS=[500, 4000, 500, 500],
                           subsampling=raster_subsampling,
                           bar_scales_args=None,
-                          ax=AX[1][4*i])
+                          ax=AX[1][4*i],
+                          ms=ms+1)
 
         ntwk.plots.few_Vm_plot(data, ax=AX[2][4*i],
                                POP_KEYS=POP_KEYS[::-1],
@@ -235,10 +236,10 @@ def summary_fig_multiple_sim(FILES,
     fig, AX = ge.figure(axes=(7,1), figsize=(.5,1.),
                         left=2, hspace=2., wspace=4., bottom=1.5, top=4)
     # 0 -> spont L23 rate 
-    # 1 -> spont L4 depol.
-    # 2 -> evoked L4 rate
-    # 3 -> evoked L23 rate
-    # 4 -> evoked rel. var.
+    # 1 -> spont CB1 rate 
+    # 2 -> spont PV rate 
+    # 3 -> spont L4 depol.
+    # 4 -> depol L4 
     # 5 -> correl - log
     # 6 -> correl - lin
     sttc, sttc_spont = [], []
@@ -246,25 +247,31 @@ def summary_fig_multiple_sim(FILES,
         data = ntwk.recording.load_dict_from_hdf5(f)
         # firing rate L23
         rate0 = ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
-                                              tdiscard=200, tmax=8000)
+                                              tdiscard=200, tmax=3000)
         AX[0].bar([i], [rate0], color=ge.green)
 
-        rate1 = ntwk.analysis.get_mean_pop_act(data, pop='L23Exc',
-                                              tdiscard=8800, tmax=9200)
-        AX[3].bar([i], [rate1], color=ge.green)
-        AX[4].bar([i], [(rate1-rate0)/rate0], color=ge.green)
-        
-        rate2 = ntwk.analysis.get_mean_pop_act(data, pop='L4Exc',
-                                               tdiscard=8800, tmax=9200)
-        AX[2].bar([i], [rate2], color=ge.blue)
+        # firing rate CB1
+        rate1 = ntwk.analysis.get_mean_pop_act(data, pop='CB1Inh',
+                                              tdiscard=200, tmax=3000)
+        AX[1].bar([i], [rate1], color=ge.orange)
+
+        # firing rate PV 
+        rate2 = ntwk.analysis.get_mean_pop_act(data, pop='PvInh',
+                                              tdiscard=200, tmax=3000)
+        AX[2].bar([i], [rate2], color=ge.red)
+
+        # firing rate L4
+        rate4 = ntwk.analysis.get_mean_pop_act(data, pop='L4Exc',
+                                              tdiscard=200, tmax=3000)
+        AX[3].bar([i], [rate4], color=ge.blue)
 
         # correlations - sttc
         sttc.append(data['STTC_L23Exc'][0])
         sttc_spont.append(data['STTC_L23Exc_pre_stim'][0])
         
         # L4 Vm depol
-        muV, _, _, _ = ntwk.analysis.get_Vm_fluct_props(data, tdiscard=200, tmax=9000, pop='L4Exc')
-        AX[1].bar([i], [-Vm_bottom+np.mean(muV)], bottom=Vm_bottom, color=ge.blue)
+        muV, _, _, _ = ntwk.analysis.get_Vm_fluct_props(data, tdiscard=200, tmax=3000, pop='L4Exc')
+        AX[4].bar([i], [-Vm_bottom+np.mean(muV)], bottom=Vm_bottom, color=ge.blue)
 
     # AX[1].bar(range(len(sttc)), -sttc_lim[0]+np.array(sttc_spont),
     #           bottom=sttc_lim[0], color=ge.green)
@@ -283,39 +290,37 @@ def summary_fig_multiple_sim(FILES,
     ge.set_plot(AX[1], xticks=range(len(FILES)), 
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70,
-                ylabel=r'L4PN $\langle$ $V_m$ $\rangle$ (mV)     ')
+                ylabel='CB1 rate (Hz)')
     ge.title(AX[1], 'L4-L23 circuit\n(spont. act.)', size='small')
 
     ge.set_plot(AX[2], xticks=range(len(FILES)),
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70,
-                ylabel='evoked L4 act. (Hz)')
-    ge.title(AX[2], 'L4-L23 circuit\n(w. evoked. act.)', size='small')
+                ylabel='PV rate (Hz)')
+    ge.title(AX[2], 'L4-L23 circuit\n(spont. act.)', size='small')
 
     ge.set_plot(AX[3], xticks=range(len(FILES)),
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70,
-                ylabel='evoked L23 act. (Hz)')
-    ge.title(AX[3], 'L4-L23 circuit\n(w. evoked. act.)', size='small')
+                ylabel='L4PN rate (Hz)')
+    ge.title(AX[3], 'L4-L23 circuit\n(spont. act.)', size='small')
     
     ge.set_plot(AX[4], xticks=range(len(FILES)),
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70,
-                ylabel='L23 PN evoked rel. var.    \n(evoked-spont)/spont   ')
-    ge.title(AX[4], 'L4-L23 circuit\n(w. evoked act.)', size='small')
+                ylabel='mean $V_m$ L4PN')
+    ge.title(AX[4], 'L4-L23 circuit\n(spont. act.)', size='small')
 
     ge.set_plot(AX[5], xticks=range(len(FILES)), 
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70, ylim=sttc_lim,
                 yscale='log',
-                # yticks=[0.05, 0.1, 0.2],yticks_labels=['0.05', '0.1', '0.2'],
                 ylabel='L23 PN STTC')
     ge.title(AX[5], 'L4-L23 circuit\n(w. evoked act.)', size='small')
 
     ge.set_plot(AX[6], xticks=range(len(FILES)), 
                 xticks_labels=(LABELS if (LABELS is not None) else FILES),
                 xticks_rotation=70,
-                # yticks=[0.05, 0.1, 0.2],yticks_labels=['0.05', '0.1', '0.2'],
                 ylabel='L23 PN STTC')
     ge.title(AX[6], 'L4-L23 circuit\n(w. evoked act.)', size='small')
     

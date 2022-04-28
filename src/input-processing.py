@@ -138,21 +138,22 @@ elif sys.argv[-1]=='seed-input-analysis':
 
 elif sys.argv[-1]=='seed-input-plot-all':
     Model = {'data_folder': './data/', 'zip_filename':'data/seed-input-scan.zip'}
-    Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model)
+    Model, PARAMS_SCAN, DATA = ntwk.scan.get(Model, filenames_only=True)
     FILES = {'V1':[], 'V2':[], 'V2-CB1-KO':[], 'filename':[]}
-    for filename in PARAMS_SCAN['FILENAMES']:
-        for m in ['V1', 'V2', 'V2-CB1-KO']:
-            if filename.split('Model-key_')[1].split('_')[0]==m:
-                FILES[m].append(filename)
-                if m=='V1':
-                    FILES['filename'].append(filename.split('Model-key_')[0].split(os.path.sep)[-1])
+    for filename, Imax in zip(PARAMS_SCAN['FILENAMES'],PARAMS_SCAN['event_max_level']):
+        if Imax==4.:
+            for m in ['V1', 'V2', 'V2-CB1-KO']:
+                if filename.split('Model-key_')[1].split('_')[0]==m:
+                    FILES[m].append(filename)
+                    if m=='V1':
+                        FILES['filename'].append(filename.split('Model-key_')[0].split(os.path.sep)[-1])
     # # plot all data
-    for i in range(len(FILES['V1']))[:1]:
+    for i in range(len(FILES['V1'])):
         print(i+1, '/', len(FILES['V1']))
         fig_raw, AX = raw_data_fig_multiple_sim_with_zoom([FILES[m][i] for m in ['V1', 'V2', 'V2-CB1-KO']],
                                                           tzoom=[200,Model['tstop']],
                                                           tzoom2=[1100,1600],
-                                                          raster_subsampling=20,
+                                                          raster_subsampling=5,
                                                           min_pop_act_for_log=0.1)
         fig_raw.suptitle(FILES['filename'][i], fontsize=9)
         fig_raw.savefig('doc/all/png/full_dynamics_raw_%i.png'%i)
