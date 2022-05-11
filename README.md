@@ -36,7 +36,7 @@ python src/input-processing.py seed-input-analysis
 ## Results
 
 - analyzing spontaneous activity levels in the different model settings (V1, V2M, V2M-CB1-KO)
-- analyzing input-evoked dynamics in the different settings (correlations)
+- analyzing input-evoked dynamics in the different settings (gain, correlations)
 
 ![example-sim](doc/example-sim.png)
 
