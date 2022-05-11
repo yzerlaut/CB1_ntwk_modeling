@@ -12,10 +12,25 @@ cd CB1_ntwk_modeling
 git submodule init
 git submodule update
 ```
-Note that the code relies on custom modules for [spiking network simulation](based on Brian2) and [data visualization](based on matplotlib).
+Note that the code relies on custom modules for [spiking network simulation](https://github.com/yzerlaut/neural_network_simulations) (based on Brian2) and [data visualization](https://github.com/yzerlaut/datavyz) (based on matplotlib).
 
-## Reproducing the results of the study
+## Model design
 
+![model](doc/model.png)
+
+#### Running the parametrization steps
+```
+# --- Layer23-circuit connectivity optimization --- #
+python src/L23_connec_params.py V1 &
+python src/L23_connec_params.py V2
+# sleep 1s
+python src/L23_connec_params.py plot
+# --- Layer4-L23 connectivity optimization --- #
+python src/L4.py test-run
+python src/L4.py test-analysis
+```
+
+## Results
 All results are reproduced by launching the following set of instructions:
 ```
 # --- Layer23-circuit connectivity optimization --- #

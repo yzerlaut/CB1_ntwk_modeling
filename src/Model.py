@@ -267,7 +267,8 @@ if __name__=='__main__':
                                                    COLORS=[ge.green, ge.red, ge.orange, ge.blue, 'k', ge.brown],
                                                    blank_zero=True,
                                                    graph_env=ge)
-        ge.save_on_desktop(fig, 'fig.svg')
+        #ge.save_on_desktop(fig, 'fig.svg')
+        fig.savefig('doc/matrix.svg')
         # ge.show()
             
     elif 'plot' in sys.argv[-1]:
