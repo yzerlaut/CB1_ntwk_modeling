@@ -9,7 +9,7 @@ import ntwk
 def raw_data_fig_multiple_sim(FILES,
                               LABELS=None,
                               POP_KEYS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
-                              POP_COLORS=[ge.blue, ge.green, ge.red, ge.orange],
+                              POP_COLORS=[ge.blue, ge.green, ge.purple, ge.orange],
                               tzoom=[200,7000],
                               subsampling=1,
                               with_log_scale_for_act=False,
@@ -80,7 +80,7 @@ def raw_data_fig_multiple_sim(FILES,
 def raw_data_fig_multiple_sim_with_zoom(FILES,
                                         LABELS=None,
                                         POP_KEYS=['L4Exc', 'L23Exc', 'PvInh', 'CB1Inh'],
-                                        POP_COLORS=[ge.blue, ge.green, ge.red, ge.orange],
+                                        POP_COLORS=[ge.blue, ge.green, ge.purple, ge.orange],
                                         tzoom=[200,7000], Tbar_zoom=100, Tbar_zoom_label='100ms',
                                         tzoom2=[300,400], Tbar=1000, Tbar_label='1s',
                                         NVMS=None,
@@ -258,7 +258,7 @@ def summary_fig_multiple_sim(FILES,
         # firing rate PV 
         rate2 = ntwk.analysis.get_mean_pop_act(data, pop='PvInh',
                                               tdiscard=200, tmax=3000)
-        AX[2].bar([i], [rate2], color=ge.red)
+        AX[2].bar([i], [rate2], color=ge.purple)
 
         # firing rate L4
         rate4 = ntwk.analysis.get_mean_pop_act(data, pop='L4Exc',
