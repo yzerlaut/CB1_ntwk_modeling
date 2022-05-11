@@ -1,7 +1,7 @@
 # Modeling cortical dynamics with CB1-mediated inhibition
 
 > Simulation and analysis code for the modelling work of the study:
-> [...]
+> "Visual area-specific tonic modulation of GABA release by endocannabinoids sets the activity and coordination of neocortical principal neurons"
 
 ## Requirements / Installation
 
