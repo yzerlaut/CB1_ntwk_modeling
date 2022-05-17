@@ -12,7 +12,7 @@ cd CB1_ntwk_modeling
 git submodule init
 git submodule update
 ```
-Note that the code relies on custom modules for [spiking network simulation](https://github.com/yzerlaut/neural_network_simulations) (based on Brian2) and [data visualization](https://github.com/yzerlaut/datavyz) (based on matplotlib).
+Note that the code relies on custom modules for [spiking network simulation](https://github.com/yzerlaut/neural_network_dynamics) (based on [Brian2](https://brian2.readthedocs.io/en/stable/)) and [data visualization](https://github.com/yzerlaut/datavyz) (based on matplotlib).
 
 ## Model 
 
@@ -22,6 +22,7 @@ Note that the code relies on custom modules for [spiking network simulation](htt
 - exponential waveform for synaptic events
 
 ![model](doc/model.png)
+_**Modeling the impact of the visual-area-specific CB1 modulation properties on the dynamics of cortical circuit. (a)** Schematic of the steps for the design of the model design and its parametrization (see Methods). **(b)** Connectivity matrix of the model in the V1 settings (see also Table 1). **(c)** Illustration of the effect of release probability variations in the conversion of a Poisson process into synaptic conductance variations g. We show variations for the CB1 synapse and we highlight the two levels considered in the main text corresponding to the V2M and V1 settings. As in this illustration, the release probability for PV synapses is fixed to 1 in the whole study._
 
 #### Running the parametrization steps
 ```
@@ -39,6 +40,8 @@ python src/input-processing.py seed-input-analysis
 - analyzing input-evoked dynamics in the different settings (gain, correlations)
 
 ![example-sim](doc/example-sim.png)
+
+
 
 #### Getting the results
 ```
