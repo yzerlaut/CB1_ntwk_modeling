@@ -40,6 +40,10 @@ python src/input-processing.py seed-input-analysis
 - analyzing input-evoked dynamics in the different settings (gain, correlations)
 
 ![example-sim](doc/example-sim.png)
+_**Single realization of the network simulations in the V1, V2M and V2M-CB1-KO settings (from left to right).** From top to bottom, we show the random waveform that sets the time-varying input, the spike raster activity (showing a subset of 500 neurons for L4Pn and all neurons for the PV+, CB1+ and L2/3PC populations), an example Vm traces for each of the population and the time-varying rates of the network populations. For each case, we show a zoom on a 500ms sample of activity (left subplots in each setting) and the full simulation. Spiking events were subsampled by 5 for display._
+
+![effect-summary](doc/effect-summary.png)
+_**CB1 modulation can control the stationary activity and the amount of input-evoked correlations in the L4-L23 circuit. (a)** ._
 
 
 
